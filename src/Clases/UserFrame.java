@@ -21,10 +21,14 @@ public class UserFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        BackgroundPanel mainPanel = new BackgroundPanel("/Imagenes/fondo.png");
+        mainPanel.setLayout(new BorderLayout());
+
         JTabbedPane tabbedPane = new JTabbedPane();
 
         // Pestaña de Contratos
         JPanel contractsPanel = new JPanel(new BorderLayout());
+        contractsPanel.setOpaque(false);
         DefaultListModel<String> contractModel = new DefaultListModel<>();
         if (userContracts.isEmpty()) {
             userContracts.add(new Contrato(1, 1, Date.valueOf("2025-01-01"), Date.valueOf("2025-12-31"), 1200.0));
@@ -35,6 +39,7 @@ public class UserFrame extends JFrame {
         JList<String> contractsList = new JList<>(contractModel);
         contractsPanel.add(new JScrollPane(contractsList), BorderLayout.CENTER);
         JPanel contractActionsPanel = new JPanel(new GridLayout(1, 2));
+        contractActionsPanel.setOpaque(false);
         JButton cancelContractButton = new JButton("Cancelar Contrato");
         cancelContractButton.addActionListener(e -> {
             int selectedIndex = contractsList.getSelectedIndex();
@@ -55,10 +60,46 @@ public class UserFrame extends JFrame {
 
         // Pestaña de Servicios
         JPanel servicesPanel = new JPanel(new BorderLayout());
+        servicesPanel.setOpaque(false);
+        String[] serviceTypes = {"Mantenimiento de Router", "Cambio de Router", "Otros"};
+        JList<String> servicesList = new JList<>(serviceTypes);
+        servicesList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (servicesList.getSelectedValue().equals("Otros")) {
+                    JTextArea otherServiceArea = new JTextArea(5, 20);
+                    int result = JOptionPane.showConfirmDialog(null, new JScrollPane(otherServiceArea), "Detalla el Servicio Deseado", JOptionPane.OK_CANCEL_OPTION);
+                    if (result == JOptionPane.OK_OPTION) {
+                        String detailedService = otherServiceArea.getText();
+                        if (!detailedService.trim().isEmpty()) {
+                            Ticket ticket = new Ticket(userTickets.size() + 1, 1, new Date(System.currentTimeMillis()), "Otros: " + detailedService, "Media", "Pendiente");
+                            userTickets.add(ticket);
+                            userData.add("Usuario solicitó servicio: Otros - " + detailedService);
+                            JOptionPane.showMessageDialog(UserFrame.this, "Servicio solicitado. Ticket generado: " + ticket.getIdTicket());
+                        }
+                    }
+                }
+            }
+        });
+        servicesPanel.add(new JScrollPane(servicesList), BorderLayout.CENTER);
+        JButton requestServiceButton = new JButton("Solicitar Servicio");
+        requestServiceButton.addActionListener(e -> {
+            String selectedService = servicesList.getSelectedValue();
+            if (selectedService != null && !selectedService.equals("Otros")) {
+                Ticket ticket = new Ticket(userTickets.size() + 1, 1, new Date(System.currentTimeMillis()), selectedService, "Media", "Pendiente");
+                userTickets.add(ticket);
+                userData.add("Usuario solicitó servicio: " + selectedService);
+                JOptionPane.showMessageDialog(this, "Servicio solicitado. Ticket generado: " + ticket.getIdTicket());
+            } else if (!selectedService.equals("Otros")) {
+                JOptionPane.showMessageDialog(this, "Por favor selecciona un servicio", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        servicesPanel.add(requestServiceButton, BorderLayout.SOUTH);
         tabbedPane.addTab("Servicios", servicesPanel);
 
         // Pestaña de Información del Usuario
         JPanel infoPanel = new JPanel(new BorderLayout());
+        infoPanel.setOpaque(false);
         JTextArea infoArea = new JTextArea(10, 40);
         infoArea.setEditable(false);
         Cliente usuario = new Cliente(1, "Juan", "Pérez", "0991234567", "juan.perez@example.com");
@@ -71,21 +112,16 @@ public class UserFrame extends JFrame {
         infoPanel.add(new JScrollPane(infoArea), BorderLayout.CENTER);
         tabbedPane.addTab("Información del Usuario", infoPanel);
 
-        // Listener para detectar cambio de pestaña
-        tabbedPane.addChangeListener(e -> {
-            if (tabbedPane.getSelectedIndex() == 1) { // Índice 1 corresponde a "Servicios"
-                new GUI_CHIDO.Servicios().setVisible(true); // Especificar el paquete correcto
-            }
-        });
-
-        add(tabbedPane, BorderLayout.CENTER);
+        mainPanel.add(tabbedPane, BorderLayout.CENTER);
 
         JButton logoutButton = new JButton("Cerrar Sesión");
         logoutButton.addActionListener(e -> {
             new LoginFrame().setVisible(true);
             dispose();
         });
-        add(logoutButton, BorderLayout.SOUTH);
+        mainPanel.add(logoutButton, BorderLayout.SOUTH);
+
+        add(mainPanel);
     }
 
     private void showContractOptions(DefaultListModel<String> contractModel) {

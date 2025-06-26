@@ -18,10 +18,14 @@ public class AdminFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        BackgroundPanel mainPanel = new BackgroundPanel("/Imagenes/fondo.png");
+        mainPanel.setLayout(new BorderLayout());
+
         JTabbedPane tabbedPane = new JTabbedPane();
 
         // Pestaña de Datos del Usuario
         JPanel userDataPanel = new JPanel(new BorderLayout());
+        userDataPanel.setOpaque(false);
         JTextArea dataArea = new JTextArea(10, 40);
         dataArea.setEditable(false);
         for (String data : UserFrame.getUserData()) {
@@ -32,9 +36,9 @@ public class AdminFrame extends JFrame {
 
         // Pestaña de Equipos de Técnicos
         JPanel equipmentPanel = new JPanel(new BorderLayout());
+        equipmentPanel.setOpaque(false);
         JTextArea equipmentArea = new JTextArea(10, 40);
         equipmentArea.setEditable(false);
-        // Materiales típicos de una empresa de fibra óptica
         String[] equipment = {
             "Cables de fibra óptica",
             "Conectores SC/APC",
@@ -55,6 +59,7 @@ public class AdminFrame extends JFrame {
 
         // Pestaña de Tickets
         JPanel ticketsPanel = new JPanel(new BorderLayout());
+        ticketsPanel.setOpaque(false);
         DefaultListModel<String> ticketModel = new DefaultListModel<>();
         for (Ticket ticket : UserFrame.getUserTickets()) {
             ticketModel.addElement("Ticket ID: " + ticket.getIdTicket() + ", Servicio: " + ticket.getDescripcion() + ", Prioridad: " + ticket.getPrioridad() + ", Estado: " + ticket.getEstado());
@@ -62,6 +67,7 @@ public class AdminFrame extends JFrame {
         JList<String> ticketsList = new JList<>(ticketModel);
         ticketsPanel.add(new JScrollPane(ticketsList), BorderLayout.CENTER);
         JPanel ticketActionsPanel = new JPanel(new GridLayout(3, 2));
+        ticketActionsPanel.setOpaque(false);
         String[] priorities = {"Baja", "Media", "Alta"};
         JComboBox<String> priorityCombo = new JComboBox<>(priorities);
         String[] statuses = {"Pendiente", "En Progreso", "Finalizado"};
@@ -91,6 +97,7 @@ public class AdminFrame extends JFrame {
 
         // Pestaña de Vehículos
         JPanel vehiclesPanel = new JPanel(new BorderLayout());
+        vehiclesPanel.setOpaque(false);
         DefaultListModel<String> vehicleModel = new DefaultListModel<>();
         for (String vehicle : TechnicianFrame.getAvailableVehicles()) {
             vehicleModel.addElement(vehicle);
@@ -99,6 +106,7 @@ public class AdminFrame extends JFrame {
         vehiclesPanel.add(new JScrollPane(vehiclesList), BorderLayout.CENTER);
 
         JPanel vehicleRequestsPanel = new JPanel(new BorderLayout());
+        vehicleRequestsPanel.setOpaque(false);
         DefaultListModel<String> requestsModel = new DefaultListModel<>();
         for (String request : TechnicianFrame.getVehicleRequests()) {
             requestsModel.addElement(request);
@@ -107,6 +115,7 @@ public class AdminFrame extends JFrame {
         vehicleRequestsPanel.add(new JScrollPane(requestsList), BorderLayout.CENTER);
 
         JPanel requestActionsPanel = new JPanel(new GridLayout(1, 2));
+        requestActionsPanel.setOpaque(false);
         JButton acceptRequestButton = new JButton("Aceptar Solicitud");
         acceptRequestButton.addActionListener(e -> {
             int selectedIndex = requestsList.getSelectedIndex();
@@ -139,13 +148,15 @@ public class AdminFrame extends JFrame {
         vehiclesPanel.add(splitPane, BorderLayout.CENTER);
         tabbedPane.addTab("Vehículos", vehiclesPanel);
 
-        add(tabbedPane, BorderLayout.CENTER);
+        mainPanel.add(tabbedPane, BorderLayout.CENTER);
 
         JButton logoutButton = new JButton("Cerrar Sesión");
         logoutButton.addActionListener(e -> {
             new LoginFrame().setVisible(true);
             dispose();
         });
-        add(logoutButton, BorderLayout.SOUTH);
+        mainPanel.add(logoutButton, BorderLayout.SOUTH);
+
+        add(mainPanel);
     }
 }

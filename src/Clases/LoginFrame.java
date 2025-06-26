@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Clases;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -14,11 +15,12 @@ public class LoginFrame extends JFrame {
 
     public LoginFrame() {
         setTitle("Login - Sistema de Gestión");
-        setSize(300, 200);
+        setSize(300, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel(new GridLayout(4, 2, 5, 5));
+        BackgroundPanel panel = new BackgroundPanel("/Imagenes/fondo.png");
+        panel.setLayout(new GridLayout(5, 2, 5, 5));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         panel.add(new JLabel("Usuario:"));
@@ -36,6 +38,13 @@ public class LoginFrame extends JFrame {
         JButton loginButton = new JButton("Iniciar Sesión");
         loginButton.addActionListener(e -> validateLogin());
         panel.add(loginButton);
+
+        JButton backButton = new JButton("Atrás");
+        backButton.addActionListener(e -> {
+            new Bienvenida().setVisible(true);
+            dispose();
+        });
+        panel.add(backButton);
 
         add(panel);
     }

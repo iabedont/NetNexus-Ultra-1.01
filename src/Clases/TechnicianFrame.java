@@ -20,6 +20,9 @@ public class TechnicianFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        BackgroundPanel mainPanel = new BackgroundPanel("/Imagenes/fondo.png");
+        mainPanel.setLayout(new BorderLayout());
+
         JTabbedPane tabbedPane = new JTabbedPane();
 
         // Pestaña de Administración (acceso al panel de Admin)
@@ -28,8 +31,8 @@ public class TechnicianFrame extends JFrame {
 
         // Pestaña de Equipos
         JPanel equipmentPanel = new JPanel(new BorderLayout());
+        equipmentPanel.setOpaque(false);
         DefaultListModel<String> equipmentModel = new DefaultListModel<>();
-        // Materiales típicos de una empresa de fibra óptica
         String[] equipment = {
             "Cables de fibra óptica",
             "Conectores SC/APC",
@@ -49,7 +52,7 @@ public class TechnicianFrame extends JFrame {
         equipmentList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) { // Doble clic para solicitar
+                if (e.getClickCount() == 2) {
                     String selectedEquipment = equipmentList.getSelectedValue();
                     if (selectedEquipment != null) {
                         assignedEquipment.add(selectedEquipment);
@@ -64,8 +67,8 @@ public class TechnicianFrame extends JFrame {
 
         // Pestaña de Vehículos
         JPanel vehiclesPanel = new JPanel(new BorderLayout());
+        vehiclesPanel.setOpaque(false);
         DefaultListModel<String> vehicleModel = new DefaultListModel<>();
-        // Simulación de vehículos disponibles con rutas
         if (availableVehicles.isEmpty()) {
             availableVehicles.add("Vehículo 1: Toyota Hilux, Ruta: Ibarra-Atuntaqui, Estado: Disponible");
             availableVehicles.add("Vehículo 2: Ford Ranger, Ruta: Otavalo-Cotacachi, Estado: Disponible");
@@ -89,14 +92,16 @@ public class TechnicianFrame extends JFrame {
         vehiclesPanel.add(requestVehicleButton, BorderLayout.SOUTH);
         tabbedPane.addTab("Vehículos", vehiclesPanel);
 
-        add(tabbedPane, BorderLayout.CENTER);
+        mainPanel.add(tabbedPane, BorderLayout.CENTER);
 
         JButton logoutButton = new JButton("Cerrar Sesión");
         logoutButton.addActionListener(e -> {
             new LoginFrame().setVisible(true);
             dispose();
         });
-        add(logoutButton, BorderLayout.SOUTH);
+        mainPanel.add(logoutButton, BorderLayout.SOUTH);
+
+        add(mainPanel);
     }
 
     public static List<String> getAssignedEquipment() {
