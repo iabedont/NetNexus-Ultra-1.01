@@ -49,18 +49,36 @@ public class User_1 extends javax.swing.JFrame {
         jButton3.setText("jButton1");
         jButton3.setContentAreaFilled(false);
         jButton3.setBounds(60, 170, 190, 190); // Set bounds based on original AbsoluteConstraints
+        // Add ActionListener for jButton3
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton3);
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Usuario_B-removebg-preview.png"))); // NOI18N
         jButton5.setText("jButton1");
         jButton5.setContentAreaFilled(false);
         jButton5.setBounds(360, 160, 190, 190); // Set bounds based on original AbsoluteConstraints
+        // Add ActionListener for jButton5
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton5);
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Contratos_B-removebg-preview.png"))); // NOI18N
         jButton4.setText("jButton1");
         jButton4.setContentAreaFilled(false);
         jButton4.setBounds(210, 370, 190, 190); // Set bounds based on original AbsoluteConstraints
+        // Add ActionListener for jButton4
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton4);
 
         jLabel4.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N

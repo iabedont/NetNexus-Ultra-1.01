@@ -4,30 +4,28 @@
  */
 package GUI_CHIDO;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+
 /**
  *
  * @author ASUS
  */
 public class Perfil_User extends javax.swing.JFrame {
 
-    private User_1 user1Frame; // Para mantener una referencia al frame User_1
+    private JFrame parentFrame;
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Perfil_User.class.getName());
 
     /**
      * Creates new form Perfil_User
-     * @param user1Frame El frame User_1 que abrió este frame.
+     * @param parentFrame The parent JFrame to return to.
      */
-    public Perfil_User(User_1 user1Frame) {
+    public Perfil_User(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
         initComponents();
-        this.user1Frame = user1Frame;
-        this.setLocationRelativeTo(null); // Centra el frame en la pantalla
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-    }
-
-    // Constructor original, potencialmente sin uso
-    public Perfil_User() {
-        initComponents();
-        this.setLocationRelativeTo(null); // Centra el frame en la pantalla
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null); // Center the frame
+        this.setSize(600, 600); // Set a fixed size for the frame
     }
 
     /**
@@ -57,9 +55,10 @@ public class Perfil_User extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(null); // Changed from GroupLayout
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setLayout(null); // Changed from AbsoluteLayout
+        jPanel1.setBounds(0, 0, 600, 600); // Set bounds for jPanel1 to fill the frame
 
         jButton2.setBackground(new java.awt.Color(248, 243, 243));
         jButton2.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
@@ -67,91 +66,105 @@ public class Perfil_User extends javax.swing.JFrame {
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Atras.png"))); // NOI18N
         jButton2.setText("Regresar");
         jButton2.setContentAreaFilled(false);
+        jButton2.setBounds(10, 20, 230, 60); // Set bounds based on original AbsoluteConstraints
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 230, 60));
+        jPanel1.add(jButton2);
 
         jLabel3.setBackground(new java.awt.Color(0, 204, 204));
         jLabel3.setFont(new java.awt.Font("ROG Fonts", 0, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Usuario");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, 530, 50));
+        jLabel3.setBounds(300, 20, 530, 50); // Set bounds based on original AbsoluteConstraints
+        jPanel1.add(jLabel3);
 
         jLabel6.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Apellido:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, -1, -1));
+        jLabel6.setBounds(70, 370, 150, 30); // Set bounds, estimated size for text
+        jPanel1.add(jLabel6);
 
         jLabel7.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Correo:");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, -1, -1));
+        jLabel7.setBounds(70, 410, 150, 30); // Set bounds, estimated size for text
+        jPanel1.add(jLabel7);
 
         jLabel8.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Telefono:");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 450, -1, -1));
+        jLabel8.setBounds(70, 450, 150, 30); // Set bounds, estimated size for text
+        jPanel1.add(jLabel8);
 
         jLabel9.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Contraseña");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 490, -1, 20));
+        jLabel9.setBounds(70, 490, 150, 20); // Set bounds, estimated size for text
+        jPanel1.add(jLabel9);
 
         jLabel10.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Nombre:");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, -1, -1));
+        jLabel10.setBounds(70, 330, 150, 30); // Set bounds, estimated size for text
+        jPanel1.add(jLabel10);
 
         jTextField1.setText("jTextField1");
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 410, 270, -1));
+        jTextField1.setBounds(240, 410, 270, 25); // Set bounds, estimated height for text field
+        jPanel1.add(jTextField1);
 
         jTextField3.setText("jTextField1");
-        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, 270, -1));
+        jTextField3.setBounds(240, 450, 270, 25); // Set bounds, estimated height for text field
+        jPanel1.add(jTextField3);
 
         jTextField2.setText("jTextField1");
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 490, 270, -1));
+        jTextField2.setBounds(240, 490, 270, 25); // Set bounds, estimated height for text field
+        jPanel1.add(jTextField2);
 
         jTextField4.setText("jTextField1");
-        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, 270, -1));
+        jTextField4.setBounds(240, 370, 270, 25); // Set bounds, estimated height for text field
+        jPanel1.add(jTextField4);
 
         jTextField5.setText("jTextField1");
+        jTextField5.setBounds(240, 330, 270, 25); // Set bounds, estimated height for text field
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 330, 270, -1));
+        jPanel1.add(jTextField5);
 
         jButton1.setBackground(new java.awt.Color(0, 0, 0));
         jButton1.setFont(new java.awt.Font("ROG Fonts", 0, 12)); // NOI18N
         jButton1.setText("Editar");
+        jButton1.setBounds(480, 550, 110, 30); // Set bounds based on original AbsoluteConstraints
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 550, 110, 30));
+        jPanel1.add(jButton1);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Perfil_U.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 220, 170));
+        jLabel2.setBounds(180, 120, 220, 170); // Set bounds based on original AbsoluteConstraints
+        jPanel1.add(jLabel2);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jLabel1.setBounds(0, 0, 600, 600); // Set bounds for background image to fill jPanel1
+        jPanel1.add(jLabel1);
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, -1));
+        getContentPane().add(jPanel1); // Added jPanel1 to content pane
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Al regresar, muestra la ventana User_1 y cierra la actual (Perfil_User)
-        if (user1Frame != null) {
-            user1Frame.setVisible(true); // Muestra el frame User_1
+        this.setVisible(false);
+        if (parentFrame != null) {
+            parentFrame.setVisible(true);
         }
-        this.dispose(); // Cierra el frame actual de Perfil_User
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -178,23 +191,13 @@ public class Perfil_User extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Perfil_User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Perfil_User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Perfil_User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Perfil_User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Perfil_User().setVisible(true); // Para probar de forma independiente
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new Perfil_User(null).setVisible(true)); // Pass null for standalone testing
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

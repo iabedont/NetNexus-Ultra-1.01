@@ -4,30 +4,28 @@
  */
 package GUI_CHIDO;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+
 /**
  *
  * @author ASUS
  */
 public class ContratosActivos extends javax.swing.JFrame {
 
-    private User_1 user1Frame; // Para mantener una referencia al frame User_1
+    private JFrame parentFrame;
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ContratosActivos.class.getName());
 
     /**
      * Creates new form ContratosActivos
-     * @param user1Frame El frame User_1 que abrió este frame.
+     * @param parentFrame The parent JFrame to return to.
      */
-    public ContratosActivos(User_1 user1Frame) {
+    public ContratosActivos(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
         initComponents();
-        this.user1Frame = user1Frame;
-        this.setLocationRelativeTo(null); // Centra el frame en la pantalla
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-    }
-
-    // Constructor original, potencialmente sin uso
-    public ContratosActivos() {
-        initComponents();
-        this.setLocationRelativeTo(null); // Centra el frame en la pantalla
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null); // Center the frame
+        this.setSize(600, 600); // Set a fixed size for the frame
     }
 
     /**
@@ -44,9 +42,10 @@ public class ContratosActivos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(null); // Changed from GroupLayout
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setLayout(null); // Changed from AbsoluteLayout
+        jPanel1.setBounds(0, 0, 600, 600); // Set bounds for jPanel1 to fill the frame
 
         jButton2.setBackground(new java.awt.Color(248, 243, 243));
         jButton2.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
@@ -54,27 +53,28 @@ public class ContratosActivos extends javax.swing.JFrame {
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Atras.png"))); // NOI18N
         jButton2.setText("Regresar");
         jButton2.setContentAreaFilled(false);
+        jButton2.setBounds(10, 20, 230, 60); // Set bounds based on original AbsoluteConstraints
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 230, 60));
+        jPanel1.add(jButton2);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jLabel1.setBounds(0, 0, 600, 600); // Set bounds for background image to fill jPanel1
+        jPanel1.add(jLabel1);
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jPanel1); // Added jPanel1 to content pane
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Al regresar, muestra la ventana User_1 y cierra la actual (ContratosActivos)
-        if (user1Frame != null) {
-            user1Frame.setVisible(true); // Muestra el frame User_1
+        this.setVisible(false);
+        if (parentFrame != null) {
+            parentFrame.setVisible(true);
         }
-        this.dispose(); // Cierra el frame actual de ContratosActivos
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -93,23 +93,13 @@ public class ContratosActivos extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ContratosActivos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ContratosActivos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ContratosActivos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ContratosActivos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ContratosActivos().setVisible(true); // Para probar de forma independiente
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new ContratosActivos(null).setVisible(true)); // Pass null for standalone testing
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

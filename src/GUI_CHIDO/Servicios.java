@@ -4,30 +4,28 @@
  */
 package GUI_CHIDO;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+
 /**
  *
  * @author ASUS
  */
 public class Servicios extends javax.swing.JFrame {
 
-    private User_1 user1Frame; // Para mantener una referencia al frame User_1
+    private JFrame parentFrame;
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Servicios.class.getName());
 
     /**
      * Creates new form Servicios
-     * @param user1Frame El frame User_1 que abrió este frame.
+     * @param parentFrame The parent JFrame to return to.
      */
-    public Servicios(User_1 user1Frame) {
+    public Servicios(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
         initComponents();
-        this.user1Frame = user1Frame;
-        this.setLocationRelativeTo(null); // Centra el frame en la pantalla
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); // Cierra este frame sin salir de la aplicación
-    }
-
-    // Constructor original, potencialmente sin uso si siempre se llama con un frame padre
-    public Servicios() {
-        initComponents();
-        this.setLocationRelativeTo(null); // Centra el frame en la pantalla
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null); // Center the frame
+        this.setSize(600, 600); // Set a fixed size for the frame
     }
 
     /**
@@ -55,15 +53,17 @@ public class Servicios extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 255, 255));
         setForeground(java.awt.Color.white);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(null); // Changed from GroupLayout
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setLayout(null); // Changed from AbsoluteLayout
+        jPanel1.setBounds(0, 0, 600, 600); // Set bounds for jPanel1 to fill the frame
 
         jLabel1.setBackground(new java.awt.Color(0, 204, 204));
         jLabel1.setFont(new java.awt.Font("ROG Fonts", 0, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Servicios");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 530, 50));
+        jLabel1.setBounds(30, 90, 530, 50); // Set bounds based on original AbsoluteConstraints
+        jPanel1.add(jLabel1);
 
         jButton1.setBackground(new java.awt.Color(248, 243, 243));
         jButton1.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
@@ -71,73 +71,109 @@ public class Servicios extends javax.swing.JFrame {
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Atras.png"))); // NOI18N
         jButton1.setText("Regresar");
         jButton1.setContentAreaFilled(false);
+        jButton1.setBounds(10, 20, 230, 60); // Set bounds based on original AbsoluteConstraints
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 230, 60));
+        jPanel1.add(jButton1);
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Telefonía fija.png"))); // NOI18N
         jButton4.setText("jButton3");
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 410, 170, 160));
+        jButton4.setBounds(350, 410, 170, 160); // Set bounds based on original AbsoluteConstraints
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4);
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Telefonía movil.png"))); // NOI18N
         jButton7.setText("jButton3");
-        jPanel1.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 410, 170, 160));
+        jButton7.setBounds(50, 410, 170, 160); // Set bounds based on original AbsoluteConstraints
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton7);
 
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/televisión.png"))); // NOI18N
         jButton8.setText("jButton3");
+        jButton8.setBounds(350, 190, 170, 160); // Set bounds based on original AbsoluteConstraints
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 170, 160));
+        jPanel1.add(jButton8);
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wifi.png"))); // NOI18N
         jButton9.setText("jButton3");
-        jPanel1.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 170, 160));
+        jButton9.setBounds(50, 190, 170, 160); // Set bounds based on original AbsoluteConstraints
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton9);
 
         jLabel3.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Telefonia movil");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, -1, -1));
+        jLabel3.setBounds(50, 380, 200, 30); // Set bounds, estimated size for text
+        jPanel1.add(jLabel3);
 
         jLabel4.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Telefonia Fija");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 380, -1, -1));
+        jLabel4.setBounds(350, 380, 200, 30); // Set bounds, estimated size for text
+        jPanel1.add(jLabel4);
 
         jLabel5.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Television");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 160, -1, -1));
+        jLabel5.setBounds(350, 160, 200, 30); // Set bounds, estimated size for text
+        jPanel1.add(jLabel5);
 
         jLabel6.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Internet");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
+        jLabel6.setBounds(50, 160, 200, 30); // Set bounds, estimated size for text
+        jPanel1.add(jLabel6);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 600));
+        jLabel2.setBounds(0, 0, 600, 600); // Set bounds for background image to fill jPanel1
+        jPanel1.add(jLabel2);
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 602, -1));
+        getContentPane().add(jPanel1); // Added jPanel1 to content pane
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Al regresar, muestra la ventana User_1 y cierra la actual (Servicios)
-        if (user1Frame != null) {
-            user1Frame.setVisible(true); // Muestra el frame User_1
+        this.setVisible(false);
+        if (parentFrame != null) {
+            parentFrame.setVisible(true);
         }
-        this.dispose(); // Cierra el frame actual de Servicios
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -155,23 +191,13 @@ public class Servicios extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Servicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Servicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Servicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Servicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Servicios().setVisible(true); // Para probar de forma independiente
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new Servicios(null).setVisible(true)); // Pass null for standalone testing
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
