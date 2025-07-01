@@ -2,16 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+/*
+ * Click nargs://netbeans/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nargs://netbeans/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Clases;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
 
 public class LoginFrame extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private JComboBox<String> userTypeCombo;
+    private JRadioButton userRadioButton;
+    private JRadioButton adminRadioButton;
+    private JRadioButton techRadioButton;
 
     public LoginFrame() {
         setTitle("Login - Sistema de Gestión");
@@ -23,7 +30,7 @@ public class LoginFrame extends JFrame {
         panel.setLayout(new GridLayout(5, 2, 5, 5));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        panel.add(new JLabel("Usuario:"));
+        panel.add(new JLabel("Usuario (idCliente):"));
         usernameField = new JTextField();
         panel.add(usernameField);
 
@@ -31,9 +38,31 @@ public class LoginFrame extends JFrame {
         passwordField = new JPasswordField();
         panel.add(passwordField);
 
+        // Panel para los radio buttons
+        JPanel typePanel = new JPanel(new FlowLayout());
+        typePanel.setOpaque(false);
+
+        ButtonGroup typeGroup = new ButtonGroup();
+        userRadioButton = new JRadioButton("Usuario");
+        adminRadioButton = new JRadioButton("Administrador");
+        techRadioButton = new JRadioButton("Técnico");
+
+        // Establecer fondo transparente
+        userRadioButton.setOpaque(false);
+        adminRadioButton.setOpaque(false);
+        techRadioButton.setOpaque(false);
+
+        typeGroup.add(userRadioButton);
+        typeGroup.add(adminRadioButton);
+        typeGroup.add(techRadioButton);
+        userRadioButton.setSelected(true); // Selecciona "Usuario" por defecto
+
+        typePanel.add(userRadioButton);
+        typePanel.add(adminRadioButton);
+        typePanel.add(techRadioButton);
+
         panel.add(new JLabel("Tipo:"));
-        userTypeCombo = new JComboBox<>(new String[]{"Usuario", "Administrador", "Técnico"});
-        panel.add(userTypeCombo);
+        panel.add(typePanel);
 
         JButton loginButton = new JButton("Iniciar Sesión");
         loginButton.addActionListener(e -> validateLogin());
@@ -50,22 +79,42 @@ public class LoginFrame extends JFrame {
     }
 
     private void validateLogin() {
-        String username = usernameField.getText();
+        String idCliente = usernameField.getText();
         String password = new String(passwordField.getPassword());
-        String userType = (String) userTypeCombo.getSelectedItem();
+        String userType = userRadioButton.isSelected() ? "Usuario" : 
+                         adminRadioButton.isSelected() ? "Administrador" : 
+                         techRadioButton.isSelected() ? "Técnico" : null;
 
-        if (username.equals("admin") && password.equals("admin123") && userType.equals("Administrador")) {
-            new AdminFrame().setVisible(true);
-            dispose();
-        } else if (username.equals("user") && password.equals("user123") && userType.equals("Usuario")) {
-            // Se cambió de new UserFrame().setVisible(true); a new GUI_CHIDO.User_1().setVisible(true);
-            new GUI_CHIDO.User_1().setVisible(true);
-            dispose();
-        } else if (username.equals("tech") && password.equals("tech123") && userType.equals("Técnico")) {
-            new TechnicianFrame().setVisible(true);
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
+        if (idCliente.isEmpty() || password.isEmpty() || userType == null) {
+            JOptionPane.showMessageDialog(this, 
+                "Por favor complete todos los campos y seleccione un tipo de usuario", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "SELECT * FROM cliente WHERE idCliente = ? AND password = ? AND tipo = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, idCliente);
+            stmt.setString(2, password);
+            stmt.setString(3, userType);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                if (userType.equals("Usuario")) {
+                    new GUI_CHIDO.User_1().setVisible(true);
+                } else if (userType.equals("Administrador")) {
+                    new AdminFrame().setVisible(true);
+                } else if (userType.equals("Técnico")) {
+                    new TechnicianFrame().setVisible(true);
+                }
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al validar credenciales: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

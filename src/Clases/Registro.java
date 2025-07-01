@@ -2,19 +2,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+/*
+ * Click nargs://netbeans/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nargs://netbeans/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+/*
+ * Click nargs://netbeans/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nargs://netbeans/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Clases;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
-import java.util.Random;
 
 public class Registro extends JFrame {
+    private JTextField idClienteField;
     private JTextField nameField;
     private JTextField lastNameField;
     private JTextField phoneField;
     private JTextField emailField;
     private JPasswordField passwordField;
+    private JRadioButton userRadioButton;
+    private JRadioButton adminRadioButton;
+    private JRadioButton techRadioButton;
 
     public Registro() {
         setTitle("Registro - Net Nexus Ultra");
@@ -23,8 +34,12 @@ public class Registro extends JFrame {
         setLocationRelativeTo(null);
 
         BackgroundPanel panel = new BackgroundPanel("/Imagenes/fondo.png");
-        panel.setLayout(new GridLayout(7, 2, 5, 5));
+        panel.setLayout(new GridLayout(9, 2, 5, 5)); // Aumentamos a 9 filas para los botones de tipo
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        panel.add(new JLabel("idCliente:"));
+        idClienteField = new JTextField();
+        panel.add(idClienteField);
 
         panel.add(new JLabel("Nombre:"));
         nameField = new JTextField();
@@ -42,9 +57,30 @@ public class Registro extends JFrame {
         emailField = new JTextField();
         panel.add(emailField);
 
-        panel.add(new JLabel("Contraseña:"));
+        panel.add(new JLabel("password:"));
         passwordField = new JPasswordField();
         panel.add(passwordField);
+
+        // Panel para los radio buttons
+        JPanel typePanel = new JPanel(new FlowLayout());
+        typePanel.setOpaque(false);
+
+        ButtonGroup typeGroup = new ButtonGroup();
+        userRadioButton = new JRadioButton("Usuario");
+        adminRadioButton = new JRadioButton("Administrador");
+        techRadioButton = new JRadioButton("Técnico");
+
+        typeGroup.add(userRadioButton);
+        typeGroup.add(adminRadioButton);
+        typeGroup.add(techRadioButton);
+        userRadioButton.setSelected(true); // Selecciona "Usuario" por defecto
+
+        typePanel.add(userRadioButton);
+        typePanel.add(adminRadioButton);
+        typePanel.add(techRadioButton);
+
+        panel.add(new JLabel("Tipo de usuario:"));
+        panel.add(typePanel);
 
         JButton submitButton = new JButton("Registrar");
         submitButton.addActionListener(e -> registerUser());
@@ -61,24 +97,34 @@ public class Registro extends JFrame {
     }
 
     private void registerUser() {
+        String idCliente = idClienteField.getText();
         String name = nameField.getText();
         String lastName = lastNameField.getText();
         String phone = phoneField.getText();
         String email = emailField.getText();
         String password = new String(passwordField.getPassword());
+        String userType = userRadioButton.isSelected() ? "Usuario" : 
+                         adminRadioButton.isSelected() ? "Administrador" : 
+                         techRadioButton.isSelected() ? "Técnico" : null;
 
-        if (name.isEmpty() || lastName.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (idCliente.isEmpty() || name.isEmpty() || lastName.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty() || userType == null) {
             JOptionPane.showMessageDialog(this, 
-                "Por favor complete todos los campos", 
+                "Por favor complete todos los campos y seleccione un tipo de usuario", 
                 "Error", 
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        String idCliente = generateIdCliente();
+        if (idExists(idCliente)) {
+            JOptionPane.showMessageDialog(this, 
+                "El idCliente ya existe", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "INSERT INTO cliente (idCliente, nombre, apellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO cliente (idCliente, nombre, apellido, telefono, email, password, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, idCliente);
             stmt.setString(2, name);
@@ -86,6 +132,7 @@ public class Registro extends JFrame {
             stmt.setString(4, phone);
             stmt.setString(5, email);
             stmt.setString(6, password);
+            stmt.setString(7, userType);
             stmt.executeUpdate();
 
             JOptionPane.showMessageDialog(this, 
@@ -102,16 +149,18 @@ public class Registro extends JFrame {
         }
     }
 
-    private String generateIdCliente() {
-        Random rand = new Random();
-        String id;
-        do {
-            id = String.format("%010d", rand.nextInt(1000000000));
-        } while (idExists(id));
-        return id;
-    }
-
     private boolean idExists(String id) {
-        return false; // Placeholder, needs actual database check
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "SELECT COUNT(*) FROM cliente WHERE idCliente = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
