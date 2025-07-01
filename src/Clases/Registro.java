@@ -1,12 +1,4 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-/*
- * Click nargs://netbeans/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nargs://netbeans/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-/*
  * Click nargs://netbeans/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nargs://netbeans/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -29,12 +21,12 @@ public class Registro extends JFrame {
 
     public Registro() {
         setTitle("Registro - Net Nexus Ultra");
-        setSize(300, 350);
+        setSize(600,350); // Aumentamos el ancho a 400 píxeles
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         BackgroundPanel panel = new BackgroundPanel("/Imagenes/fondo.png");
-        panel.setLayout(new GridLayout(9, 2, 5, 5)); // Aumentamos a 9 filas para los botones de tipo
+        panel.setLayout(new GridLayout(9, 2, 5, 5)); // Mantenemos el layout actual
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         panel.add(new JLabel("idCliente:"));
@@ -57,7 +49,7 @@ public class Registro extends JFrame {
         emailField = new JTextField();
         panel.add(emailField);
 
-        panel.add(new JLabel("password:"));
+        panel.add(new JLabel("Contraseña:"));
         passwordField = new JPasswordField();
         panel.add(passwordField);
 
@@ -69,6 +61,11 @@ public class Registro extends JFrame {
         userRadioButton = new JRadioButton("Usuario");
         adminRadioButton = new JRadioButton("Administrador");
         techRadioButton = new JRadioButton("Técnico");
+
+        // Establecer fondo transparente
+        userRadioButton.setOpaque(false);
+        adminRadioButton.setOpaque(false);
+        techRadioButton.setOpaque(false);
 
         typeGroup.add(userRadioButton);
         typeGroup.add(adminRadioButton);
@@ -124,7 +121,7 @@ public class Registro extends JFrame {
         }
 
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "INSERT INTO cliente (idCliente, nombre, apellido, telefono, email, password, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO cliente (idCliente, nombre, apellido, telefono, email, contraseña, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, idCliente);
             stmt.setString(2, name);

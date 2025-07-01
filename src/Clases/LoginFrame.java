@@ -22,7 +22,7 @@ public class LoginFrame extends JFrame {
 
     public LoginFrame() {
         setTitle("Login - Sistema de Gestión");
-        setSize(300, 250);
+        setSize(600,250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
