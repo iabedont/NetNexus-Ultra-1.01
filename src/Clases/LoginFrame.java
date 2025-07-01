@@ -58,7 +58,8 @@ public class LoginFrame extends JFrame {
             new AdminFrame().setVisible(true);
             dispose();
         } else if (username.equals("user") && password.equals("user123") && userType.equals("Usuario")) {
-            new UserFrame().setVisible(true);
+            // Se cambió de new UserFrame().setVisible(true); a new GUI_CHIDO.User_1().setVisible(true);
+            new GUI_CHIDO.User_1().setVisible(true);
             dispose();
         } else if (username.equals("tech") && password.equals("tech123") && userType.equals("Técnico")) {
             new TechnicianFrame().setVisible(true);

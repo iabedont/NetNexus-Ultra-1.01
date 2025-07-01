@@ -17,6 +17,8 @@ public class User_1 extends javax.swing.JFrame {
      */
     public User_1() {
         initComponents();
+        this.setLocationRelativeTo(null); // Center the frame
+        this.setSize(600, 600); // Set a fixed size for the frame
     }
 
     /**
@@ -38,59 +40,76 @@ public class User_1 extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null); // Changed from AbsoluteLayout
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setLayout(null); // Changed from AbsoluteLayout
+        jPanel1.setBounds(0, 0, 600, 600); // Set bounds for jPanel1 to fill the frame
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Servicios_B-removebg-preview.png"))); // NOI18N
         jButton3.setText("jButton1");
         jButton3.setContentAreaFilled(false);
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 190, 190));
+        jButton3.setBounds(60, 170, 190, 190); // Set bounds based on original AbsoluteConstraints
+        jPanel1.add(jButton3);
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Usuario_B-removebg-preview.png"))); // NOI18N
         jButton5.setText("jButton1");
         jButton5.setContentAreaFilled(false);
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, 190, 190));
+        jButton5.setBounds(360, 160, 190, 190); // Set bounds based on original AbsoluteConstraints
+        jPanel1.add(jButton5);
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Contratos_B-removebg-preview.png"))); // NOI18N
         jButton4.setText("jButton1");
         jButton4.setContentAreaFilled(false);
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 370, 190, 190));
+        jButton4.setBounds(210, 370, 190, 190); // Set bounds based on original AbsoluteConstraints
+        jPanel1.add(jButton4);
 
         jLabel4.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Nombre del Usuario");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, -1, -1));
+        jLabel4.setBounds(160, 100, 250, 30); // Set bounds, estimated size for text
+        jPanel1.add(jLabel4);
 
         jLabel3.setFont(new java.awt.Font("ROG Fonts", 0, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Bienvenido");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 390, 70));
+        jLabel3.setBounds(90, 20, 390, 70); // Set bounds based on original AbsoluteConstraints
+        jPanel1.add(jLabel3);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Logo_NetNexus-removebg-preview (1).png"))); // NOI18N
         jLabel2.setText("jLabel2");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, 180, 180));
+        jLabel2.setBounds(450, 0, 180, 180); // Set bounds based on original AbsoluteConstraints
+        jPanel1.add(jLabel2);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jLabel1.setBounds(0, 0, 600, 600); // Set bounds for background image to fill jPanel1
+        jPanel1.add(jLabel1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel1); // Added jPanel1 to content pane
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Abre la ventana de Servicios y oculta la actual (User_1)
+        Servicios serviciosFrame = new Servicios(this);
+        serviciosFrame.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // Abre la ventana de Perfil_User y oculta la actual (User_1)
+        Perfil_User perfilUserFrame = new Perfil_User(this);
+        perfilUserFrame.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // Abre la ventana de ContratosActivos y oculta la actual (User_1)
+        ContratosActivos contratosActivosFrame = new ContratosActivos(this);
+        contratosActivosFrame.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

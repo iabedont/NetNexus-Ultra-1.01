@@ -10,11 +10,24 @@ package GUI_CHIDO;
  */
 public class Perfil_User extends javax.swing.JFrame {
 
+    private User_1 user1Frame; // Para mantener una referencia al frame User_1
+
     /**
      * Creates new form Perfil_User
+     * @param user1Frame El frame User_1 que abrió este frame.
      */
+    public Perfil_User(User_1 user1Frame) {
+        initComponents();
+        this.user1Frame = user1Frame;
+        this.setLocationRelativeTo(null); // Centra el frame en la pantalla
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    // Constructor original, potencialmente sin uso
     public Perfil_User() {
         initComponents();
+        this.setLocationRelativeTo(null); // Centra el frame en la pantalla
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -44,6 +57,7 @@ public class Perfil_User extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -127,22 +141,17 @@ public class Perfil_User extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        // Al regresar, muestra la ventana User_1 y cierra la actual (Perfil_User)
+        if (user1Frame != null) {
+            user1Frame.setVisible(true); // Muestra el frame User_1
+        }
+        this.dispose(); // Cierra el frame actual de Perfil_User
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -183,7 +192,7 @@ public class Perfil_User extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Perfil_User().setVisible(true);
+                new Perfil_User().setVisible(true); // Para probar de forma independiente
             }
         });
     }

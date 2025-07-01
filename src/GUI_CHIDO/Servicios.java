@@ -10,11 +10,24 @@ package GUI_CHIDO;
  */
 public class Servicios extends javax.swing.JFrame {
 
+    private User_1 user1Frame; // Para mantener una referencia al frame User_1
+
     /**
      * Creates new form Servicios
+     * @param user1Frame El frame User_1 que abrió este frame.
      */
+    public Servicios(User_1 user1Frame) {
+        initComponents();
+        this.user1Frame = user1Frame;
+        this.setLocationRelativeTo(null); // Centra el frame en la pantalla
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); // Cierra este frame sin salir de la aplicación
+    }
+
+    // Constructor original, potencialmente sin uso si siempre se llama con un frame padre
     public Servicios() {
         initComponents();
+        this.setLocationRelativeTo(null); // Centra el frame en la pantalla
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -42,6 +55,7 @@ public class Servicios extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 255, 255));
         setForeground(java.awt.Color.white);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -108,22 +122,17 @@ public class Servicios extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 600));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 602, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // Al regresar, muestra la ventana User_1 y cierra la actual (Servicios)
+        if (user1Frame != null) {
+            user1Frame.setVisible(true); // Muestra el frame User_1
+        }
+        this.dispose(); // Cierra el frame actual de Servicios
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -160,7 +169,7 @@ public class Servicios extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Servicios().setVisible(true);
+                new Servicios().setVisible(true); // Para probar de forma independiente
             }
         });
     }

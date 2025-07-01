@@ -10,11 +10,24 @@ package GUI_CHIDO;
  */
 public class ContratosActivos extends javax.swing.JFrame {
 
+    private User_1 user1Frame; // Para mantener una referencia al frame User_1
+
     /**
      * Creates new form ContratosActivos
+     * @param user1Frame El frame User_1 que abrió este frame.
      */
+    public ContratosActivos(User_1 user1Frame) {
+        initComponents();
+        this.user1Frame = user1Frame;
+        this.setLocationRelativeTo(null); // Centra el frame en la pantalla
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    // Constructor original, potencialmente sin uso
     public ContratosActivos() {
         initComponents();
+        this.setLocationRelativeTo(null); // Centra el frame en la pantalla
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -31,6 +44,7 @@ public class ContratosActivos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -50,22 +64,17 @@ public class ContratosActivos extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        // Al regresar, muestra la ventana User_1 y cierra la actual (ContratosActivos)
+        if (user1Frame != null) {
+            user1Frame.setVisible(true); // Muestra el frame User_1
+        }
+        this.dispose(); // Cierra el frame actual de ContratosActivos
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -98,7 +107,7 @@ public class ContratosActivos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ContratosActivos().setVisible(true);
+                new ContratosActivos().setVisible(true); // Para probar de forma independiente
             }
         });
     }
