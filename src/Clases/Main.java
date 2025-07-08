@@ -21,8 +21,8 @@ public class Main {
 
         // Iniciar la interfaz gráfica en el hilo de despacho de eventos
         SwingUtilities.invokeLater(() -> {
-            LoginFrame loginFrame = new LoginFrame();
-            loginFrame.setVisible(true);
+            Bienvenida bienvenida = new Bienvenida();
+            bienvenida.setVisible(true);
         });
     }
 }
