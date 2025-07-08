@@ -4,6 +4,16 @@
  */
 package GUI_CHIDO;
 
+import Clases.LoginFrame; // Import LoginFrame
+import Clases.Cliente; // Importar la clase Cliente
+import GUI_CHIDO.ContratosActivos; // Importar ContratosActivos
+import javax.swing.JOptionPane; // Importar JOptionPane
+import Clases.BackgroundPanel; // Importar BackgroundPanel
+import java.awt.Font; // Importar Font
+import java.awt.Color; // Importar Color
+import java.awt.event.ComponentAdapter; // Importar ComponentAdapter
+import java.awt.event.ComponentEvent; // Importar ComponentEvent
+
 /**
  *
  * @author ASUS
@@ -11,14 +21,39 @@ package GUI_CHIDO;
 public class User_1 extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(User_1.class.getName());
+    private Cliente currentUser; // Para almacenar los datos del usuario logueado
 
     /**
      * Creates new form User_1
+     * Constructor sin argumentos (para pruebas o si no se pasa un usuario al inicio)
      */
     public User_1() {
         initComponents();
         this.setLocationRelativeTo(null); // Center the frame
-        this.setSize(600, 600); // Set a fixed size for the frame
+        this.setSize(700, 700); // Establecer el tamaño inicial a 800x800
+        
+        // Add ComponentListener for responsiveness
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                adjustComponentPositions();
+            }
+        });
+
+        // Call adjustComponentPositions once for initial setup
+        adjustComponentPositions();
+    }
+
+    /**
+     * Creates new form User_1 with user data.
+     * @param user The Cliente object of the logged-in user.
+     */
+    public User_1(Cliente user) {
+        this(); // Llama al constructor sin argumentos para inicializar componentes
+        this.currentUser = user; // Almacena el objeto Cliente
+        if (currentUser != null) {
+            jLabel4.setText(currentUser.getNombre() + " " + currentUser.getApellido()); // Muestra el nombre del usuario
+        }
     }
 
     /**
@@ -30,38 +65,46 @@ public class User_1 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        // Use BackgroundPanel for jPanel1
+        jPanel1 = new BackgroundPanel("/Imagenes/fondo.png");
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        // jLabel1 is no longer needed as BackgroundPanel handles the background
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null); // Changed from AbsoluteLayout
+        getContentPane().setLayout(null); // Changed to null layout
+        getContentPane().setPreferredSize(new java.awt.Dimension(800, 800)); // Establecer el tamaño preferido a 800x800 para el content pane
 
-        jPanel1.setLayout(null); // Changed from AbsoluteLayout
-        jPanel1.setBounds(0, 0, 600, 600); // Set bounds for jPanel1 to fill the frame
+        jPanel1.setLayout(null); // Changed to null layout for jPanel1
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 800)); // Establecer el tamaño preferido a 800x800 para el panel
 
+        // Botón Servicios
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Servicios_B-removebg-preview.png"))); // NOI18N
-        jButton3.setText("jButton1");
+        jButton3.setText("");
+        jButton3.setFont(new Font("Arial", Font.BOLD, 16)); // Fuente mejorada
+        jButton3.setForeground(Color.BLACK);
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton3.setContentAreaFilled(false);
-        jButton3.setBounds(60, 170, 190, 190); // Set bounds based on original AbsoluteConstraints
-        // Add ActionListener for jButton3
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        jButton3.setBorderPainted(false);
+        jButton3.setFocusPainted(false);
         jPanel1.add(jButton3);
 
+        // Botón Usuario
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Usuario_B-removebg-preview.png"))); // NOI18N
-        jButton5.setText("jButton1");
+        jButton5.setText("");
+        jButton5.setFont(new Font("Arial", Font.BOLD, 16)); // Fuente mejorada
+        jButton5.setForeground(Color.BLACK);
+        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton5.setContentAreaFilled(false);
-        jButton5.setBounds(360, 160, 190, 190); // Set bounds based on original AbsoluteConstraints
-        // Add ActionListener for jButton5
+        jButton5.setBorderPainted(false);
+        jButton5.setFocusPainted(false);
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -69,11 +112,16 @@ public class User_1 extends javax.swing.JFrame {
         });
         jPanel1.add(jButton5);
 
+        // Botón Contratos
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Contratos_B-removebg-preview.png"))); // NOI18N
-        jButton4.setText("jButton1");
+        jButton4.setText("");
+        jButton4.setFont(new Font("Arial", Font.BOLD, 16)); // Fuente mejorada
+        jButton4.setForeground(Color.BLACK);
+        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton4.setContentAreaFilled(false);
-        jButton4.setBounds(210, 370, 190, 190); // Set bounds based on original AbsoluteConstraints
-        // Add ActionListener for jButton4
+        jButton4.setBorderPainted(false);
+        jButton4.setFocusPainted(false);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -81,53 +129,138 @@ public class User_1 extends javax.swing.JFrame {
         });
         jPanel1.add(jButton4);
 
+        // Botón Cerrar Sesión
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar_S-removebg-preview (3) (1).png"))); // NOI18N
+        jButton6.setText("");
+        jButton6.setFont(new Font("Arial", Font.BOLD, 16)); // Fuente mejorada
+        jButton6.setForeground(Color.BLACK);
+        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton6.setContentAreaFilled(false);
+        jButton6.setBorderPainted(false);
+        jButton6.setFocusPainted(false);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton6);
+
+        // Label Nombre del Usuario
         jLabel4.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Nombre del Usuario");
-        jLabel4.setBounds(160, 100, 250, 30); // Set bounds, estimated size for text
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); // Centrar texto
         jPanel1.add(jLabel4);
 
-        jLabel3.setFont(new java.awt.Font("ROG Fonts", 0, 48)); // NOI18N
+        // Label Bienvenido
+        jLabel3.setFont(new java.awt.Font("ROG Fonts", Font.BOLD, 48)); // Fuente más grande y negrita
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Bienvenido");
-        jLabel3.setBounds(90, 20, 390, 70); // Set bounds based on original AbsoluteConstraints
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); // Centrar texto
+        jLabel3.setText("BIENVENIDO"); // Texto de bienvenida
         jPanel1.add(jLabel3);
 
+        // Label Logo
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Logo_NetNexus-removebg-preview (1).png"))); // NOI18N
-        jLabel2.setText("jLabel2");
-        jLabel2.setBounds(450, 0, 180, 180); // Set bounds based on original AbsoluteConstraints
         jPanel1.add(jLabel2);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        jLabel1.setBounds(0, 0, 600, 600); // Set bounds for background image to fill jPanel1
-        jPanel1.add(jLabel1);
-
-        getContentPane().add(jPanel1); // Added jPanel1 to content pane
+        getContentPane().add(jPanel1); // Add jPanel1 to content pane
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // Abre la ventana de Servicios y oculta la actual (User_1)
-        Servicios serviciosFrame = new Servicios(this);
-        serviciosFrame.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // Abre la ventana de Perfil_User y oculta la actual (User_1)
-        Perfil_User perfilUserFrame = new Perfil_User(this);
+        // Crear una instancia de Perfil_User y hacerla visible
+        Perfil_User perfilUserFrame = new Perfil_User(this); // Pasa la instancia actual de User_1 como parentFrame
+        if (currentUser != null) {
+            perfilUserFrame.setUserData(
+                String.valueOf(currentUser.getIdCliente()), // Convertir int a String
+                currentUser.getNombre(),
+                currentUser.getApellido(),
+                currentUser.getTelefono(),
+                currentUser.getEmail(),
+                currentUser.getPassword() // Ahora la contraseña se obtiene del objeto Cliente
+            );
+        }
         perfilUserFrame.setVisible(true);
-        this.setVisible(false);
+        this.dispose(); // Ocultar la ventana actual (User_1)
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // Abre la ventana de ContratosActivos y oculta la actual (User_1)
-        ContratosActivos contratosActivosFrame = new ContratosActivos(this);
-        contratosActivosFrame.setVisible(true);
-        this.setVisible(false);
+        try {
+            // Crear una instancia de ContratosActivos y hacerla visible
+            // Pasa el objeto currentUser a ContratosActivos
+            ContratosActivos contratosActivosFrame = new ContratosActivos(this, currentUser); 
+            contratosActivosFrame.setVisible(true);
+            this.dispose(); // Ocultar la ventana actual (User_1)
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al abrir la ventana de Contratos Activos: " + e.getMessage(), "Error de Navegación", JOptionPane.ERROR_MESSAGE);
+            logger.log(java.util.logging.Level.SEVERE, "Error al abrir ContratosActivos", e);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // Dispose current frame (User_1)
+        this.dispose();
+        // Create and show LoginFrame (logout)
+        new LoginFrame().setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    /**
+     * Adjusts the position and size of components when the frame is resized.
+     */
+    private void adjustComponentPositions() {
+        int newWidth = getContentPane().getWidth();
+        int newHeight = getContentPane().getHeight();
+
+        // Adjust jPanel1 to fill the content pane
+        jPanel1.setBounds(0, 0, newWidth, newHeight);
+
+        // Calculate center X for horizontal alignment
+        int centerX = newWidth / 2;
+
+        // Adjust jLabel3 (Bienvenido)
+        int welcomeLabelWidth = 400; // Adjusted width for "Bienvenido"
+        jLabel3.setBounds(centerX - welcomeLabelWidth / 2, 20, welcomeLabelWidth, 70);
+
+        // Adjust jLabel4 (Nombre del Usuario)
+        int userNameLabelWidth = 450; // Increased width for user name
+        jLabel4.setBounds(centerX - userNameLabelWidth / 2, jLabel3.getY() + jLabel3.getHeight() + 5, userNameLabelWidth, 24); // Reduced gap to 5
+
+        // Adjust jLabel2 (Logo) - anchored to top right
+        int logoWidth = 180;
+        int logoHeight = 180;
+        int logoPaddingRight = 20;
+        int logoPaddingTop = 10;
+        jLabel2.setBounds(newWidth - logoWidth - logoPaddingRight, logoPaddingTop, logoWidth, logoHeight);
+
+        // Adjust buttons in a grid-like fashion
+        int buttonWidth = 180;
+        int buttonHeight = 180;
+        int textOffset = 20; // Offset for text below icon within the button
+        int horizontalGap = 40; // Gap between buttons horizontally
+        int verticalGap = 30; // Gap between rows of buttons
+
+        // Calculate total width of two buttons plus gap
+        int totalButtonsWidth = (buttonWidth * 2) + horizontalGap;
+        // Calculate starting X to center the two columns of buttons
+        int buttonsStartX = centerX - totalButtonsWidth / 2;
+
+        // Calculate starting Y for the first row of buttons, below user info
+        int buttonsStartY = jLabel4.getY() + jLabel4.getHeight() + 60; // Increased gap
+
+        // First row of buttons
+        jButton3.setBounds(buttonsStartX, buttonsStartY, buttonWidth, buttonHeight + textOffset); // Servicios
+        jButton5.setBounds(buttonsStartX + buttonWidth + horizontalGap, buttonsStartY, buttonWidth, buttonHeight + textOffset); // Perfil
+
+        // Second row of buttons
+        buttonsStartY += buttonHeight + textOffset + verticalGap;
+        jButton4.setBounds(buttonsStartX, buttonsStartY, buttonWidth, buttonHeight + textOffset); // Contratos
+        jButton6.setBounds(buttonsStartX + buttonWidth + horizontalGap, buttonsStartY, buttonWidth, buttonHeight + textOffset); // Cerrar Sesión
+
+        // Revalidate and repaint the panel for changes to take effect
+        jPanel1.revalidate();
+        jPanel1.repaint();
+    }
 
     /**
      * @param args the command line arguments
@@ -146,7 +279,7 @@ public class User_1 extends javax.swing.JFrame {
                 }
             }
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+                logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -158,10 +291,11 @@ public class User_1 extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton6;
+    // private javax.swing.JLabel jLabel1; // Removed
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel1; // Now BackgroundPanel
     // End of variables declaration//GEN-END:variables
 }

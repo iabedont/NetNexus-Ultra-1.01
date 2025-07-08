@@ -121,7 +121,7 @@ public class Registro extends JFrame {
         }
 
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "INSERT INTO cliente (idCliente, nombre, apellido, telefono, email, contraseña, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO cliente (idCliente, nombre, apellido, telefono, email, password, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, idCliente);
             stmt.setString(2, name);

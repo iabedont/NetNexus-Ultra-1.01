@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import GUI_CHIDO.Perfil_User; // Importar Perfil_User
+import GUI_CHIDO.User_1; // Importar User_1
 
 public class LoginFrame extends JFrame {
     private JTextField usernameField;
@@ -102,8 +104,21 @@ public class LoginFrame extends JFrame {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                // Obtener los datos del usuario
+                int id = rs.getInt("idCliente"); // Assuming idCliente is an int in Cliente class
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                String telefono = rs.getString("telefono");
+                String email = rs.getString("email");
+                String storedPassword = rs.getString("password"); // Obtener la contraseña almacenada
+
+                // Crear un objeto Cliente con los datos obtenidos, incluyendo la contraseña
+                Cliente loggedInUser = new Cliente(id, nombre, apellido, telefono, email, storedPassword);
+
                 if (userType.equals("Usuario")) {
-                    new GUI_CHIDO.User_1().setVisible(true);
+                    // Pasar el objeto Cliente a User_1
+                    User_1 user1Frame = new User_1(loggedInUser); // Pasa el objeto Cliente
+                    user1Frame.setVisible(true);
                 } else if (userType.equals("Administrador")) {
                     new AdminFrame().setVisible(true);
                 } else if (userType.equals("Técnico")) {
