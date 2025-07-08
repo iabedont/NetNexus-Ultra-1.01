@@ -102,9 +102,7 @@ public class LoginFrame extends JFrame {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                if (userType.equals("Usuario")) {
-                    new GUI_CHIDO.User_1().setVisible(true);
-                } else if (userType.equals("Administrador")) {
+                if (userType.equals("Administrador")) {
                     new AdminFrame().setVisible(true);
                 } else if (userType.equals("Técnico")) {
                     new TechnicianFrame().setVisible(true);

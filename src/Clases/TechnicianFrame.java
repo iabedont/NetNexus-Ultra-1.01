@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nargs://netbeans/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nargs://netbeans/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Clases;
 import javax.swing.*;
@@ -24,10 +24,6 @@ public class TechnicianFrame extends JFrame {
         mainPanel.setLayout(new BorderLayout());
 
         JTabbedPane tabbedPane = new JTabbedPane();
-
-        // Pestaña de Administración (acceso al panel de Admin)
-        AdminFrame adminFrame = new AdminFrame();
-        tabbedPane.addTab("Administración", adminFrame.getContentPane());
 
         // Pestaña de Equipos
         JPanel equipmentPanel = new JPanel(new BorderLayout());
