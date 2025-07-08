@@ -7,6 +7,18 @@ package GUI_CHIDO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import Clases.DatabaseConnection; // Importar DatabaseConnection
+import javax.swing.JLabel; // Importar JLabel
+import javax.swing.JPasswordField; // Importar JPasswordField
+import java.awt.Font; // Importar Font
+import java.awt.Color; // Importar Color
+import java.awt.event.ComponentAdapter; // Importar ComponentAdapter
+import java.awt.event.ComponentEvent; // Importar ComponentEvent
+import Clases.BackgroundPanel; // Importar BackgroundPanel
 
 /**
  *
@@ -15,7 +27,14 @@ import javax.swing.JFrame;
 public class Perfil_User extends javax.swing.JFrame {
 
     private JFrame parentFrame;
+    private String currentUserId; // Para almacenar el ID del usuario actual
+    private String currentUserPassword; // Para almacenar la contraseña del usuario actual
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Perfil_User.class.getName());
+
+    // Nuevo JTextField para el email
+    private javax.swing.JTextField jTextFieldEmail;
+    private JLabel jLabelIdCliente; // Declarar el JLabel para idCliente
+    private javax.swing.JPasswordField jPasswordField2; // Declaración de JPasswordField
 
     /**
      * Creates new form Perfil_User
@@ -25,7 +44,60 @@ public class Perfil_User extends javax.swing.JFrame {
         this.parentFrame = parentFrame;
         initComponents();
         this.setLocationRelativeTo(null); // Center the frame
-        this.setSize(600, 600); // Set a fixed size for the frame
+        this.setSize(800, 700); // Establecer tamaño inicial a 800x700
+        setFieldsEditable(false); // Campos no editables por defecto
+        jPasswordField2.setEchoChar('*'); // Ocultar la contraseña inicialmente
+
+        // Añadir ComponentListener para ajustar la posición de los componentes al redimensionar
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                adjustComponentPositions();
+            }
+        });
+
+        // Llamar a adjustComponentPositions una vez para la configuración inicial
+        adjustComponentPositions();
+    }
+
+    /**
+     * Método para establecer los datos del usuario en los JTextField/JPasswordField.
+     * @param idCliente ID del cliente.
+     * @param nombre Nombre del cliente.
+     * @param apellido Apellido del cliente.
+     * @param telefono Teléfono del cliente.
+     * @param email Email del cliente.
+     * @param password Contraseña del cliente.
+     */
+    public void setUserData(String idCliente, String nombre, String apellido, String telefono, String email, String password) {
+        this.currentUserId = idCliente;
+        this.currentUserPassword = password;
+
+        jTextField1.setText(idCliente);
+        jTextField5.setText(nombre);
+        jTextField4.setText(apellido);
+        jTextField3.setText(telefono);
+        jTextFieldEmail.setText(email); // Usar el nuevo campo para email
+        jPasswordField2.setText(password); // Usar JPasswordField para la contraseña
+    }
+
+    /**
+     * Método para establecer la editabilidad de los campos de texto y la visibilidad de la contraseña.
+     * @param editable true para hacer los campos editables, false para no editables.
+     */
+    private void setFieldsEditable(boolean editable) {
+        jTextField1.setEditable(false); // idCliente siempre estático
+        jTextField5.setEditable(editable); // Nombre
+        jTextField4.setEditable(editable); // Apellido
+        jTextField3.setEditable(editable); // Teléfono
+        jTextFieldEmail.setEditable(editable); // Email
+        jPasswordField2.setEditable(editable); // Contraseña ahora editable
+
+        if (editable) {
+            jPasswordField2.setEchoChar((char) 0); // Mostrar la contraseña
+        } else {
+            jPasswordField2.setEchoChar('*'); // Ocultar la contraseña
+        }
     }
 
     /**
@@ -37,7 +109,9 @@ public class Perfil_User extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        // Use BackgroundPanel for jPanel1
+        jPanel1 = new BackgroundPanel("/Imagenes/fondo.png"); 
+        
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -45,90 +119,82 @@ public class Perfil_User extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField(); // Usado para idCliente
+        jTextField3 = new javax.swing.JTextField(); // Usado para Teléfono
+        jPasswordField2 = new javax.swing.JPasswordField(); // Inicialización: NO re-declarar el tipo aquí
+        jTextField4 = new javax.swing.JTextField(); // Usado para Apellido
+        jTextField5 = new javax.swing.JTextField(); // Usado para Nombre
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        
+        // Inicializar el nuevo JTextField para email
+        jTextFieldEmail = new javax.swing.JTextField();
+        // Inicializar el JLabel para idCliente
+        jLabelIdCliente = new JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null); // Changed from GroupLayout
+        getContentPane().setLayout(null); // Usar null layout para el content pane
+        getContentPane().setPreferredSize(new java.awt.Dimension(800, 700)); // Establecer tamaño preferido a 800x700 para el content pane
 
-        jPanel1.setLayout(null); // Changed from AbsoluteLayout
-        jPanel1.setBounds(0, 0, 600, 600); // Set bounds for jPanel1 to fill the frame
+        jPanel1.setLayout(null); // Usar null layout para jPanel1
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 700)); // Establecer tamaño preferido a 800x700 para jPanel1
 
+        // Botón Regresar
         jButton2.setBackground(new java.awt.Color(248, 243, 243));
-        jButton2.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
+        jButton2.setFont(new java.awt.Font("ROG Fonts", 0, 16)); // Fuente ligeramente más pequeña
         jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Atras.png"))); // NOI18N
-        jButton2.setText("Regresar");
+        jButton2.setText("REGRESAR"); // Texto completo
         jButton2.setContentAreaFilled(false);
-        jButton2.setBounds(10, 20, 230, 60); // Set bounds based on original AbsoluteConstraints
+        jButton2.setBorderPainted(false); // Eliminar borde
+        jButton2.setFocusPainted(false); // Eliminar el foco al hacer clic
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
+        // Las bounds se establecerán en adjustComponentPositions() para ser responsivas
         jPanel1.add(jButton2);
 
-        jLabel3.setBackground(new java.awt.Color(0, 204, 204));
-        jLabel3.setFont(new java.awt.Font("ROG Fonts", 0, 48)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Usuario");
-        jLabel3.setBounds(300, 20, 530, 50); // Set bounds based on original AbsoluteConstraints
+        // Título "Perfil de Usuario"
+        jLabel3.setFont(new java.awt.Font("ROG Fonts", 1, 32)); // Fuente ligeramente más pequeña para mejor ajuste
+        jLabel3.setForeground(new java.awt.Color(50, 50, 50)); // Color de texto más oscuro
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); // Centrado horizontalmente
+        jLabel3.setText("PERFIL DE USUARIO"); // Texto completo
+        // Las bounds se establecerán en adjustComponentPositions() para ser responsivas
         jPanel1.add(jLabel3);
 
-        jLabel6.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Apellido:");
-        jLabel6.setBounds(70, 370, 150, 30); // Set bounds, estimated size for text
-        jPanel1.add(jLabel6);
+        // Imagen de Perfil
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Perfil_U.png"))); // NOI18N
+        // Las bounds se establecerán en adjustComponentPositions() para ser responsivas
+        jPanel1.add(jLabel2);
 
-        jLabel7.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Correo:");
-        jLabel7.setBounds(70, 410, 150, 30); // Set bounds, estimated size for text
-        jPanel1.add(jLabel7);
+        // Definir el espaciado vertical entre los campos
+        int yStart = 270; // Posición Y inicial para el primer campo (ID Cliente)
+        int fieldHeight = 26; // Altura de los JTextField
+        int labelHeight = 25; // Altura de los JLabels
+        int verticalGap = 20; // Espacio vertical entre cada par de label/textfield
 
-        jLabel8.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("Telefono:");
-        jLabel8.setBounds(70, 450, 150, 30); // Set bounds, estimated size for text
-        jPanel1.add(jLabel8);
-
-        jLabel9.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("Contraseña");
-        jLabel9.setBounds(70, 490, 150, 20); // Set bounds, estimated size for text
-        jPanel1.add(jLabel9);
-
-        jLabel10.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText("Nombre:");
-        jLabel10.setBounds(70, 330, 150, 30); // Set bounds, estimated size for text
-        jPanel1.add(jLabel10);
-
-        jTextField1.setText("jTextField1");
-        jTextField1.setBounds(240, 410, 270, 25); // Set bounds, estimated height for text field
+        // Labels y TextFields para los datos del usuario
+        // ID Cliente
+        jLabelIdCliente.setFont(new java.awt.Font("Arial", 1, 14)); // Fuente más limpia
+        jLabelIdCliente.setForeground(new java.awt.Color(70, 70, 70));
+        jLabelIdCliente.setText("ID Cliente:");
+        jPanel1.add(jLabelIdCliente);
+        jTextField1.setFont(new java.awt.Font("Arial", 0, 14));
+        jTextField1.setBackground(new Color(230, 230, 230)); // Fondo más claro
+        jTextField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Padding interno
         jPanel1.add(jTextField1);
 
-        jTextField3.setText("jTextField1");
-        jTextField3.setBounds(240, 450, 270, 25); // Set bounds, estimated height for text field
-        jPanel1.add(jTextField3);
-
-        jTextField2.setText("jTextField1");
-        jTextField2.setBounds(240, 490, 270, 25); // Set bounds, estimated height for text field
-        jPanel1.add(jTextField2);
-
-        jTextField4.setText("jTextField1");
-        jTextField4.setBounds(240, 370, 270, 25); // Set bounds, estimated height for text field
-        jPanel1.add(jTextField4);
-
-        jTextField5.setText("jTextField1");
-        jTextField5.setBounds(240, 330, 270, 25); // Set bounds, estimated height for text field
+        // Nombre
+        yStart += fieldHeight + verticalGap;
+        jLabel10.setFont(new java.awt.Font("Arial", 1, 14));
+        jLabel10.setForeground(new java.awt.Color(70, 70, 70));
+        jLabel10.setText("Nombre:");
+        jPanel1.add(jLabel10);
+        jTextField5.setFont(new java.awt.Font("Arial", 0, 14));
+        jTextField5.setBackground(new Color(230, 230, 230));
+        jTextField5.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
@@ -136,26 +202,69 @@ public class Perfil_User extends javax.swing.JFrame {
         });
         jPanel1.add(jTextField5);
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 0));
-        jButton1.setFont(new java.awt.Font("ROG Fonts", 0, 12)); // NOI18N
+        // Apellido
+        yStart += fieldHeight + verticalGap;
+        jLabel6.setFont(new java.awt.Font("Arial", 1, 14));
+        jLabel6.setForeground(new java.awt.Color(70, 70, 70));
+        jLabel6.setText("Apellido:");
+        jPanel1.add(jLabel6);
+        jTextField4.setFont(new java.awt.Font("Arial", 0, 14));
+        jTextField4.setBackground(new Color(230, 230, 230));
+        jTextField4.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jPanel1.add(jTextField4);
+
+        // Teléfono
+        yStart += fieldHeight + verticalGap;
+        jLabel8.setFont(new java.awt.Font("Arial", 1, 14));
+        jLabel8.setForeground(new java.awt.Color(70, 70, 70));
+        jLabel8.setText("Telefono:");
+        jPanel1.add(jLabel8);
+        jTextField3.setFont(new java.awt.Font("Arial", 0, 14));
+        jTextField3.setBackground(new Color(230, 230, 230));
+        jTextField3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jPanel1.add(jTextField3);
+
+        // Correo
+        yStart += fieldHeight + verticalGap;
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 14));
+        jLabel7.setForeground(new java.awt.Color(70, 70, 70));
+        jLabel7.setText("Correo:");
+        jPanel1.add(jLabel7);
+        jTextFieldEmail.setFont(new java.awt.Font("Arial", 0, 14));
+        jTextFieldEmail.setBackground(new Color(230, 230, 230));
+        jTextFieldEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jPanel1.add(jTextFieldEmail);
+
+        // Contraseña
+        yStart += fieldHeight + verticalGap;
+        jLabel9.setFont(new java.awt.Font("Arial", 1, 14));
+        jLabel9.setForeground(new java.awt.Color(70, 70, 70));
+        jLabel9.setText("Contraseña:"); // Cambiado para ser más claro
+        jPanel1.add(jLabel9);
+        jPasswordField2.setFont(new java.awt.Font("Arial", 0, 14));
+        jPasswordField2.setBackground(new Color(230, 230, 230));
+        jPasswordField2.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jPanel1.add(jPasswordField2); // Añadido jPasswordField2
+
+        // Botón Editar/Guardar
+        jButton1.setBackground(new java.awt.Color(60, 179, 113)); // Verde menta
+        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // Fuente más limpia y negrita
+        jButton1.setForeground(new java.awt.Color(255, 255, 255)); // Texto blanco
         jButton1.setText("Editar");
-        jButton1.setBounds(480, 550, 110, 30); // Set bounds based on original AbsoluteConstraints
+        jButton1.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+            javax.swing.BorderFactory.createLineBorder(new java.awt.Color(46, 139, 87), 2), // Borde más oscuro
+            javax.swing.BorderFactory.createEmptyBorder(5, 15, 5, 15) // Padding interno
+        ));
+        jButton1.setFocusPainted(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        // Las bounds se establecerán en adjustComponentPositions() para ser responsivas
         jPanel1.add(jButton1);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Perfil_U.png"))); // NOI18N
-        jLabel2.setBounds(180, 120, 220, 170); // Set bounds based on original AbsoluteConstraints
-        jPanel1.add(jLabel2);
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        jLabel1.setBounds(0, 0, 600, 600); // Set bounds for background image to fill jPanel1
-        jPanel1.add(jLabel1);
-
-        getContentPane().add(jPanel1); // Added jPanel1 to content pane
+        getContentPane().add(jPanel1); // Añadir jPanel1 al content pane sin restricciones
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -172,8 +281,140 @@ public class Perfil_User extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        if (jButton1.getText().equals("Editar")) {
+            // Solicitar contraseña para editar
+            JPasswordField pf = new JPasswordField();
+            int okCxl = JOptionPane.showConfirmDialog(null, pf, "Ingrese su contraseña actual para editar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+            if (okCxl == JOptionPane.OK_OPTION) {
+                String enteredPassword = new String(pf.getPassword());
+                if (enteredPassword.equals(currentUserPassword)) {
+                    setFieldsEditable(true); // Hace los campos editables y muestra la contraseña
+                    jButton1.setText("Guardar");
+                    JOptionPane.showMessageDialog(this, "Ahora puede editar sus datos.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Contraseña incorrecta. No se puede editar.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else if (jButton1.getText().equals("Guardar")) {
+            // Guardar los cambios en la base de datos
+            try (Connection conn = DatabaseConnection.getConnection()) {
+                String newPassword = new String(jPasswordField2.getPassword()); // Obtener la nueva contraseña
+
+                // Actualizar nombre, apellido, telefono, email y password
+                String sql = "UPDATE cliente SET nombre = ?, apellido = ?, telefono = ?, email = ?, password = ? WHERE idCliente = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, jTextField5.getText()); // Nombre
+                stmt.setString(2, jTextField4.getText()); // Apellido
+                stmt.setString(3, jTextField3.getText()); // Teléfono
+                stmt.setString(4, jTextFieldEmail.getText()); // Email
+                stmt.setString(5, newPassword); // Nueva contraseña
+                stmt.setString(6, currentUserId); // ID del usuario actual
+                
+                int rowsAffected = stmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(this, "Datos actualizados correctamente.");
+                    currentUserPassword = newPassword; // Actualizar la contraseña en memoria
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo actualizar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error al actualizar datos en la base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                logger.log(java.util.logging.Level.SEVERE, "Error al actualizar datos", e);
+            } finally {
+                setFieldsEditable(false); // Deshabilitar edición y ocultar contraseña
+                jButton1.setText("Editar"); // Cambiar texto del botón
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * Método para ajustar la posición y tamaño de los componentes al redimensionar la ventana.
+     */
+    private void adjustComponentPositions() {
+        int newWidth = getContentPane().getWidth();
+        int newHeight = getContentPane().getHeight();
+
+        // Actualizar bounds del panel principal
+        jPanel1.setBounds(0, 0, newWidth, newHeight);
+
+        // Calcular centro X para alineación horizontal
+        int centerX = newWidth / 2;
+
+        // Ajustar botón Regresar (anclado a la esquina superior izquierda)
+        int regresarButtonWidth = 230; // Nuevo ancho
+        int regresarButtonHeight = 60; // Nuevo alto
+        jButton2.setBounds(20, 30, regresarButtonWidth, regresarButtonHeight);
+
+        // Ajustar título "Perfil de Usuario" (centrado horizontalmente)
+        int titleWidth = 320; // Ancho original del título
+        // Asegurarse de que el título no se solape con el botón "REGRESAR" si la ventana es muy estrecha
+        int minTitleX = jButton2.getX() + jButton2.getWidth() + 20; // 20px de margen
+        int calculatedTitleX = centerX - titleWidth / 2;
+        jLabel3.setBounds(Math.max(minTitleX, calculatedTitleX), 30, titleWidth, 50);
+
+        // Ajustar imagen de Perfil (centrada horizontalmente)
+        int profileImageWidth = 200; // Ancho original de la imagen
+        jLabel2.setBounds(centerX - profileImageWidth / 2, 90, profileImageWidth, 150);
+
+        // Definir el espaciado vertical y alturas para los campos
+        int fieldHeight = 26; // Altura de los JTextField
+        int labelHeight = 25; // Altura de los JLabels
+        int verticalGap = 20; // Espacio vertical entre cada par de label/textfield
+
+        // Calcular la posición Y inicial para el bloque de campos, manteniendo un margen debajo de la imagen
+        int initialYForFields = jLabel2.getY() + jLabel2.getHeight() + 30; // 30px de espacio debajo de la imagen
+
+        // Calcular las posiciones X para las columnas de etiquetas y campos para centrarlas
+        int labelColWidth = 150; // Ancho máximo de las etiquetas
+        int fieldColWidth = 300; // Ancho de los campos de texto
+        int totalFieldBlockWidth = labelColWidth + fieldColWidth + 10; // Ancho total del bloque (label + gap + field)
+
+        int newLabelColX = centerX - totalFieldBlockWidth / 2;
+        int newFieldColX = newLabelColX + labelColWidth + 10; // Posición del campo relativa a la etiqueta
+
+        int currentY = initialYForFields; // Y actual para el campo
+
+        // ID Cliente
+        jLabelIdCliente.setBounds(newLabelColX, currentY, labelColWidth, labelHeight);
+        jTextField1.setBounds(newFieldColX, currentY, fieldColWidth, fieldHeight);
+
+        // Nombre
+        currentY += fieldHeight + verticalGap;
+        jLabel10.setBounds(newLabelColX, currentY, labelColWidth, labelHeight);
+        jTextField5.setBounds(newFieldColX, currentY, fieldColWidth, fieldHeight);
+
+        // Apellido
+        currentY += fieldHeight + verticalGap;
+        jLabel6.setBounds(newLabelColX, currentY, labelColWidth, labelHeight);
+        jTextField4.setBounds(newFieldColX, currentY, fieldColWidth, fieldHeight);
+
+        // Teléfono
+        currentY += fieldHeight + verticalGap;
+        jLabel8.setBounds(newLabelColX, currentY, labelColWidth, labelHeight);
+        jTextField3.setBounds(newFieldColX, currentY, fieldColWidth, fieldHeight);
+
+        // Correo
+        currentY += fieldHeight + verticalGap;
+        jLabel7.setBounds(newLabelColX, currentY, labelColWidth, labelHeight);
+        jTextFieldEmail.setBounds(newFieldColX, currentY, fieldColWidth, fieldHeight);
+
+        // Contraseña
+        currentY += fieldHeight + verticalGap;
+        jLabel9.setBounds(newLabelColX, currentY, labelColWidth, labelHeight);
+        jPasswordField2.setBounds(newFieldColX, currentY, fieldColWidth, fieldHeight); // Usar jPasswordField2
+
+        // Ajustar botón Editar/Guardar (anclado a la esquina inferior derecha)
+        int buttonWidth = 150;
+        int buttonHeight = 40;
+        int buttonPadding = 50; // Margen desde la derecha y abajo
+        jButton1.setBounds(newWidth - buttonWidth - buttonPadding, newHeight - buttonHeight - buttonPadding, buttonWidth, buttonHeight);
+
+        // Revalidar y repintar el panel para aplicar los cambios
+        jPanel1.revalidate();
+        jPanel1.repaint();
+    }
 
     /**
      * @param args the command line arguments
@@ -192,7 +433,7 @@ public class Perfil_User extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+                logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -203,7 +444,6 @@ public class Perfil_User extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -213,9 +453,10 @@ public class Perfil_User extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    // Removed duplicate declaration of jPasswordField2
+    // private javax.swing.JPasswordField jPasswordField2; 
     // End of variables declaration//GEN-END:variables
 }

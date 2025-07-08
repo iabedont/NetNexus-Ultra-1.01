@@ -7,6 +7,19 @@ package GUI_CHIDO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel; // Import DefaultTableModel
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import Clases.DatabaseConnection; // Import DatabaseConnection
+import Clases.BackgroundPanel; // Import BackgroundPanel
+import Clases.Cliente; // Importar la clase Cliente
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.JOptionPane; // Import JOptionPane for error messages
 
 /**
  *
@@ -15,17 +28,41 @@ import javax.swing.JFrame;
 public class ContratosActivos extends javax.swing.JFrame {
 
     private JFrame parentFrame;
+    private DefaultTableModel tableModel; // Declare tableModel
+    private int currentClienteId; // New field to store the logged-in client ID
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ContratosActivos.class.getName());
 
     /**
      * Creates new form ContratosActivos
      * @param parentFrame The parent JFrame to return to.
+     * @param loggedInCliente The Cliente object of the currently logged-in user.
      */
-    public ContratosActivos(JFrame parentFrame) {
+    public ContratosActivos(JFrame parentFrame, Cliente loggedInCliente) { // <-- Este es el constructor que espera dos argumentos
         this.parentFrame = parentFrame;
+        // Check if loggedInCliente is null (e.g., if opened directly from main for testing)
+        if (loggedInCliente != null) {
+            this.currentClienteId = loggedInCliente.getIdCliente();
+        } else {
+            // Handle case where no client is logged in, e.g., for testing purposes
+            this.currentClienteId = -1; // Or some default/error value
+            JOptionPane.showMessageDialog(null, "No se ha proporcionado un ID de cliente. Se mostrarán todos los contratos (solo para desarrollo).", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+        
         initComponents();
         this.setLocationRelativeTo(null); // Center the frame
-        this.setSize(600, 600); // Set a fixed size for the frame
+        this.setSize(800, 600); // Set a larger initial size for the frame
+        
+        // Add ComponentListener for responsiveness
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                adjustComponentPositions();
+            }
+        });
+
+        // Load data into the table
+        loadContractsData();
+        adjustComponentPositions(); // Adjust positions initially
     }
 
     /**
@@ -37,35 +74,55 @@ public class ContratosActivos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        // Use BackgroundPanel for jPanel1
+        jPanel1 = new BackgroundPanel("/Imagenes/fondo.png");
         jButton2 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null); // Changed from GroupLayout
+        getContentPane().setLayout(null); // Use null layout
+        getContentPane().setPreferredSize(new java.awt.Dimension(800, 600)); // Set preferred size
 
-        jPanel1.setLayout(null); // Changed from AbsoluteLayout
-        jPanel1.setBounds(0, 0, 600, 600); // Set bounds for jPanel1 to fill the frame
+        jPanel1.setLayout(null); // Use null layout for jPanel1
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 600)); // Set preferred size for jPanel1
 
+        // Button Regresar
         jButton2.setBackground(new java.awt.Color(248, 243, 243));
-        jButton2.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
+        jButton2.setFont(new java.awt.Font("ROG Fonts", 0, 16)); // NOI18N
         jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Atras.png"))); // NOI18N
         jButton2.setText("Regresar");
         jButton2.setContentAreaFilled(false);
-        jButton2.setBounds(10, 20, 230, 60); // Set bounds based on original AbsoluteConstraints
+        jButton2.setBorderPainted(false);
+        jButton2.setFocusPainted(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2);
+        jPanel1.add(jButton2); // Bounds will be set in adjustComponentPositions()
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        jLabel1.setBounds(0, 0, 600, 600); // Set bounds for background image to fill jPanel1
-        jPanel1.add(jLabel1);
+        // Table Model Setup
+        String[] columnNames = {"ID Contrato", "ID Cliente", "Fecha Inicio", "Fecha Fin", "Monto Total", "Tipo Servicio"};
+        tableModel = new DefaultTableModel(new Object[][]{}, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make all cells non-editable
+            }
+        };
+        jTable1.setModel(tableModel);
+        jTable1.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        jTable1.getTableHeader().setBackground(new Color(173, 216, 230)); // Light blue header
+        jTable1.setRowHeight(25);
+        jTable1.setFillsViewportHeight(true); // Make table fill the scroll pane
+        jTable1.setBackground(new Color(240, 248, 255)); // Alice Blue background for table
+        jTable1.setForeground(new Color(50, 50, 50)); // Dark text color
 
-        getContentPane().add(jPanel1); // Added jPanel1 to content pane
+        jScrollPane1.setViewportView(jTable1);
+        jPanel1.add(jScrollPane1); // Bounds will be set in adjustComponentPositions()
+
+        getContentPane().add(jPanel1); // Add jPanel1 to content pane
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -76,6 +133,75 @@ public class ContratosActivos extends javax.swing.JFrame {
             parentFrame.setVisible(true);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    /**
+     * Loads contract data from the database and populates the JTable.
+     */
+    private void loadContractsData() {
+        // Clear existing data
+        tableModel.setRowCount(0);
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql;
+            PreparedStatement stmt;
+
+            if (currentClienteId != -1) { // If a valid client ID is provided, filter by it
+                sql = "SELECT idContrato, Cliente_idCliente, fecha_inicio, fecha_fin, monto_total, tiposervicio FROM contrato WHERE Cliente_idCliente = ?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, currentClienteId);
+            } else { // For testing or if no client ID is available, show all (or none)
+                sql = "SELECT idContrato, Cliente_idCliente, fecha_inicio, fecha_fin, monto_total, tiposervicio FROM contrato";
+                stmt = conn.prepareStatement(sql);
+            }
+            
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Object[] row = new Object[6];
+                row[0] = rs.getInt("idContrato");
+                row[1] = rs.getInt("Cliente_idCliente");
+                row[2] = rs.getDate("fecha_inicio");
+                row[3] = rs.getDate("fecha_fin");
+                row[4] = rs.getDouble("monto_total");
+                row[5] = rs.getString("tiposervicio"); // Assuming tiposervicio is a String
+
+                tableModel.addRow(row);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los datos de contratos: " + e.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+            logger.log(java.util.logging.Level.SEVERE, "Error al cargar contratos", e);
+        }
+    }
+
+    /**
+     * Adjusts the position and size of components when the frame is resized.
+     */
+    private void adjustComponentPositions() {
+        int newWidth = getContentPane().getWidth();
+        int newHeight = getContentPane().getHeight();
+
+        // Adjust jPanel1 to fill the content pane
+        jPanel1.setBounds(0, 0, newWidth, newHeight);
+
+        // Adjust jButton2 (Regresar)
+        int buttonWidth = 200;
+        int buttonHeight = 50;
+        int buttonX = 20;
+        int buttonY = 20;
+        jButton2.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
+
+        // Adjust jScrollPane1 (table)
+        int tablePadding = 40; // Padding from edges
+        int tableX = tablePadding;
+        int tableY = buttonY + buttonHeight + 20; // Below the button with some gap
+        int tableWidth = newWidth - (2 * tablePadding);
+        int tableHeight = newHeight - tableY - tablePadding;
+        jScrollPane1.setBounds(tableX, tableY, tableWidth, tableHeight);
+
+        // Revalidate and repaint the panel
+        jPanel1.revalidate();
+        jPanel1.repaint();
+    }
 
     /**
      * @param args the command line arguments
@@ -99,12 +225,14 @@ public class ContratosActivos extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new ContratosActivos(null).setVisible(true)); // Pass null for standalone testing
+        // For standalone testing, you might pass a dummy Cliente or null
+        java.awt.EventQueue.invokeLater(() -> new ContratosActivos(null, null).setVisible(true)); 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel1; // Now BackgroundPanel
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

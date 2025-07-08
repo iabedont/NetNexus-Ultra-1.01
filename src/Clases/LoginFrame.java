@@ -22,7 +22,7 @@ public class LoginFrame extends JFrame {
 
     public LoginFrame() {
         setTitle("Login - Sistema de Gestión");
-        setSize(300, 250);
+        setSize(600,250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -102,9 +102,7 @@ public class LoginFrame extends JFrame {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                if (userType.equals("Usuario")) {
-                    new GUI_CHIDO.User_1().setVisible(true);
-                } else if (userType.equals("Administrador")) {
+                if (userType.equals("Administrador")) {
                     new AdminFrame().setVisible(true);
                 } else if (userType.equals("Técnico")) {
                     new TechnicianFrame().setVisible(true);
