@@ -104,6 +104,7 @@ public class LoginFrame extends JFrame {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+<<<<<<< HEAD
                 // Obtener los datos del usuario
                 int id = rs.getInt("idCliente"); // Assuming idCliente is an int in Cliente class
                 String nombre = rs.getString("nombre");
@@ -120,6 +121,9 @@ public class LoginFrame extends JFrame {
                     User_1 user1Frame = new User_1(loggedInUser); // Pasa el objeto Cliente
                     user1Frame.setVisible(true);
                 } else if (userType.equals("Administrador")) {
+=======
+                if (userType.equals("Administrador")) {
+>>>>>>> origin/master
                     new AdminFrame().setVisible(true);
                 } else if (userType.equals("Técnico")) {
                     new TechnicianFrame().setVisible(true);
