@@ -4,8 +4,6 @@
  */
 package GUI_CHIDO;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 /**
@@ -53,17 +51,15 @@ public class Servicios extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 255, 255));
         setForeground(java.awt.Color.white);
-        getContentPane().setLayout(null); // Changed from GroupLayout
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setLayout(null); // Changed from AbsoluteLayout
-        jPanel1.setBounds(0, 0, 600, 600); // Set bounds for jPanel1 to fill the frame
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setBackground(new java.awt.Color(0, 204, 204));
         jLabel1.setFont(new java.awt.Font("ROG Fonts", 0, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Servicios");
-        jLabel1.setBounds(30, 90, 530, 50); // Set bounds based on original AbsoluteConstraints
-        jPanel1.add(jLabel1);
+        jLabel1.setText("Servicios ");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 530, 50));
 
         jButton1.setBackground(new java.awt.Color(248, 243, 243));
         jButton1.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
@@ -71,83 +67,63 @@ public class Servicios extends javax.swing.JFrame {
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Atras.png"))); // NOI18N
         jButton1.setText("Regresar");
         jButton1.setContentAreaFilled(false);
-        jButton1.setBounds(10, 20, 230, 60); // Set bounds based on original AbsoluteConstraints
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 230, 60));
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Telefonía fija.png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Tel_Fij.png"))); // NOI18N
         jButton4.setText("jButton3");
-        jButton4.setBounds(350, 410, 170, 160); // Set bounds based on original AbsoluteConstraints
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4);
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 410, 170, 160));
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Telefonía movil.png"))); // NOI18N
         jButton7.setText("jButton3");
-        jButton7.setBounds(50, 410, 170, 160); // Set bounds based on original AbsoluteConstraints
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton7);
+        jPanel1.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 410, 170, 160));
 
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/televisión.png"))); // NOI18N
         jButton8.setText("jButton3");
-        jButton8.setBounds(350, 190, 170, 160); // Set bounds based on original AbsoluteConstraints
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton8);
+        jPanel1.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 170, 160));
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Wifi.png"))); // NOI18N
         jButton9.setText("jButton3");
-        jButton9.setBounds(50, 190, 170, 160); // Set bounds based on original AbsoluteConstraints
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton9);
+        jPanel1.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 170, 160));
 
         jLabel3.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Telefonia movil");
-        jLabel3.setBounds(50, 380, 200, 30); // Set bounds, estimated size for text
-        jPanel1.add(jLabel3);
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Telefonia Fija");
-        jLabel4.setBounds(350, 380, 200, 30); // Set bounds, estimated size for text
-        jPanel1.add(jLabel4);
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 380, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Television");
-        jLabel5.setBounds(350, 160, 200, 30); // Set bounds, estimated size for text
-        jPanel1.add(jLabel5);
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 160, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Internet");
-        jLabel6.setBounds(50, 160, 200, 30); // Set bounds, estimated size for text
-        jPanel1.add(jLabel6);
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        jLabel2.setBounds(0, 0, 600, 600); // Set bounds for background image to fill jPanel1
-        jPanel1.add(jLabel2);
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 600));
 
-        getContentPane().add(jPanel1); // Added jPanel1 to content pane
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 602, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

@@ -1,11 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-/*
- * Click nargs://netbeans/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nargs://netbeans/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Clases;
 
 import javax.swing.*;
@@ -103,16 +95,44 @@ public class LoginFrame extends JFrame {
 
             if (rs.next()) {
                 if (userType.equals("Administrador")) {
-                    new AdminFrame().setVisible(true);
+                    // Tu lógica para administrador aquí
+                    JOptionPane.showMessageDialog(this,
+                        "Inicio de sesión como Administrador.",
+                        "Bienvenido",
+                        JOptionPane.INFORMATION_MESSAGE);
+                    // Ejemplo: new AdminFrame().setVisible(true); dispose();
+                } else if (userType.equals("Usuario")) {
+                    // MODIFICADO: Crear el objeto Cliente y abrir User_1 con ese objeto
+                    Cliente cliente = new Cliente(
+                        rs.getInt("idCliente"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getString("telefono"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                    );
+                    new GUI_CHIDO.User_1(cliente).setVisible(true);
+                    dispose();
                 } else if (userType.equals("Técnico")) {
-                    new TechnicianFrame().setVisible(true);
+                    // Tu lógica para técnico aquí
+                    JOptionPane.showMessageDialog(this,
+                        "Inicio de sesión como Técnico.",
+                        "Bienvenido",
+                        JOptionPane.INFORMATION_MESSAGE);
+                    // Ejemplo: new TechFrame().setVisible(true); dispose();
                 }
-                dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, 
+                    "Credenciales incorrectas o tipo de usuario incorrecto.", 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al validar credenciales: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, 
+                "Error al conectar con la base de datos.", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 }
