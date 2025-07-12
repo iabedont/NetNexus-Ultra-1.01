@@ -109,9 +109,7 @@ public class Perfil_User extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        // Use BackgroundPanel for jPanel1
-        jPanel1 = new BackgroundPanel("/Imagenes/fondo.png"); 
-        
+        jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -119,152 +117,101 @@ public class Perfil_User extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField(); // Usado para idCliente
-        jTextField3 = new javax.swing.JTextField(); // Usado para Teléfono
-        jPasswordField2 = new javax.swing.JPasswordField(); // Inicialización: NO re-declarar el tipo aquí
-        jTextField4 = new javax.swing.JTextField(); // Usado para Apellido
-        jTextField5 = new javax.swing.JTextField(); // Usado para Nombre
+        jTextField1 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        
-        // Inicializar el nuevo JTextField para email
-        jTextFieldEmail = new javax.swing.JTextField();
-        // Inicializar el JLabel para idCliente
-        jLabelIdCliente = new JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null); // Usar null layout para el content pane
-        getContentPane().setPreferredSize(new java.awt.Dimension(800, 700)); // Establecer tamaño preferido a 800x700 para el content pane
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setLayout(null); // Usar null layout para jPanel1
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 700)); // Establecer tamaño preferido a 800x700 para jPanel1
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        // Botón Regresar
         jButton2.setBackground(new java.awt.Color(248, 243, 243));
-        jButton2.setFont(new java.awt.Font("ROG Fonts", 0, 16)); // Fuente ligeramente más pequeña
+        jButton2.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Atras.png"))); // NOI18N
-        jButton2.setText("REGRESAR"); // Texto completo
+        jButton2.setText("Regresar");
         jButton2.setContentAreaFilled(false);
-        jButton2.setBorderPainted(false); // Eliminar borde
-        jButton2.setFocusPainted(false); // Eliminar el foco al hacer clic
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        // Las bounds se establecerán en adjustComponentPositions() para ser responsivas
-        jPanel1.add(jButton2);
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 230, 60));
 
-        // Título "Perfil de Usuario"
-        jLabel3.setFont(new java.awt.Font("ROG Fonts", 1, 32)); // Fuente ligeramente más pequeña para mejor ajuste
-        jLabel3.setForeground(new java.awt.Color(50, 50, 50)); // Color de texto más oscuro
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); // Centrado horizontalmente
-        jLabel3.setText("PERFIL DE USUARIO"); // Texto completo
-        // Las bounds se establecerán en adjustComponentPositions() para ser responsivas
-        jPanel1.add(jLabel3);
+        jLabel3.setBackground(new java.awt.Color(0, 204, 204));
+        jLabel3.setFont(new java.awt.Font("ROG Fonts", 0, 48)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Usuario");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, 530, 50));
 
-        // Imagen de Perfil
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Perfil_U.png"))); // NOI18N
-        // Las bounds se establecerán en adjustComponentPositions() para ser responsivas
-        jPanel1.add(jLabel2);
+        jLabel6.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Apellido:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, -1, -1));
 
-        // Definir el espaciado vertical entre los campos
-        int yStart = 270; // Posición Y inicial para el primer campo (ID Cliente)
-        int fieldHeight = 26; // Altura de los JTextField
-        int labelHeight = 25; // Altura de los JLabels
-        int verticalGap = 20; // Espacio vertical entre cada par de label/textfield
+        jLabel7.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Correo:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, -1, -1));
 
-        // Labels y TextFields para los datos del usuario
-        // ID Cliente
-        jLabelIdCliente.setFont(new java.awt.Font("Arial", 1, 14)); // Fuente más limpia
-        jLabelIdCliente.setForeground(new java.awt.Color(70, 70, 70));
-        jLabelIdCliente.setText("ID Cliente:");
-        jPanel1.add(jLabelIdCliente);
-        jTextField1.setFont(new java.awt.Font("Arial", 0, 14));
-        jTextField1.setBackground(new Color(230, 230, 230)); // Fondo más claro
-        jTextField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Padding interno
-        jPanel1.add(jTextField1);
+        jLabel8.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel8.setText("Telefono:");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 450, -1, -1));
 
-        // Nombre
-        yStart += fieldHeight + verticalGap;
-        jLabel10.setFont(new java.awt.Font("Arial", 1, 14));
-        jLabel10.setForeground(new java.awt.Color(70, 70, 70));
+        jLabel9.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("Contraseña");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 490, -1, 20));
+
+        jLabel10.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Nombre:");
-        jPanel1.add(jLabel10);
-        jTextField5.setFont(new java.awt.Font("Arial", 0, 14));
-        jTextField5.setBackground(new Color(230, 230, 230));
-        jTextField5.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, -1, -1));
+
+        jTextField1.setText("jTextField1");
+        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 410, 270, -1));
+
+        jTextField3.setText("jTextField1");
+        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, 270, -1));
+
+        jTextField2.setText("jTextField1");
+        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 490, 270, -1));
+
+        jTextField4.setText("jTextField1");
+        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, 270, -1));
+
+        jTextField5.setText("jTextField1");
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField5);
+        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 330, 270, -1));
 
-        // Apellido
-        yStart += fieldHeight + verticalGap;
-        jLabel6.setFont(new java.awt.Font("Arial", 1, 14));
-        jLabel6.setForeground(new java.awt.Color(70, 70, 70));
-        jLabel6.setText("Apellido:");
-        jPanel1.add(jLabel6);
-        jTextField4.setFont(new java.awt.Font("Arial", 0, 14));
-        jTextField4.setBackground(new Color(230, 230, 230));
-        jTextField4.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel1.add(jTextField4);
-
-        // Teléfono
-        yStart += fieldHeight + verticalGap;
-        jLabel8.setFont(new java.awt.Font("Arial", 1, 14));
-        jLabel8.setForeground(new java.awt.Color(70, 70, 70));
-        jLabel8.setText("Telefono:");
-        jPanel1.add(jLabel8);
-        jTextField3.setFont(new java.awt.Font("Arial", 0, 14));
-        jTextField3.setBackground(new Color(230, 230, 230));
-        jTextField3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel1.add(jTextField3);
-
-        // Correo
-        yStart += fieldHeight + verticalGap;
-        jLabel7.setFont(new java.awt.Font("Arial", 1, 14));
-        jLabel7.setForeground(new java.awt.Color(70, 70, 70));
-        jLabel7.setText("Correo:");
-        jPanel1.add(jLabel7);
-        jTextFieldEmail.setFont(new java.awt.Font("Arial", 0, 14));
-        jTextFieldEmail.setBackground(new Color(230, 230, 230));
-        jTextFieldEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel1.add(jTextFieldEmail);
-
-        // Contraseña
-        yStart += fieldHeight + verticalGap;
-        jLabel9.setFont(new java.awt.Font("Arial", 1, 14));
-        jLabel9.setForeground(new java.awt.Color(70, 70, 70));
-        jLabel9.setText("Contraseña:"); // Cambiado para ser más claro
-        jPanel1.add(jLabel9);
-        jPasswordField2.setFont(new java.awt.Font("Arial", 0, 14));
-        jPasswordField2.setBackground(new Color(230, 230, 230));
-        jPasswordField2.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel1.add(jPasswordField2); // Añadido jPasswordField2
-
-        // Botón Editar/Guardar
-        jButton1.setBackground(new java.awt.Color(60, 179, 113)); // Verde menta
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // Fuente más limpia y negrita
-        jButton1.setForeground(new java.awt.Color(255, 255, 255)); // Texto blanco
+        jButton1.setBackground(new java.awt.Color(0, 0, 0));
+        jButton1.setFont(new java.awt.Font("ROG Fonts", 0, 12)); // NOI18N
         jButton1.setText("Editar");
-        jButton1.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-            javax.swing.BorderFactory.createLineBorder(new java.awt.Color(46, 139, 87), 2), // Borde más oscuro
-            javax.swing.BorderFactory.createEmptyBorder(5, 15, 5, 15) // Padding interno
-        ));
-        jButton1.setFocusPainted(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        // Las bounds se establecerán en adjustComponentPositions() para ser responsivas
-        jPanel1.add(jButton1);
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 550, 110, 30));
 
-        getContentPane().add(jPanel1); // Añadir jPanel1 al content pane sin restricciones
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Perfil_U.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 220, 170));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -444,6 +391,7 @@ public class Perfil_User extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -453,10 +401,9 @@ public class Perfil_User extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
-    // Removed duplicate declaration of jPasswordField2
-    // private javax.swing.JPasswordField jPasswordField2; 
     // End of variables declaration//GEN-END:variables
 }
