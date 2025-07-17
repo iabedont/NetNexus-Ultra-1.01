@@ -35,7 +35,7 @@ public class Facturación extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("ROG Fonts", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Facturación");
+        jLabel1.setText("Metodo de pago");
 
         jButton2.setBackground(new java.awt.Color(248, 243, 243));
         jButton2.setFont(new java.awt.Font("ROG Fonts", 0, 18)); // NOI18N
