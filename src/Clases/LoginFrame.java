@@ -14,12 +14,13 @@ public class LoginFrame extends JFrame {
 
     public LoginFrame() {
         setTitle("Login - Sistema de Gestión");
-        setSize(600,250);
+        setSize(600, 300); // Aumenté el alto para el botón de recuperación
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false); // Bloquea el redimensionamiento de la ventana
 
         BackgroundPanel panel = new BackgroundPanel("/Imagenes/fondo.png");
-        panel.setLayout(new GridLayout(5, 2, 5, 5));
+        panel.setLayout(new GridLayout(6, 2, 5, 5)); // Añadí una fila para el botón de recuperación
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         panel.add(new JLabel("Usuario (idCliente):"));
@@ -39,7 +40,6 @@ public class LoginFrame extends JFrame {
         adminRadioButton = new JRadioButton("Administrador");
         techRadioButton = new JRadioButton("Técnico");
 
-        // Establecer fondo transparente
         userRadioButton.setOpaque(false);
         adminRadioButton.setOpaque(false);
         techRadioButton.setOpaque(false);
@@ -47,7 +47,7 @@ public class LoginFrame extends JFrame {
         typeGroup.add(userRadioButton);
         typeGroup.add(adminRadioButton);
         typeGroup.add(techRadioButton);
-        userRadioButton.setSelected(true); // Selecciona "Usuario" por defecto
+        userRadioButton.setSelected(true);
 
         typePanel.add(userRadioButton);
         typePanel.add(adminRadioButton);
@@ -66,6 +66,12 @@ public class LoginFrame extends JFrame {
             dispose();
         });
         panel.add(backButton);
+
+        // Botón para recuperar contraseña
+        JButton recoverPasswordButton = new JButton("Recuperar Contraseña");
+        recoverPasswordButton.addActionListener(e -> showRecoverPasswordDialog());
+        panel.add(recoverPasswordButton);
+        panel.add(new JLabel("")); // Espacio vacío para alinear el layout
 
         add(panel);
     }
@@ -95,14 +101,13 @@ public class LoginFrame extends JFrame {
 
             if (rs.next()) {
                 if (userType.equals("Administrador")) {
-                    // Tu lógica para administrador aquí
                     JOptionPane.showMessageDialog(this,
                         "Inicio de sesión como Administrador.",
                         "Bienvenido",
                         JOptionPane.INFORMATION_MESSAGE);
-                    // Ejemplo: new AdminFrame().setVisible(true); dispose();
+                    new AdminFrame().setVisible(true);
+                    dispose();
                 } else if (userType.equals("Usuario")) {
-                    // MODIFICADO: Crear el objeto Cliente y abrir User_1 con ese objeto
                     Cliente cliente = new Cliente(
                         rs.getInt("idCliente"),
                         rs.getString("nombre"),
@@ -111,15 +116,13 @@ public class LoginFrame extends JFrame {
                         rs.getString("email"),
                         rs.getString("password")
                     );
-                    new GUI_CHIDO.User_1(cliente).setVisible(true);
-                    dispose();
                 } else if (userType.equals("Técnico")) {
-                    // Tu lógica para técnico aquí
                     JOptionPane.showMessageDialog(this,
                         "Inicio de sesión como Técnico.",
                         "Bienvenido",
                         JOptionPane.INFORMATION_MESSAGE);
-                    // Ejemplo: new TechFrame().setVisible(true); dispose();
+                    new TechnicianFrame().setVisible(true);
+                    dispose();
                 }
             } else {
                 JOptionPane.showMessageDialog(this, 
@@ -133,6 +136,60 @@ public class LoginFrame extends JFrame {
                 "Error al conectar con la base de datos.", 
                 "Error", 
                 JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void showRecoverPasswordDialog() {
+        JTextField idField = new JTextField(10);
+        JTextField emailField = new JTextField(20);
+
+        JPanel panel = new JPanel(new GridLayout(0, 1));
+        panel.add(new JLabel("Ingrese su idCliente:"));
+        panel.add(idField);
+        panel.add(new JLabel("Ingrese su email:"));
+        panel.add(emailField);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Recuperar Contraseña",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (result == JOptionPane.OK_OPTION) {
+            String idCliente = idField.getText().trim();
+            String email = emailField.getText().trim();
+
+            if (idCliente.isEmpty() || email.isEmpty()) {
+                JOptionPane.showMessageDialog(this, 
+                    "Por favor complete todos los campos.", 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            try (Connection conn = DatabaseConnection.getConnection()) {
+                String sql = "SELECT password FROM cliente WHERE idCliente = ? AND email = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, idCliente);
+                stmt.setString(2, email);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    String password = rs.getString("password");
+                    JOptionPane.showMessageDialog(this, 
+                        "Su contraseña es: " + password + "\nGuárdela en un lugar seguro.", 
+                        "Recuperación Exitosa", 
+                        JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, 
+                        "No se encontró un usuario con ese idCliente y email.", 
+                        "Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, 
+                    "Error al recuperar la contraseña: " + ex.getMessage(), 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }
