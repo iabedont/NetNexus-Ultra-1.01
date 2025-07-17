@@ -1,7 +1,3 @@
-/*
- * Click nargs://netbeans/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nargs://netbeans/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Clases;
 
 import javax.swing.*;
@@ -21,9 +17,10 @@ public class Registro extends JFrame {
 
     public Registro() {
         setTitle("Registro - Net Nexus Ultra");
-        setSize(600,350); // Aumentamos el ancho a 400 píxeles
+        setSize(600, 350); // Aumentamos el ancho a 400 píxeles
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false); // Bloquea el redimensionamiento de la ventana
 
         BackgroundPanel panel = new BackgroundPanel("/Imagenes/fondo.png");
         panel.setLayout(new GridLayout(9, 2, 5, 5)); // Mantenemos el layout actual
