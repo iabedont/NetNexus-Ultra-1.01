@@ -1,9 +1,19 @@
 /*
- * Click nbproject://SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbproject://SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI_CHIDO;
 
+import Clases.BackgroundPanel;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.logging.Level;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 /**
@@ -15,16 +25,47 @@ public class TeleMovil extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TeleMovil.class.getName());
     private JFrame parentFrame;
 
+    // Componentes de la interfaz de usuario
+    private BackgroundPanel backgroundPanel;
+    private javax.swing.JButton jButton1; // Plan Smart
+    private javax.swing.JButton jButton2; // Regresar
+    private javax.swing.JButton jButton3; // Plan Prepago
+    private javax.swing.JButton jButton4; // Plan Pro Global
+    private javax.swing.JLabel jLabel1; // Título "¡Tu próxima gran experiencia..."
+    private javax.swing.JLabel jLabel10; // "Sin contratos largos..."
+    private javax.swing.JLabel jLabel11; // "Soporte técnico..."
+    private javax.swing.JLabel jLabel12; // "Puedes conservar tu número..."
+    private javax.swing.JLabel jLabel2; // "...comienza seleccionando el plan ideal!"
+    private javax.swing.JLabel jLabel3; // "Internet y comunicación..."
+    private javax.swing.JLabel jLabel4; // "Todos nuestros planes incluyen:"
+    private javax.swing.JLabel jLabel5; // "Red 4G LTE..."
+    private javax.swing.JLabel jLabel6; // "Cobertura nacional..."
+    private javax.swing.JLabel jLabel7; // "Seguridad de navegación..."
+    private javax.swing.JLabel jLabel8; // "Promociones exclusivas..."
+    private javax.swing.JLabel jLabel9; // "Cambios de plan..."
+
     /**
      * Creates new form TeleMovil
      */
     public TeleMovil() {
         initComponents();
+        this.setSize(800, 750); // Ajustar tamaño
+        this.setLocationRelativeTo(null); // Centrar
+
+        // Add ComponentListener for responsiveness
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                adjustComponentPositions();
+            }
+        });
+
+        adjustComponentPositions(); // Ajustar posiciones inicialmente
     }
 
     public TeleMovil(JFrame parentFrame) {
+        this(); // Llama al constructor sin argumentos para inicializar componentes
         this.parentFrame = parentFrame;
-        initComponents();
     }
 
     /**
@@ -34,7 +75,12 @@ public class TeleMovil extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     private void initComponents() {
+        // Inicialización del BackgroundPanel como content pane
+        backgroundPanel = new BackgroundPanel("/Imagenes/fondo.png");
+        backgroundPanel.setLayout(null); // Usamos un layout nulo para posicionamiento absoluto
+        this.setContentPane(backgroundPanel); // Establecer como content pane
 
+        // Inicialización de componentes (ahora se añadirán a backgroundPanel)
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -53,90 +99,123 @@ public class TeleMovil extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setLayout(null);
+        setTitle("Planes de Telefonía Móvil");
 
-        jLabel5.setText("🚀 Red 4G LTE (y 5G donde esté disponible)");
-        jLabel5.setBounds(41, 184, 249, 16);
-
-        jLabel6.setText("📶 Cobertura nacional + Roaming inteligente");
-        jLabel6.setBounds(41, 212, 261, 16);
-
-        jLabel7.setText("🔒 Seguridad de navegación incluida");
-        jLabel7.setBounds(41, 248, 347, 16);
-
-        jLabel8.setText("🎁 Promociones exclusivas para nuevos usuarios");
-        jLabel8.setBounds(41, 284, 274, 16);
-
-        jLabel9.setText("✅ Cambios de plan cuando quieras, sin costo");
-        jLabel9.setBounds(462, 184, 299, 16);
-
-        jButton2.setBackground(new java.awt.Color(248, 243, 243));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 36));
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Atras.png")));
+        // Botón Regresar
+        jButton2.setBackground(new Color(90, 150, 200)); // Azul suave
+        jButton2.setFont(new Font("Segoe UI", Font.BOLD, 22)); // Fuente más grande
+        jButton2.setForeground(Color.WHITE);
+        
+        // Cargar y escalar el icono si existe
+        try {
+            ImageIcon atrasIcon = new ImageIcon(getClass().getResource("/Imagenes/Atras.png"));
+            if (atrasIcon.getImageLoadStatus() == MediaTracker.COMPLETE) {
+                Image img = atrasIcon.getImage();
+                Image scaledImg = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH); // Escalar icono más grande
+                jButton2.setIcon(new ImageIcon(scaledImg));
+            } else {
+                logger.log(Level.WARNING, "Imagen 'Atras.png' no encontrada. Usando solo texto para el botón Regresar.");
+            }
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Error al cargar la imagen 'Atras.png': " + e.getMessage());
+        }
+        
         jButton2.setText("Regresar");
         jButton2.setContentAreaFilled(false);
+        jButton2.setBorderPainted(false);
+        jButton2.setFocusPainted(false);
         jButton2.addActionListener(evt -> jButton2ActionPerformed(evt));
-        jButton2.setBounds(21, 17, 263, 60);
+        backgroundPanel.add(jButton2);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36));
+        // Títulos principales
+        jLabel1.setFont(new Font("Segoe UI", Font.BOLD, 30));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("¡Tu próxima gran experiencia ");
-        jLabel1.setBounds(76, 91, 557, 48);
+        jLabel1.setForeground(new Color(30, 50, 70));
+        backgroundPanel.add(jLabel1);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 36));
+        jLabel2.setFont(new Font("Segoe UI", Font.BOLD, 30));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("comienza seleccionando el plan ideal!");
-        jLabel2.setBounds(41, 139, 622, 48);
+        jLabel2.setForeground(new Color(30, 50, 70));
+        backgroundPanel.add(jLabel2);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Plan_Smart-removebg-preview.png")));
-        jButton1.setContentAreaFilled(false);
-        jButton1.setBounds(62, 408, 213, 84);
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Plan_Prepago-removebg-preview.png")));
-        jButton3.setBorderPainted(false);
-        jButton3.setContentAreaFilled(false);
-        jButton3.setBounds(258, 345, 197, 63);
-
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Plan_Pro_Global-removebg-preview.png")));
-        jButton4.setContentAreaFilled(false);
-        jButton4.setBounds(525, 408, 218, 90);
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        jLabel3.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Internet y comunicación en tu bolsillo, al mejor precio");
-        jLabel3.setBounds(132, 187, 507, 25);
+        jLabel3.setForeground(new Color(30, 50, 70));
+        backgroundPanel.add(jLabel3);
 
+        // Características de los planes
+        jLabel4.setFont(new Font("Segoe UI", Font.BOLD, 16));
         jLabel4.setText("💡 Todos nuestros planes incluyen:");
-        jLabel4.setBounds(41, 166, 192, 16);
+        jLabel4.setForeground(new Color(30, 50, 70));
+        backgroundPanel.add(jLabel4);
+
+        jLabel5.setText("🚀 Red 4G LTE (y 5G donde esté disponible)");
+        jLabel5.setForeground(new Color(30, 50, 70));
+        backgroundPanel.add(jLabel5);
+
+        jLabel6.setText("📶 Cobertura nacional + Roaming inteligente");
+        jLabel6.setForeground(new Color(30, 50, 70));
+        backgroundPanel.add(jLabel6);
+
+        jLabel7.setText("🔒 Seguridad de navegación incluida");
+        jLabel7.setForeground(new Color(30, 50, 70));
+        backgroundPanel.add(jLabel7);
+
+        jLabel8.setText("🎁 Promociones exclusivas para nuevos usuarios");
+        jLabel8.setForeground(new Color(30, 50, 70));
+        backgroundPanel.add(jLabel8);
+
+        jLabel9.setText("✅ Cambios de plan cuando quieras, sin costo");
+        jLabel9.setForeground(new Color(30, 50, 70));
+        backgroundPanel.add(jLabel9);
 
         jLabel10.setText("✅ Sin contratos largos ni sorpresas en la factura");
-        jLabel10.setBounds(462, 212, 299, 16);
+        jLabel10.setForeground(new Color(30, 50, 70));
+        backgroundPanel.add(jLabel10);
 
         jLabel11.setText("✅ Soporte técnico por WhatsApp 24/7");
-        jLabel11.setBounds(462, 248, 299, 16);
+        jLabel11.setForeground(new Color(30, 50, 70));
+        backgroundPanel.add(jLabel11);
 
         jLabel12.setText("✅ Puedes conservar tu número actual (portabilidad gratis)");
-        jLabel12.setBounds(447, 284, 314, 16);
+        jLabel12.setForeground(new Color(30, 50, 70));
+        backgroundPanel.add(jLabel12);
 
-        add(jLabel5);
-        add(jLabel6);
-        add(jLabel7);
-        add(jLabel8);
-        add(jLabel9);
-        add(jButton2);
-        add(jLabel1);
-        add(jLabel2);
-        add(jButton1);
-        add(jButton3);
-        add(jButton4);
-        add(jLabel3);
-        add(jLabel4);
-        add(jLabel10);
-        add(jLabel11);
-        add(jLabel12);
+        // Botones de planes (con carga de imagen robusta y estilo)
+        setupPlanButton(jButton3, "/Imagenes/Plan_Prepago-removebg-preview.png", "Plan Prepago");
+        backgroundPanel.add(jButton3);
+
+        setupPlanButton(jButton1, "/Imagenes/Plan_Smart-removebg-preview.png", "Plan Smart");
+        backgroundPanel.add(jButton1);
+
+        setupPlanButton(jButton4, "/Imagenes/Plan_Pro_Global-removebg-preview.png", "Plan Pro Global");
+        backgroundPanel.add(jButton4);
 
         pack();
+    }
+
+    // Método auxiliar para configurar botones de plan
+    private void setupPlanButton(JButton button, String imagePath, String fallbackText) {
+        try {
+            ImageIcon planIcon = new ImageIcon(getClass().getResource(imagePath));
+            if (planIcon.getImageLoadStatus() == MediaTracker.COMPLETE) {
+                Image img = planIcon.getImage();
+                Image scaledImg = img.getScaledInstance(180, 180, Image.SCALE_SMOOTH); // Escalar icono
+                button.setIcon(new ImageIcon(scaledImg));
+            } else {
+                logger.log(Level.WARNING, "Imagen '{0}' no encontrada. Usando texto de marcador para el botón.", imagePath);
+                button.setText(fallbackText);
+            }
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Error al cargar la imagen '{0}': {1}", new Object[]{imagePath, e.getMessage()});
+            button.setText(fallbackText);
+        }
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,6 +223,57 @@ public class TeleMovil extends javax.swing.JFrame {
         if (parentFrame != null) {
             parentFrame.setVisible(true);
         }
+    }
+
+    private void adjustComponentPositions() {
+        int newWidth = getContentPane().getWidth();
+        int newHeight = getContentPane().getHeight();
+
+        // Botón Regresar (más grande y más a la esquina)
+        int regresarButtonWidth = 240;
+        int regresarButtonHeight = 65;
+        jButton2.setBounds(10, 10, regresarButtonWidth, regresarButtonHeight);
+
+        // Títulos principales
+        int titleWidth = newWidth - 100;
+        jLabel1.setBounds(50, 90, titleWidth, 40);
+        jLabel2.setBounds(50, jLabel1.getY() + jLabel1.getHeight(), titleWidth, 40);
+        jLabel3.setBounds(50, jLabel2.getY() + jLabel2.getHeight() + 10, titleWidth, 30);
+
+        // Características de los planes (ajustar posiciones y espaciado)
+        int featureCol1X = 50;
+        int featureCol2X = newWidth / 2 + 30;
+        int featureStartY = jLabel3.getY() + jLabel3.getHeight() + 30;
+        int featureLineHeight = 28;
+
+        jLabel4.setBounds(featureCol1X, featureStartY, 400, 20);
+        jLabel5.setBounds(featureCol1X + 20, featureStartY + featureLineHeight, 300, 20);
+        jLabel9.setBounds(featureCol2X, featureStartY + featureLineHeight, 300, 20);
+
+        jLabel6.setBounds(featureCol1X + 20, featureStartY + (2 * featureLineHeight), 300, 20);
+        jLabel10.setBounds(featureCol2X, featureStartY + (2 * featureLineHeight), 300, 20);
+
+        jLabel7.setBounds(featureCol1X + 20, featureStartY + (3 * featureLineHeight), 380, 20);
+        jLabel11.setBounds(featureCol2X, featureStartY + (3 * featureLineHeight), 300, 20);
+
+        jLabel8.setBounds(featureCol1X + 20, featureStartY + (4 * featureLineHeight), 300, 20);
+        jLabel12.setBounds(featureCol2X, featureStartY + (4 * featureLineHeight), 300, 20);
+
+        // Botones de planes (centrados y espaciados)
+        int planButtonWidth = 200;
+        int planButtonHeight = 200;
+        int planButtonY = featureStartY + (5 * featureLineHeight) + 50;
+
+        int gapBetweenButtons = 40;
+        int totalButtonsWidth = (3 * planButtonWidth) + (2 * gapBetweenButtons);
+        int startX = (newWidth - totalButtonsWidth) / 2;
+
+        jButton3.setBounds(startX, planButtonY, planButtonWidth, planButtonHeight); // Básico
+        jButton1.setBounds(startX + planButtonWidth + gapBetweenButtons, planButtonY, planButtonWidth, planButtonHeight); // Estándar
+        jButton4.setBounds(startX + (2 * planButtonWidth) + (2 * gapBetweenButtons), planButtonY, planButtonWidth, planButtonHeight); // Ultra
+
+        backgroundPanel.revalidate();
+        backgroundPanel.repaint();
     }
 
     /**
@@ -165,23 +295,4 @@ public class TeleMovil extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new TeleMovil().setVisible(true));
     }
-
-    // Variables declaration
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    // End of variables declaration
 }

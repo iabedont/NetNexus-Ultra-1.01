@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package GUI_CHIDO;
 
 import java.awt.event.ActionEvent;
@@ -20,6 +16,11 @@ import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JOptionPane; // Import JOptionPane for error messages
+import javax.swing.ImageIcon; // Import ImageIcon
+import java.awt.Image; // Import java.awt.Image
+import java.awt.MediaTracker; // Import java.awt.MediaTracker
+import java.util.logging.Level; // Import java.util.logging.Level
+import javax.swing.BorderFactory; // Importar BorderFactory
 
 /**
  *
@@ -31,6 +32,11 @@ public class ContratosActivos extends javax.swing.JFrame {
     private DefaultTableModel tableModel; // Declare tableModel
     private int currentClienteId; // New field to store the logged-in client ID
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ContratosActivos.class.getName());
+
+    // Declarar el BackgroundPanel. Los otros componentes (jButton2, jScrollPane1, jTable1)
+    // son declarados automáticamente en la sección "variables declaration" por el Form Editor.
+    private BackgroundPanel backgroundPanel;
+
 
     /**
      * Creates new form ContratosActivos
@@ -49,8 +55,8 @@ public class ContratosActivos extends javax.swing.JFrame {
         }
         
         initComponents();
-        this.setLocationRelativeTo(null); // Center the frame
         this.setSize(800, 600); // Set a larger initial size for the frame
+        this.setLocationRelativeTo(null); // Center the frame
         
         // Add ComponentListener for responsiveness
         this.addComponentListener(new ComponentAdapter() {
@@ -74,34 +80,47 @@ public class ContratosActivos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        // Use BackgroundPanel for jPanel1
-        jPanel1 = new BackgroundPanel("/Imagenes/fondo.png");
+        // Inicializar BackgroundPanel como content pane
+        backgroundPanel = new BackgroundPanel("/Imagenes/fondo.png");
+        backgroundPanel.setLayout(null); // Usar null layout para posicionamiento absoluto
+        this.setContentPane(backgroundPanel); // Establecer como content pane
+
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null); // Use null layout
-        getContentPane().setPreferredSize(new java.awt.Dimension(800, 600)); // Set preferred size
-
-        jPanel1.setLayout(null); // Use null layout for jPanel1
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 600)); // Set preferred size for jPanel1
+        setTitle("Contratos Activos"); // Título de la ventana
 
         // Button Regresar
-        jButton2.setBackground(new java.awt.Color(248, 243, 243));
-        jButton2.setFont(new java.awt.Font("ROG Fonts", 0, 16)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Atras.png"))); // NOI18N
+        jButton2.setBackground(new Color(90, 150, 200)); // Azul suave
+        jButton2.setFont(new Font("Segoe UI", Font.BOLD, 18)); // Fuente más moderna
+        jButton2.setForeground(Color.WHITE);
+        
+        // Cargar y escalar el icono si existe
+        try {
+            ImageIcon atrasIcon = new ImageIcon(getClass().getResource("/Imagenes/Atras.png"));
+            if (atrasIcon.getImageLoadStatus() == MediaTracker.COMPLETE) {
+                Image img = atrasIcon.getImage();
+                Image scaledImg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH); // Escalar icono
+                jButton2.setIcon(new ImageIcon(scaledImg));
+            } else {
+                logger.log(Level.WARNING, "Imagen 'Atras.png' no encontrada. Usando solo texto para el botón Regresar.");
+            }
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Error al cargar la imagen 'Atras.png': " + e.getMessage());
+        }
+        
         jButton2.setText("Regresar");
-        jButton2.setContentAreaFilled(false);
-        jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false); // Mantener transparente para ver el fondo
+        jButton2.setBorderPainted(false); // No pintar borde por defecto
         jButton2.setFocusPainted(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2); // Bounds will be set in adjustComponentPositions()
+        backgroundPanel.add(jButton2); // Añadir a backgroundPanel
 
         // Table Model Setup
         String[] columnNames = {"ID Contrato", "ID Cliente", "Fecha Inicio", "Fecha Fin", "Monto Total", "Tipo Servicio"};
@@ -112,17 +131,21 @@ public class ContratosActivos extends javax.swing.JFrame {
             }
         };
         jTable1.setModel(tableModel);
-        jTable1.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        jTable1.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14)); // Fuente para encabezado
         jTable1.getTableHeader().setBackground(new Color(173, 216, 230)); // Light blue header
+        jTable1.getTableHeader().setForeground(new Color(30, 50, 70)); // Texto oscuro para encabezado
         jTable1.setRowHeight(25);
         jTable1.setFillsViewportHeight(true); // Make table fill the scroll pane
-        jTable1.setBackground(new Color(240, 248, 255)); // Alice Blue background for table
+        jTable1.setBackground(new Color(240, 248, 255)); // Alice Blue background for table (celeste muy claro)
         jTable1.setForeground(new Color(50, 50, 50)); // Dark text color
+        jTable1.setSelectionBackground(new Color(150, 200, 230)); // Azul pastel para selección
+        jTable1.setSelectionForeground(Color.WHITE); // Texto blanco en selección
 
         jScrollPane1.setViewportView(jTable1);
-        jPanel1.add(jScrollPane1); // Bounds will be set in adjustComponentPositions()
-
-        getContentPane().add(jPanel1); // Add jPanel1 to content pane
+        // La línea que causaba el error se moverá o se asegurará que se ejecute después de la inicialización
+        // del componente. Si el error persiste, puede ser un problema de carga del .form.
+        jScrollPane1.setBorder(BorderFactory.createLineBorder(new Color(180, 210, 230), 1)); // Borde pastel para el scroll pane
+        backgroundPanel.add(jScrollPane1); // Añadir a backgroundPanel
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -180,9 +203,6 @@ public class ContratosActivos extends javax.swing.JFrame {
         int newWidth = getContentPane().getWidth();
         int newHeight = getContentPane().getHeight();
 
-        // Adjust jPanel1 to fill the content pane
-        jPanel1.setBounds(0, 0, newWidth, newHeight);
-
         // Adjust jButton2 (Regresar)
         int buttonWidth = 200;
         int buttonHeight = 50;
@@ -199,8 +219,8 @@ public class ContratosActivos extends javax.swing.JFrame {
         jScrollPane1.setBounds(tableX, tableY, tableWidth, tableHeight);
 
         // Revalidate and repaint the panel
-        jPanel1.revalidate();
-        jPanel1.repaint();
+        backgroundPanel.revalidate();
+        backgroundPanel.repaint();
     }
 
     /**
@@ -231,7 +251,6 @@ public class ContratosActivos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
-    private javax.swing.JPanel jPanel1; // Now BackgroundPanel
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

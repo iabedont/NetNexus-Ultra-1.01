@@ -439,6 +439,34 @@ public class TechnicianFrame extends JFrame {
         }
     }
 
+    /**
+     * Retrieves a list of available vehicles from the database.
+     * This method is static so it can be called directly from other classes like AdminFrame.
+     * @return A List of Strings, each representing an available vehicle with its details.
+     */
+    public static List<String> getAvailableVehicles() {
+        List<String> availableVehicles = new ArrayList<>();
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "SELECT idVehiculos, modelo, placa, color, ruta FROM vehiculos WHERE estado = 'disponible'";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("idVehiculos");
+                String modelo = rs.getString("modelo");
+                String placa = rs.getString("placa");
+                String color = rs.getString("color");
+                String ruta = rs.getString("ruta");
+                availableVehicles.add(String.format("Vehículo %d: %s, Placa: %s, Color: %s, Ruta: %s", id, modelo, placa, color, ruta));
+            }
+        } catch (SQLException e) {
+            // Log the error but don't show a JOptionPane here, as this is a static utility method.
+            // The calling method (e.g., in AdminFrame) should handle the error display.
+            System.err.println("Error al obtener vehículos disponibles: " + e.getMessage());
+        }
+        return availableVehicles;
+    }
+
+
     public static List<String> getAssignedEquipment() {
         return assignedEquipment;
     }
