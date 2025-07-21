@@ -115,7 +115,14 @@ public class LoginFrame extends JFrame {
                         rs.getString("email"),
                         rs.getString("password")
                     );
-                    new GUI_CHIDO.User_1(cliente).setVisible(true); // <-- Abre User_1 y le pasa el usuario
+                    
+                    JOptionPane.showMessageDialog(this,
+                        "Inicio de sesión exitoso.\nBienvenido " + cliente.getNombre() + " " + cliente.getApellido(),
+                        "Login Exitoso",
+                        JOptionPane.INFORMATION_MESSAGE);
+                    
+                    // Usar versión temporal funcional
+                    new GUI_CHIDO.User_1_Temp(cliente).setVisible(true);
                     dispose();
                 } else if (userType.equals("Técnico")) {
                     JOptionPane.showMessageDialog(this,
