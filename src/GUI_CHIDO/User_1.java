@@ -172,9 +172,13 @@ public class User_1 extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // Abrir la ventana de Servicios
-        Servicios serviciosFrame = new Servicios(this); // Pasa la instancia actual de User_1 como parentFrame
-        serviciosFrame.setVisible(true);
-        this.dispose(); // Ocultar la ventana actual (User_1)
+        if (currentUser != null) {
+            Servicios serviciosFrame = new Servicios(this, currentUser.getIdCliente()); // Pasa el ID del cliente
+            serviciosFrame.setVisible(true);
+            this.dispose(); // Ocultar la ventana actual (User_1)
+        } else {
+            JOptionPane.showMessageDialog(this, "Error: No se ha encontrado información del usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }                                        
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
