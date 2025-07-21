@@ -1,8 +1,8 @@
 package Clases;
 
-import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
+import javax.swing.*;
 
 public class Registro extends JFrame {
     private JTextField idClienteField;
@@ -11,20 +11,25 @@ public class Registro extends JFrame {
     private JTextField phoneField;
     private JTextField emailField;
     private JPasswordField passwordField;
-    private JRadioButton userRadioButton;
-    private JRadioButton adminRadioButton;
-    private JRadioButton techRadioButton;
 
     public Registro() {
         setTitle("Registro - Net Nexus Ultra");
-        setSize(600, 350); // Aumentamos el ancho a 400 píxeles
+        setSize(600, 300); // Reducido el alto porque eliminamos la selección de tipo
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setResizable(false); // Bloquea el redimensionamiento de la ventana
+        setResizable(false);
 
         BackgroundPanel panel = new BackgroundPanel("/Imagenes/fondo.png");
-        panel.setLayout(new GridLayout(9, 2, 5, 5)); // Mantenemos el layout actual
+        panel.setLayout(new GridLayout(8, 2, 5, 5)); // Reducido a 8 filas
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Título
+        JLabel titleLabel = new JLabel("Registro de Usuario");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(titleLabel);
+        panel.add(new JLabel("")); // Espacio vacío
 
         panel.add(new JLabel("idCliente:"));
         idClienteField = new JTextField();
@@ -42,7 +47,7 @@ public class Registro extends JFrame {
         phoneField = new JTextField();
         panel.add(phoneField);
 
-        panel.add(new JLabel("Correo electrónico (Usuario):"));
+        panel.add(new JLabel("Correo electrónico:"));
         emailField = new JTextField();
         panel.add(emailField);
 
@@ -50,33 +55,10 @@ public class Registro extends JFrame {
         passwordField = new JPasswordField();
         panel.add(passwordField);
 
-        // Panel para los radio buttons
-        JPanel typePanel = new JPanel(new FlowLayout());
-        typePanel.setOpaque(false);
-
-        ButtonGroup typeGroup = new ButtonGroup();
-        userRadioButton = new JRadioButton("Usuario");
-        adminRadioButton = new JRadioButton("Administrador");
-        techRadioButton = new JRadioButton("Técnico");
-
-        // Establecer fondo transparente
-        userRadioButton.setOpaque(false);
-        adminRadioButton.setOpaque(false);
-        techRadioButton.setOpaque(false);
-
-        typeGroup.add(userRadioButton);
-        typeGroup.add(adminRadioButton);
-        typeGroup.add(techRadioButton);
-        userRadioButton.setSelected(true); // Selecciona "Usuario" por defecto
-
-        typePanel.add(userRadioButton);
-        typePanel.add(adminRadioButton);
-        typePanel.add(techRadioButton);
-
-        panel.add(new JLabel("Tipo de usuario:"));
-        panel.add(typePanel);
-
-        JButton submitButton = new JButton("Registrar");
+        JButton submitButton = new JButton("Registrar Usuario");
+        submitButton.setBackground(new Color(70, 130, 180));
+        submitButton.setForeground(Color.WHITE);
+        submitButton.setFocusPainted(false);
         submitButton.addActionListener(e -> registerUser());
         panel.add(submitButton);
 
@@ -97,13 +79,11 @@ public class Registro extends JFrame {
         String phone = phoneField.getText();
         String email = emailField.getText();
         String password = new String(passwordField.getPassword());
-        String userType = userRadioButton.isSelected() ? "Usuario" : 
-                         adminRadioButton.isSelected() ? "Administrador" : 
-                         techRadioButton.isSelected() ? "Técnico" : null;
+        String userType = "Usuario"; // Siempre registra como Usuario
 
-        if (idCliente.isEmpty() || name.isEmpty() || lastName.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty() || userType == null) {
+        if (idCliente.isEmpty() || name.isEmpty() || lastName.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
-                "Por favor complete todos los campos y seleccione un tipo de usuario", 
+                "Por favor complete todos los campos", 
                 "Error", 
                 JOptionPane.ERROR_MESSAGE);
             return;
@@ -130,7 +110,7 @@ public class Registro extends JFrame {
             stmt.executeUpdate();
 
             JOptionPane.showMessageDialog(this, 
-                "Registro exitoso. Su ID de Cliente es: " + idCliente + ". Ahora puede iniciar sesión.", 
+                "Registro exitoso como Usuario. Su ID de Cliente es: " + idCliente + ".\nAhora puede iniciar sesión.", 
                 "Éxito", 
                 JOptionPane.INFORMATION_MESSAGE);
             new Bienvenida().setVisible(true);

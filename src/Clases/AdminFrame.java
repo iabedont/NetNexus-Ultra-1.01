@@ -4,12 +4,11 @@
  */
 package Clases;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.print.DocFlavor.URL;
+import javax.swing.*;
 
 public class AdminFrame extends JFrame {
     private final Map<String, String> equipmentStatus = new HashMap<>(); // Para rastrear el estado de cada equipo
@@ -23,19 +22,8 @@ public class AdminFrame extends JFrame {
 
         // Panel principal con fondo "fondo.png"
         JPanel mainPanel = new BackgroundPanel("/Imagenes/fondo.png");
-        mainPanel.setLayout(new GridLayout(1, 4)); // 1 row, 4 columns to span the screen
+        mainPanel.setLayout(new GridLayout(1, 4)); // Cambiado a 4 columnas (quitamos datos de usuario)
         mainPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-
-        // Button for Datos del Usuario
-        JButton userButton = new JButton();
-        userButton.setIcon(new ImageIcon(getClass().getResource("/Imagenes/Datos del usuario.png")));
-        userButton.setBorderPainted(false);
-        userButton.setContentAreaFilled(false);
-        userButton.setFocusPainted(false);
-        userButton.addActionListener(e -> {
-            new UserDataWindow().setVisible(true);
-        });
-        mainPanel.add(userButton);
 
         // Button for Equipos de Técnicos
         JButton equipmentButton = new JButton();
@@ -70,6 +58,27 @@ public class AdminFrame extends JFrame {
         });
         mainPanel.add(vehicleButton);
 
+        // Button for Gestión de Roles - NUEVO
+        JButton roleManagementButton = new JButton();
+        // Si no tienes imagen para roles, usaremos texto
+        try {
+            roleManagementButton.setIcon(new ImageIcon(getClass().getResource("/Imagenes/GestionRoles.png")));
+            roleManagementButton.setBorderPainted(false);
+            roleManagementButton.setContentAreaFilled(false);
+        } catch (Exception ex) {
+            // Si no hay imagen, usar texto
+            roleManagementButton.setText("<html><center>Gestión<br>de Roles</center></html>");
+            roleManagementButton.setFont(new Font("Arial", Font.BOLD, 14));
+            roleManagementButton.setForeground(Color.WHITE);
+            roleManagementButton.setBackground(new Color(220, 20, 60));
+            roleManagementButton.setOpaque(true);
+        }
+        roleManagementButton.setFocusPainted(false);
+        roleManagementButton.addActionListener(e -> {
+            new UserRoleManagementFrame().setVisible(true);
+        });
+        mainPanel.add(roleManagementButton);
+
         add(mainPanel);
 
         // Botón de cerrar sesión con imagen, tamaño ajustado al ícono
@@ -93,7 +102,7 @@ public class AdminFrame extends JFrame {
             }
         });
         logoutButton.addActionListener(e -> {
-            new LoginFrame().setVisible(true);
+            new Bienvenida().setVisible(true);
             dispose();
         });
         add(logoutButton, BorderLayout.SOUTH);

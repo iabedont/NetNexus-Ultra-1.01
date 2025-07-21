@@ -11,120 +11,314 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TechnicianFrame extends JFrame {
-    private static List<String> assignedEquipment = new ArrayList<>();
-    private static List<String> vehicleRequests = new ArrayList<>();
+    private static final List<String> assignedEquipment = new ArrayList<>();
+    private static final List<String> vehicleRequests = new ArrayList<>();
     private final Map<String, String> equipmentStatus = new HashMap<>(); // Para rastrear el estado de cada equipo
     private final Map<String, Integer> equipmentStock = new HashMap<>(); // Para rastrear el stock de cada equipo
 
     public TechnicianFrame() {
-        setTitle("Panel de Técnico - Net Nexus Ultra");
-        setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximize the window
+        setTitle("Panel de Técnico - NetNexus Ultra");
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Panel principal con fondo "fondo.png"
+        // Panel principal con fondo personalizado
         JPanel mainPanel = new BackgroundPanel("/Imagenes/fondo.png");
         if (mainPanel == null) {
-            mainPanel = new JPanel(); // Fallback si la imagen no carga
-            mainPanel.setBackground(Color.GRAY);
+            mainPanel = new JPanel();
+            mainPanel.setBackground(new Color(45, 45, 45));
         }
-        mainPanel.setLayout(new GridLayout(1, 3)); // 1 row, 3 columns to span the screen
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        mainPanel.setLayout(new BorderLayout());
 
-        // Button for Equipos de Técnicos
-        JButton equipmentButton = new JButton();
-        ImageIcon equipmentIcon = new ImageIcon(getClass().getResource("/Imagenes/Equipos de Técnicos.png"));
-        if (equipmentIcon.getImage() != null) {
-            equipmentButton.setIcon(equipmentIcon);
-        } else {
-            equipmentButton.setText("Equipos");
-        }
-        equipmentButton.setBorderPainted(false);
-        equipmentButton.setContentAreaFilled(false);
-        equipmentButton.setFocusPainted(false);
-        equipmentButton.addActionListener(e -> {
-            new EquipmentWindow().setVisible(true);
-        });
-        mainPanel.add(equipmentButton);
+        // Panel superior con título
+        JPanel headerPanel = createHeaderPanel();
+        mainPanel.add(headerPanel, BorderLayout.NORTH);
 
-        // Button for Vehículos
-        JButton vehicleButton = new JButton();
-        ImageIcon vehicleIcon = new ImageIcon(getClass().getResource("/Imagenes/Vehiculos.png"));
-        if (vehicleIcon.getImage() != null) {
-            vehicleButton.setIcon(vehicleIcon);
-        } else {
-            vehicleButton.setText("Vehículos");
-        }
-        vehicleButton.setBorderPainted(false);
-        vehicleButton.setContentAreaFilled(false);
-        vehicleButton.setFocusPainted(false);
-        vehicleButton.addActionListener(e -> {
-            new VehicleWindow().setVisible(true);
-        });
-        mainPanel.add(vehicleButton);
+        // Panel central con botones principales
+        JPanel centerPanel = createCenterPanel();
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
 
-        // Button for Planes y Servicios (solo para técnicos)
-        JButton plansButton = new JButton();
-        ImageIcon plansIcon = new ImageIcon(getClass().getResource("/Imagenes/Planes y Servicios.png"));
-        if (plansIcon.getImage() != null) {
-            plansButton.setIcon(plansIcon);
-        } else {
-            plansButton.setText("Planes");
-        }
-        plansButton.setBorderPainted(false);
-        plansButton.setContentAreaFilled(false);
-        plansButton.setFocusPainted(false);
-        plansButton.addActionListener(e -> {
-            new PlansWindow().setVisible(true); // Restringido implícitamente a TechnicianFrame
-        });
-        mainPanel.add(plansButton);
+        // Panel inferior con logout
+        JPanel footerPanel = createFooterPanel();
+        mainPanel.add(footerPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
-
-        // Botón de cerrar sesión con imagen
-        JButton logoutButton = new JButton();
-        ImageIcon logoutIcon = new ImageIcon(getClass().getResource("/Imagenes/Cerrar_S-removebg-preview (3) (1).png"));
-        if (logoutIcon.getImage() != null) {
-            Image img = logoutIcon.getImage();
-            logoutButton.setIcon(new ImageIcon(img));
-            logoutButton.setBorderPainted(false);
-            logoutButton.setContentAreaFilled(false);
-        } else {
-            logoutButton.setText("Cerrar Sesión");
-        }
-        logoutButton.setFocusPainted(false);
-        logoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                logoutButton.setForeground(new Color(70, 170, 255));
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                logoutButton.setForeground(Color.WHITE);
-            }
-        });
-        logoutButton.addActionListener(e -> {
-            new LoginFrame().setVisible(true);
-            dispose();
-        });
-        add(logoutButton, BorderLayout.SOUTH);
     }
 
-    // Inner class for Equipment window
+    private JPanel createHeaderPanel() {
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setOpaque(false);
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+
+        // Título principal
+        JLabel titleLabel = new JLabel("Panel de Técnico - NetNexus Ultra", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        titleLabel.setForeground(Color.WHITE);
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+
+        // Información de bienvenida
+        JLabel welcomeLabel = new JLabel("Gestión de Equipos y Vehículos Técnicos", SwingConstants.CENTER);
+        welcomeLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        welcomeLabel.setForeground(new Color(220, 220, 220));
+        headerPanel.add(welcomeLabel, BorderLayout.SOUTH);
+
+        return headerPanel;
+    }
+
+    private JPanel createCenterPanel() {
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        centerPanel.setOpaque(false);
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(20, 20, 20, 20);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+
+        // Panel de Equipos
+        JPanel equipmentPanel = createModernCardPanel(
+            "Equipos de Técnicos",
+            "Gestionar inventario y asignaciones",
+            "/Imagenes/Equipos de Técnicos.png",
+            new Color(76, 175, 80),
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    new EquipmentWindow().setVisible(true);
+                }
+            }
+        );
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        centerPanel.add(equipmentPanel, gbc);
+
+        // Panel de Vehículos
+        JPanel vehiclePanel = createModernCardPanel(
+            "Vehículos",
+            "Control de vehículos y solicitudes",
+            "/Imagenes/Vehiculos.png",
+            new Color(33, 150, 243),
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    new VehicleWindow().setVisible(true);
+                }
+            }
+        );
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        centerPanel.add(vehiclePanel, gbc);
+
+        // Panel de Planes y Servicios
+        JPanel plansPanel = createModernCardPanel(
+            "Planes y Servicios",
+            "Consultar servicios disponibles",
+            "/Imagenes/Planes y Servicios.png",
+            new Color(156, 39, 176),
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    new PlansWindow().setVisible(true);
+                }
+            }
+        );
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        centerPanel.add(plansPanel, gbc);
+
+        return centerPanel;
+    }
+
+    private JPanel createModernCardPanel(String title, String description, String iconPath, Color accentColor, ActionListener action) {
+        JPanel card = new JPanel();
+        card.setLayout(new BorderLayout());
+        card.setBackground(new Color(60, 60, 60, 180));
+        card.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(accentColor, 2),
+            BorderFactory.createEmptyBorder(20, 20, 20, 20)
+        ));
+
+        // Icono
+        JLabel iconLabel = new JLabel();
+        try {
+            ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
+            if (icon.getImage() != null) {
+                Image img = icon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+                iconLabel.setIcon(new ImageIcon(img));
+            }
+        } catch (Exception ex) {
+            iconLabel.setText("📱");
+            iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 48));
+        }
+        iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        card.add(iconLabel, BorderLayout.NORTH);
+
+        // Texto
+        JPanel textPanel = new JPanel(new BorderLayout());
+        textPanel.setOpaque(false);
+        
+        JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 5, 10));
+        
+        JLabel descLabel = new JLabel("<html><center>" + description + "</center></html>", SwingConstants.CENTER);
+        descLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        descLabel.setForeground(new Color(200, 200, 200));
+        descLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 15, 10));
+        
+        textPanel.add(titleLabel, BorderLayout.NORTH);
+        textPanel.add(descLabel, BorderLayout.CENTER);
+        card.add(textPanel, BorderLayout.CENTER);
+
+        // Efectos hover y clic
+        card.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                card.setBackground(new Color(80, 80, 80, 200));
+                card.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(accentColor.brighter(), 3),
+                    BorderFactory.createEmptyBorder(19, 19, 19, 19)
+                ));
+                card.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                card.setBackground(new Color(60, 60, 60, 180));
+                card.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(accentColor, 2),
+                    BorderFactory.createEmptyBorder(20, 20, 20, 20)
+                ));
+                card.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                action.actionPerformed(new ActionEvent(card, ActionEvent.ACTION_PERFORMED, ""));
+            }
+        });
+
+        return card;
+    }
+
+    private JPanel createFooterPanel() {
+        JPanel footerPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        footerPanel.setOpaque(false);
+        footerPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 30, 30));
+
+        // Botón de cerrar sesión moderno
+        JButton logoutButton = createModernButton("Cerrar Sesión", new Color(244, 67, 54));
+        logoutButton.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "¿Está seguro de que desea cerrar sesión?",
+                "Confirmar Cierre de Sesión",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+            );
+            
+            if (confirm == JOptionPane.YES_OPTION) {
+                new Bienvenida().setVisible(true);
+                dispose();
+            }
+        });
+
+        footerPanel.add(logoutButton);
+        return footerPanel;
+    }
+
+    private JButton createModernButton(String text, Color backgroundColor) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setForeground(Color.WHITE);
+        button.setBackground(backgroundColor);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(12, 24, 12, 24));
+        
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(backgroundColor.brighter());
+            }
+            
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(backgroundColor);
+            }
+        });
+        
+        return button;
+    }
+
+    private JButton createStyledButton(String text, Color backgroundColor) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        button.setForeground(Color.WHITE);
+        button.setBackground(backgroundColor);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(backgroundColor.brighter());
+            }
+            
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(backgroundColor);
+            }
+        });
+        
+        return button;
+    }
+
+    // Inner class for Equipment window  
     private class EquipmentWindow extends JFrame {
         public EquipmentWindow() {
-            setTitle("Equipos de Técnicos");
-            setSize(600, 400);
+            setTitle("Gestión de Equipos - NetNexus Ultra");
+            setSize(900, 650);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             setLocationRelativeTo(null);
 
-            JPanel panel = new JPanel(new BorderLayout());
-            panel.setOpaque(false);
-            JPanel equipmentListPanel = new JPanel(new GridLayout(0, 1, 10, 10));
-            equipmentListPanel.setOpaque(false);
+            // Panel principal con fondo moderno
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            mainPanel.setBackground(new Color(45, 45, 45));
 
-            // Inicializar equipos, estados y stock (5 unidades por defecto)
+            // Header
+            JPanel headerPanel = new JPanel(new BorderLayout());
+            headerPanel.setBackground(new Color(33, 150, 243));
+            headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+
+            JLabel titleLabel = new JLabel("Equipos de Técnicos", SwingConstants.CENTER);
+            titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
+            titleLabel.setForeground(Color.WHITE);
+
+            JLabel subtitleLabel = new JLabel("Gestión de inventario y asignaciones", SwingConstants.CENTER);
+            subtitleLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            subtitleLabel.setForeground(new Color(220, 220, 220));
+
+            headerPanel.add(titleLabel, BorderLayout.CENTER);
+            headerPanel.add(subtitleLabel, BorderLayout.SOUTH);
+
+            // Panel de contenido
+            JPanel contentPanel = new JPanel(new BorderLayout());
+            contentPanel.setBackground(new Color(50, 50, 50));
+            contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+            // Lista de equipos con scroll
+            JPanel equipmentListPanel = new JPanel();
+            equipmentListPanel.setLayout(new BoxLayout(equipmentListPanel, BoxLayout.Y_AXIS));
+            equipmentListPanel.setBackground(new Color(50, 50, 50));
+
+            // Inicializar equipos, estados y stock
             String[] equipment = {
                 "Cables de fibra óptica",
-                "Conectores SC/APC",
+                "Conectores SC/APC", 
                 "Empalmadoras de fusión",
                 "Cortadoras de precisión",
                 "Medidores de potencia óptica",
@@ -134,105 +328,134 @@ public class TechnicianFrame extends JFrame {
                 "Kits de limpieza de conectores",
                 "Tubos de protección de empalme"
             };
+            
             for (String item : equipment) {
                 equipmentStatus.put(item, "Disponible");
-                equipmentStock.put(item, 5); // Stock inicial de 5 unidades por equipo
+                equipmentStock.put(item, 5);
             }
 
-            // Cargar equipos en el panel
             updateEquipmentPanel(equipmentListPanel, equipment);
 
             JScrollPane scrollPane = new JScrollPane(equipmentListPanel);
-            panel.add(scrollPane, BorderLayout.CENTER);
+            scrollPane.setBackground(new Color(50, 50, 50));
+            scrollPane.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(33, 150, 243), 1),
+                "Inventario de Equipos",
+                0, 0,
+                new Font("Segoe UI", Font.BOLD, 14),
+                Color.WHITE
+            ));
+            contentPanel.add(scrollPane, BorderLayout.CENTER);
 
-            // Botón para añadir equipo
-            JButton addEquipmentButton = new JButton("Añadir Equipo");
-            styleButton(addEquipmentButton);
+            // Panel de botones
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+            buttonPanel.setBackground(new Color(50, 50, 50));
+
+            JButton addEquipmentButton = createStyledButton("Añadir Equipo", new Color(76, 175, 80));
             addEquipmentButton.addActionListener(e -> {
-                String newEquipment = JOptionPane.showInputDialog(this, "Ingrese el nombre del nuevo equipo:");
+                String newEquipment = JOptionPane.showInputDialog(this, "Nombre del nuevo equipo:");
                 if (newEquipment != null && !newEquipment.trim().isEmpty()) {
                     if (!equipmentStatus.containsKey(newEquipment)) {
                         equipmentStatus.put(newEquipment, "Disponible");
-                        equipmentStock.put(newEquipment, 5); // Stock inicial de 5 unidades
-                        updateEquipmentPanel(equipmentListPanel, equipment);
-                        JOptionPane.showMessageDialog(this, "Equipo añadido: " + newEquipment);
+                        equipmentStock.put(newEquipment, 5);
+                        equipmentListPanel.removeAll();
+                        
+                        String[] updatedEquipment = new String[equipment.length + 1];
+                        System.arraycopy(equipment, 0, updatedEquipment, 0, equipment.length);
+                        updatedEquipment[equipment.length] = newEquipment;
+                        
+                        updateEquipmentPanel(equipmentListPanel, updatedEquipment);
+                        revalidate();
+                        repaint();
+                        JOptionPane.showMessageDialog(this, "Equipo añadido exitosamente: " + newEquipment);
                     } else {
                         JOptionPane.showMessageDialog(this, "El equipo ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
 
-            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-            buttonPanel.setOpaque(false);
             buttonPanel.add(addEquipmentButton);
-            panel.add(buttonPanel, BorderLayout.SOUTH);
+            contentPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-            add(panel);
+            mainPanel.add(headerPanel, BorderLayout.NORTH);
+            mainPanel.add(contentPanel, BorderLayout.CENTER);
+            add(mainPanel);
         }
 
         private void updateEquipmentPanel(JPanel panel, String[] equipment) {
             panel.removeAll();
+            
             for (String item : equipment) {
                 if (equipmentStatus.containsKey(item)) {
-                    JPanel itemPanel = new JPanel(new BorderLayout(10, 5));
-                    itemPanel.setOpaque(false);
-                    JLabel label = new JLabel(item + " [Estado: " + equipmentStatus.get(item) + ", Stock: " + equipmentStock.get(item) + "]");
-                    label.setForeground(Color.BLACK);
-                    label.setFont(new Font("Arial", Font.PLAIN, 14));
-                    itemPanel.add(label, BorderLayout.WEST);
-
-                    JButton occupiedButton = new JButton("Ocupado");
-                    styleButton(occupiedButton);
-                    occupiedButton.addActionListener(e -> {
-                        if (equipmentStock.get(item) > 0) {
-                            equipmentStatus.put(item, "Ocupado");
-                            equipmentStock.put(item, equipmentStock.get(item) - 1);
-                            updateEquipmentPanel(panel, equipment);
-                            JOptionPane.showMessageDialog(this, item + " marcado como Ocupado. Stock restante: " + equipmentStock.get(item));
-                        } else {
-                            JOptionPane.showMessageDialog(this, "No hay stock disponible para " + item, "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    });
-
-                    JButton vacantButton = new JButton("Desocupado");
-                    styleButton(vacantButton);
-                    vacantButton.addActionListener(e -> {
-                        equipmentStatus.put(item, "Disponible");
-                        equipmentStock.put(item, equipmentStock.get(item) + 1);
-                        updateEquipmentPanel(panel, equipment);
-                        JOptionPane.showMessageDialog(this, item + " marcado como Desocupado. Stock actualizado: " + equipmentStock.get(item));
-                    });
-
-                    JPanel buttonSubPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-                    buttonSubPanel.setOpaque(false);
-                    buttonSubPanel.add(occupiedButton);
-                    buttonSubPanel.add(vacantButton);
-                    itemPanel.add(buttonSubPanel, BorderLayout.CENTER);
-
-                    panel.add(itemPanel);
+                    JPanel equipmentCard = createEquipmentCard(item);
+                    panel.add(equipmentCard);
+                    panel.add(Box.createRigidArea(new Dimension(0, 10)));
                 }
             }
+            
             panel.revalidate();
             panel.repaint();
         }
 
-        private void styleButton(JButton button) {
-            button.setFont(new Font("Arial", Font.BOLD, 14));
-            button.setForeground(Color.WHITE);
-            button.setBackground(new Color(50, 150, 255));
-            button.setFocusPainted(false);
-            button.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(70, 170, 255), 2),
-                BorderFactory.createEmptyBorder(5, 15, 5, 15)
+        private JPanel createEquipmentCard(String equipmentName) {
+            JPanel card = new JPanel(new BorderLayout());
+            card.setBackground(new Color(70, 70, 70));
+            card.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(100, 100, 100), 1),
+                BorderFactory.createEmptyBorder(15, 20, 15, 20)
             ));
-            button.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    button.setBackground(new Color(70, 170, 255));
-                }
-                public void mouseExited(java.awt.event.MouseEvent evt) {
-                    button.setBackground(new Color(50, 150, 255));
+            card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+
+            // Info del equipo
+            JPanel infoPanel = new JPanel(new GridLayout(2, 1));
+            infoPanel.setOpaque(false);
+
+            JLabel nameLabel = new JLabel(equipmentName);
+            nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            nameLabel.setForeground(Color.WHITE);
+
+            String status = equipmentStatus.get(equipmentName);
+            int stock = equipmentStock.get(equipmentName);
+            JLabel statusLabel = new JLabel("Estado: " + status + " | Stock: " + stock + " unidades");
+            statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+            statusLabel.setForeground(new Color(200, 200, 200));
+
+            infoPanel.add(nameLabel);
+            infoPanel.add(statusLabel);
+
+            // Botones de acción
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+            buttonPanel.setOpaque(false);
+
+            JButton occupiedButton = createStyledButton("Ocupar", new Color(255, 152, 0));
+            occupiedButton.addActionListener(e -> {
+                if (stock > 0) {
+                    equipmentStatus.put(equipmentName, "Ocupado");
+                    equipmentStock.put(equipmentName, stock - 1);
+                    updateEquipmentPanel((JPanel) card.getParent(), 
+                        equipmentStatus.keySet().toArray(new String[0]));
+                    JOptionPane.showMessageDialog(this, equipmentName + " marcado como ocupado. Stock restante: " + (stock - 1));
+                } else {
+                    JOptionPane.showMessageDialog(this, "No hay stock disponible para " + equipmentName, "Error", JOptionPane.ERROR_MESSAGE);
                 }
             });
+
+            JButton vacantButton = createStyledButton("Liberar", new Color(76, 175, 80));
+            vacantButton.addActionListener(e -> {
+                equipmentStatus.put(equipmentName, "Disponible");
+                equipmentStock.put(equipmentName, stock + 1);
+                updateEquipmentPanel((JPanel) card.getParent(), 
+                    equipmentStatus.keySet().toArray(new String[0]));
+                JOptionPane.showMessageDialog(this, equipmentName + " liberado. Stock actualizado: " + (stock + 1));
+            });
+
+            buttonPanel.add(occupiedButton);
+            buttonPanel.add(vacantButton);
+            
+            card.add(infoPanel, BorderLayout.CENTER);
+            card.add(buttonPanel, BorderLayout.EAST);
+
+            return card;
         }
     }
 
