@@ -121,8 +121,8 @@ public class LoginFrame extends JFrame {
                         "Login Exitoso",
                         JOptionPane.INFORMATION_MESSAGE);
                     
-                    // Usar versión temporal funcional
-                    new GUI_CHIDO.User_1_Temp(cliente).setVisible(true);
+                    // Abrir la interfaz principal original del usuario
+                    new GUI_CHIDO.User_1(cliente).setVisible(true);
                     dispose();
                 } else if (userType.equals("Técnico")) {
                     JOptionPane.showMessageDialog(this,

@@ -17,6 +17,11 @@
 CREATE DATABASE IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `mydb`;
 
+-- Eliminar vistas problemáticas de versiones anteriores
+DROP VIEW IF EXISTS `vista_facturas_con_tarjeta`;
+DROP VIEW IF EXISTS `vista_contratos_completos`;
+DROP VIEW IF EXISTS `vista_facturas_completas`;
+
 --
 -- Tabla structure para tabla `cliente`
 --
@@ -239,34 +244,31 @@ INSERT INTO `ticket` VALUES
 (5,5,'2023-05-10','Cliente quiere ampliar cobertura','baja','en progreso');
 
 --
--- Tabla structure para tabla `factura` - SIMPLIFICADA Y CORREGIDA
+-- Tabla structure para tabla `factura` - ACTUALIZADA para coincidir con Facturación.java
 --
 DROP TABLE IF EXISTS `factura`;
 CREATE TABLE `factura` (
   `idFactura` int NOT NULL,
-  `Ticket_idTicket` int NOT NULL,
-  `fecha_factura` date NOT NULL,
-  `monto` decimal(10,2) NOT NULL,
+  `Cliente_idCliente` int NOT NULL,
+  `fecha_emision` date NOT NULL,
+  `monto_total` decimal(10,2) NOT NULL,
   `estado_pago` enum('pagado','pendiente') NOT NULL DEFAULT 'pagado',
   `metodo_pago` varchar(45) NOT NULL,
-  `numero_tarjeta` varchar(64) DEFAULT NULL COMMENT 'Hash SHA-256 del número de tarjeta',
-  `nombre_tarjeta` varchar(150) DEFAULT NULL COMMENT 'Hash SHA-256 del nombre en tarjeta',
-  `fecha_vencimiento_tarjeta` varchar(5) DEFAULT NULL COMMENT 'MM/AA formato',
-  `cvv_tarjeta` varchar(64) DEFAULT NULL COMMENT 'Hash SHA-256 del CVV',
+  `numero_tarjeta_oculto` varchar(25) DEFAULT NULL COMMENT 'Número oculto como **** **** **** 1234',
   PRIMARY KEY (`idFactura`),
-  KEY `fk_Factura_Ticket1_idx` (`Ticket_idTicket`),
-  CONSTRAINT `fk_Factura_Ticket1` FOREIGN KEY (`Ticket_idTicket`) REFERENCES `ticket` (`idTicket`)
+  KEY `fk_Factura_Cliente_idx` (`Cliente_idCliente`),
+  CONSTRAINT `fk_Factura_Cliente` FOREIGN KEY (`Cliente_idCliente`) REFERENCES `cliente` (`idCliente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Insertar datos en tabla `factura`
+-- Insertar datos en tabla `factura` - ACTUALIZADA
 --
 INSERT INTO `factura` VALUES 
-(1,1,'2023-01-20',50.00,'pagado','Agencia',NULL,NULL,NULL,NULL),
-(2,2,'2023-02-25',75.50,'pendiente','Tarjeta de Credito','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f','12/25','e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'),
-(3,3,'2023-03-15',60.25,'pagado','Agencia',NULL,NULL,NULL,NULL),
-(4,4,'2023-04-10',45.99,'pendiente','Tarjeta de Debito','b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0','098f6bcd4621d373cade4e832627b4f6','01/26','92cfceb39d57d914ed8b14d0e37643de0797ae56c47b7b58dc95abf40f9b7006'),
-(5,5,'2023-05-20',30.00,'pagado','Agencia',NULL,NULL,NULL,NULL);
+(1,1006936479,'2023-01-20',50.00,'pagado','Agencia',NULL),
+(2,1725589632,'2023-02-25',75.50,'pendiente','Tarjeta de Credito','**** **** **** 1234'),
+(3,1304567891,'2023-03-15',60.25,'pagado','Agencia',NULL),
+(4,1102356894,'2023-04-10',45.99,'pendiente','Tarjeta de Debito','**** **** **** 5678'),
+(5,1503698521,'2023-05-20',30.00,'pagado','Agencia',NULL);
 
 --
 -- Tabla structure para tabla `equipos`
@@ -292,6 +294,32 @@ INSERT INTO `equipos` VALUES
 (3,3,'Switch 8 puertos','Switch','disponible'),
 (4,4,'Antena direccional','Antena','en uso'),
 (5,5,'Analizador de espectro','Medicion','disponible');
+
+--
+-- Tabla structure para tabla `tarjetas_usuario` - Para guardar tarjetas del cliente
+--
+DROP TABLE IF EXISTS `tarjetas_usuario`;
+CREATE TABLE `tarjetas_usuario` (
+  `idTarjeta` int NOT NULL AUTO_INCREMENT,
+  `Cliente_idCliente` int NOT NULL,
+  `tipo_tarjeta` enum('credito','debito') NOT NULL,
+  `ultimos_cuatro_digitos` varchar(4) NOT NULL,
+  `fecha_vencimiento` varchar(7) NOT NULL COMMENT 'Formato MM/YYYY',
+  `nombre_titular_visible` varchar(100) NOT NULL,
+  `fecha_registro` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `activa` boolean DEFAULT true,
+  PRIMARY KEY (`idTarjeta`),
+  KEY `fk_TarjetasUsuario_Cliente_idx` (`Cliente_idCliente`),
+  CONSTRAINT `fk_TarjetasUsuario_Cliente` FOREIGN KEY (`Cliente_idCliente`) REFERENCES `cliente` (`idCliente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Insertar datos de prueba en tabla `tarjetas_usuario`
+--
+INSERT INTO `tarjetas_usuario` VALUES 
+(1,123456,'credito','1234','12/2026','Juan Carlos Chavez',NOW(),true),
+(2,123456,'debito','5678','08/2025','Juan Carlos Chavez',NOW(),true),
+(3,1006936479,'credito','9876','03/2027','Goku Caicedo',NOW(),true);
 
 --
 -- Tabla structure para tabla `ubicacion`
@@ -365,25 +393,42 @@ FROM contrato c
 JOIN cliente cl ON c.Cliente_idCliente = cl.idCliente
 LEFT JOIN tiposervicio ts ON c.tiposervicio = ts.nombre;
 
--- Vista para facilitar consultas de facturas
+-- Vista para facilitar consultas de facturas - ACTUALIZADA
 CREATE OR REPLACE VIEW `vista_facturas_completas` AS
 SELECT 
     f.idFactura,
-    f.fecha_factura,
-    f.monto,
+    f.fecha_emision,
+    f.monto_total,
     f.estado_pago,
     f.metodo_pago,
-    t.idTicket,
-    t.descripcion as ticket_descripcion,
-    s.descripcion as servicio_descripcion,
-    cont.tiposervicio,
+    f.numero_tarjeta_oculto,
+    cl.idCliente,
     cl.nombre as cliente_nombre,
-    cl.apellido as cliente_apellido
+    cl.apellido as cliente_apellido,
+    cl.email as cliente_email
 FROM factura f
-JOIN ticket t ON f.Ticket_idTicket = t.idTicket
-JOIN servicios s ON t.Servicios_idServicios = s.idServicios
-JOIN contrato cont ON s.Contrato_idContrato = cont.idContrato
-JOIN cliente cl ON cont.Cliente_idCliente = cl.idCliente;
+JOIN cliente cl ON f.Cliente_idCliente = cl.idCliente;
+
+-- Vista adicional para facturas con información de tarjetas - NUEVA
+CREATE OR REPLACE VIEW `vista_facturas_con_tarjeta` AS
+SELECT 
+    f.idFactura,
+    f.fecha_emision,
+    f.monto_total,
+    f.estado_pago,
+    f.metodo_pago,
+    f.numero_tarjeta_oculto,
+    cl.idCliente,
+    cl.nombre as cliente_nombre,
+    cl.apellido as cliente_apellido,
+    cl.email as cliente_email,
+    CASE 
+        WHEN f.metodo_pago IN ('Tarjeta de Credito', 'Tarjeta de Debito') 
+        THEN CONCAT(f.metodo_pago, ' - ', COALESCE(f.numero_tarjeta_oculto, 'No especificada'))
+        ELSE f.metodo_pago
+    END as metodo_pago_detallado
+FROM factura f
+JOIN cliente cl ON f.Cliente_idCliente = cl.idCliente;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

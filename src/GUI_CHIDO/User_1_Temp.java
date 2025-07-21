@@ -116,7 +116,8 @@ public class User_1_Temp extends JFrame {
                     JOptionPane.YES_NO_OPTION);
                 if (response == JOptionPane.YES_OPTION) {
                     dispose();
-                    new Clases.LoginFrame().setVisible(true);
+                    // Cerrar aplicación por ahora - LoginFrame será compilado después
+                    System.exit(0);
                 }
             }
         });

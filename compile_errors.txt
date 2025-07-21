@@ -1,0 +1,303 @@
+src\GUI_CHIDO\Facturación.java:155: error: implicitly declared classes are a preview feature and are disabled by default.
+    private void jComboBoxDuracionActionPerformed(ActionEvent evt) {
+            ^
+  (use --enable-preview to enable implicitly declared classes)
+src\GUI_CHIDO\Facturación.java:211: error: class, interface, enum, or record expected
+    public Facturación(String planName, double basePrice, int clienteId) {
+           ^
+src\GUI_CHIDO\Facturación.java:213: error: class, interface, enum, or record expected
+        this.basePrice = basePrice;
+        ^
+src\GUI_CHIDO\Facturación.java:214: error: class, interface, enum, or record expected
+        this.currentClienteId = clienteId;
+        ^
+src\GUI_CHIDO\Facturación.java:215: error: class, interface, enum, or record expected
+        jTextFieldPlanContratado.setText(planName);
+        ^
+src\GUI_CHIDO\Facturación.java:216: error: class, interface, enum, or record expected
+        calculateAndDisplayTotal();
+        ^
+src\GUI_CHIDO\Facturación.java:217: error: class, interface, enum, or record expected
+        loadSavedCards();
+        ^
+src\GUI_CHIDO\Facturación.java:220: error: class, interface, enum, or record expected
+        cargarUbicacionExistente();
+        ^
+src\GUI_CHIDO\Facturación.java:221: error: class, interface, enum, or record expected
+    }
+    ^
+src\GUI_CHIDO\Facturación.java:226: error: class, interface, enum, or record expected
+        jLabelIdFactura = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:227: error: class, interface, enum, or record expected
+        jTextFieldIdFactura = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:228: error: class, interface, enum, or record expected
+        jLabelFecha = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:229: error: class, interface, enum, or record expected
+        jTextFieldFecha = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:230: error: class, interface, enum, or record expected
+        jLabelMontoTotal = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:231: error: class, interface, enum, or record expected
+        jTextFieldMontoTotal = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:232: error: class, interface, enum, or record expected
+        jLabelPlanContratado = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:233: error: class, interface, enum, or record expected
+        jTextFieldPlanContratado = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:234: error: class, interface, enum, or record expected
+        jLabelTicketId = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:235: error: class, interface, enum, or record expected
+        jTextFieldTicketId = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:236: error: class, interface, enum, or record expected
+        jButtonGenerarTicket = new JButton();
+        ^
+src\GUI_CHIDO\Facturación.java:237: error: class, interface, enum, or record expected
+        jButtonCancelar = new JButton();
+        ^
+src\GUI_CHIDO\Facturación.java:238: error: class, interface, enum, or record expected
+        jButtonFinalizarPago = new JButton();
+        ^
+src\GUI_CHIDO\Facturación.java:241: error: class, interface, enum, or record expected
+        jLabelDuracion = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:242: error: class, interface, enum, or record expected
+        jComboBoxDuracion = new JComboBox<>();
+        ^
+src\GUI_CHIDO\Facturación.java:243: error: class, interface, enum, or record expected
+        jLabelPrecioBase = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:244: error: class, interface, enum, or record expected
+        jTextFieldPrecioBase = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:245: error: class, interface, enum, or record expected
+        jLabelDescuento = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:246: error: class, interface, enum, or record expected
+        jTextFieldDescuento = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:249: error: class, interface, enum, or record expected
+        jTabbedPaneMain = new JTabbedPane();
+        ^
+src\GUI_CHIDO\Facturación.java:250: error: class, interface, enum, or record expected
+        jPanelPago = new JPanel();
+        ^
+src\GUI_CHIDO\Facturación.java:251: error: class, interface, enum, or record expected
+        jPanelUbicacion = new JPanel();
+        ^
+src\GUI_CHIDO\Facturación.java:254: error: class, interface, enum, or record expected
+        jLabelMetodoPago = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:255: error: class, interface, enum, or record expected
+        jComboBoxMetodoPago = new JComboBox<>();
+        ^
+src\GUI_CHIDO\Facturación.java:256: error: class, interface, enum, or record expected
+        jPanelTarjeta = new JPanel();
+        ^
+src\GUI_CHIDO\Facturación.java:257: error: class, interface, enum, or record expected
+        jLabelNumeroTarjeta = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:258: error: class, interface, enum, or record expected
+        jTextFieldNumeroTarjeta = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:259: error: class, interface, enum, or record expected
+        jLabelNombreTarjeta = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:260: error: class, interface, enum, or record expected
+        jTextFieldNombreTarjeta = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:261: error: class, interface, enum, or record expected
+        jLabelFechaVencimiento = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:262: error: class, interface, enum, or record expected
+        jTextFieldFechaVencimiento = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:263: error: class, interface, enum, or record expected
+        jLabelCVV = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:264: error: class, interface, enum, or record expected
+        jPasswordFieldCVV = new JPasswordField();
+        ^
+src\GUI_CHIDO\Facturación.java:265: error: class, interface, enum, or record expected
+        jButtonGuardarTarjeta = new JButton();
+        ^
+src\GUI_CHIDO\Facturación.java:268: error: class, interface, enum, or record expected
+        jLabelTarjetasCredito = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:269: error: class, interface, enum, or record expected
+        jComboBoxTarjetasCredito = new JComboBox<>();
+        ^
+src\GUI_CHIDO\Facturación.java:270: error: class, interface, enum, or record expected
+        jButtonUsarTarjetaCredito = new JButton();
+        ^
+src\GUI_CHIDO\Facturación.java:271: error: class, interface, enum, or record expected
+        jLabelTarjetasDebito = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:272: error: class, interface, enum, or record expected
+        jComboBoxTarjetasDebito = new JComboBox<>();
+        ^
+src\GUI_CHIDO\Facturación.java:273: error: class, interface, enum, or record expected
+        jButtonUsarTarjetaDebito = new JButton();
+        ^
+src\GUI_CHIDO\Facturación.java:276: error: class, interface, enum, or record expected
+        jLabelDireccion = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:277: error: class, interface, enum, or record expected
+        jTextFieldDireccion = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:278: error: class, interface, enum, or record expected
+        jLabelCiudad = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:279: error: class, interface, enum, or record expected
+        jTextFieldCiudad = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:280: error: class, interface, enum, or record expected
+        jLabelProvincia = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:281: error: class, interface, enum, or record expected
+        jTextFieldProvincia = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:282: error: class, interface, enum, or record expected
+        jLabelCodigoPostal = new JLabel();
+        ^
+src\GUI_CHIDO\Facturación.java:283: error: class, interface, enum, or record expected
+        jTextFieldCodigoPostal = new JTextField();
+        ^
+src\GUI_CHIDO\Facturación.java:285: error: class, interface, enum, or record expected
+        setupMainLayout();
+        ^
+src\GUI_CHIDO\Facturación.java:286: error: class, interface, enum, or record expected
+        setupPaymentTab();
+        ^
+src\GUI_CHIDO\Facturación.java:287: error: class, interface, enum, or record expected
+        setupLocationTab();
+        ^
+src\GUI_CHIDO\Facturación.java:290: error: class, interface, enum, or record expected
+        jTabbedPaneMain.addTab("Detalles de Pago", jPanelPago);
+        ^
+src\GUI_CHIDO\Facturación.java:291: error: class, interface, enum, or record expected
+        jTabbedPaneMain.addTab("Información de Ubicación", jPanelUbicacion);
+        ^
+src\GUI_CHIDO\Facturación.java:292: error: class, interface, enum, or record expected
+        jTabbedPaneMain.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        ^
+src\GUI_CHIDO\Facturación.java:293: error: class, interface, enum, or record expected
+        jTabbedPaneMain.setBackground(new Color(255, 255, 255, 200));
+        ^
+src\GUI_CHIDO\Facturación.java:294: error: class, interface, enum, or record expected
+        jTabbedPaneMain.setBounds(20, 160, 840, 450);
+        ^
+src\GUI_CHIDO\Facturación.java:295: error: class, interface, enum, or record expected
+        backgroundPanel.add(jTabbedPaneMain);
+        ^
+src\GUI_CHIDO\Facturación.java:296: error: class, interface, enum, or record expected
+    }
+    ^
+src\GUI_CHIDO\Facturación.java:303: error: class, interface, enum, or record expected
+        jLabelTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+        ^
+src\GUI_CHIDO\Facturación.java:304: error: class, interface, enum, or record expected
+        jLabelTitulo.setText("DETALLES DE FACTURA");
+        ^
+src\GUI_CHIDO\Facturación.java:305: error: class, interface, enum, or record expected
+        jLabelTitulo.setForeground(Color.WHITE); // Texto blanco para mejor contraste
+        ^
+src\GUI_CHIDO\Facturación.java:306: error: class, interface, enum, or record expected
+        jLabelTitulo.setOpaque(true);
+        ^
+src\GUI_CHIDO\Facturación.java:307: error: class, interface, enum, or record expected
+        jLabelTitulo.setBackground(new Color(50, 70, 90, 180)); // Fondo semi-transparente
+        ^
+src\GUI_CHIDO\Facturación.java:308: error: class, interface, enum, or record expected
+        backgroundPanel.add(jLabelTitulo);
+        ^
+src\GUI_CHIDO\Facturación.java:309: error: class, interface, enum, or record expected
+        jLabelTitulo.setBounds(0, 20, 880, 40);
+        ^
+src\GUI_CHIDO\Facturación.java:312: error: class, interface, enum, or record expected
+        jLabelIdFactura.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        ^
+src\GUI_CHIDO\Facturación.java:313: error: class, interface, enum, or record expected
+        jLabelIdFactura.setText("ID Factura:");
+        ^
+src\GUI_CHIDO\Facturación.java:314: error: class, interface, enum, or record expected
+        jLabelIdFactura.setForeground(Color.WHITE);
+        ^
+src\GUI_CHIDO\Facturación.java:315: error: class, interface, enum, or record expected
+        backgroundPanel.add(jLabelIdFactura);
+        ^
+src\GUI_CHIDO\Facturación.java:316: error: class, interface, enum, or record expected
+        jLabelIdFactura.setBounds(50, 80, 150, 30);
+        ^
+src\GUI_CHIDO\Facturación.java:318: error: class, interface, enum, or record expected
+        jTextFieldIdFactura.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        ^
+src\GUI_CHIDO\Facturación.java:319: error: class, interface, enum, or record expected
+        jTextFieldIdFactura.setEditable(false);
+        ^
+src\GUI_CHIDO\Facturación.java:320: error: class, interface, enum, or record expected
+        jTextFieldIdFactura.setBackground(new Color(255, 255, 255, 220));
+        ^
+src\GUI_CHIDO\Facturación.java:321: error: class, interface, enum, or record expected
+        jTextFieldIdFactura.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 2));
+        ^
+src\GUI_CHIDO\Facturación.java:322: error: class, interface, enum, or record expected
+        backgroundPanel.add(jTextFieldIdFactura);
+        ^
+src\GUI_CHIDO\Facturación.java:323: error: class, interface, enum, or record expected
+        jTextFieldIdFactura.setBounds(220, 80, 150, 30);
+        ^
+src\GUI_CHIDO\Facturación.java:326: error: class, interface, enum, or record expected
+        jLabelPlanContratado.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        ^
+src\GUI_CHIDO\Facturación.java:327: error: class, interface, enum, or record expected
+        jLabelPlanContratado.setText("Plan:");
+        ^
+src\GUI_CHIDO\Facturación.java:328: error: class, interface, enum, or record expected
+        jLabelPlanContratado.setForeground(Color.WHITE);
+        ^
+src\GUI_CHIDO\Facturación.java:329: error: class, interface, enum, or record expected
+        backgroundPanel.add(jLabelPlanContratado);
+        ^
+src\GUI_CHIDO\Facturación.java:330: error: class, interface, enum, or record expected
+        jLabelPlanContratado.setBounds(400, 80, 80, 30);
+        ^
+src\GUI_CHIDO\Facturación.java:332: error: class, interface, enum, or record expected
+        jTextFieldPlanContratado.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        ^
+src\GUI_CHIDO\Facturación.java:333: error: class, interface, enum, or record expected
+        jTextFieldPlanContratado.setEditable(false);
+        ^
+src\GUI_CHIDO\Facturación.java:334: error: class, interface, enum, or record expected
+        jTextFieldPlanContratado.setBackground(new Color(255, 255, 255, 220));
+        ^
+src\GUI_CHIDO\Facturación.java:335: error: class, interface, enum, or record expected
+        jTextFieldPlanContratado.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 2));
+        ^
+src\GUI_CHIDO\Facturación.java:336: error: class, interface, enum, or record expected
+        backgroundPanel.add(jTextFieldPlanContratado);
+        ^
+src\GUI_CHIDO\Facturación.java:337: error: class, interface, enum, or record expected
+        jTextFieldPlanContratado.setBounds(500, 80, 150, 30);
+        ^
+src\GUI_CHIDO\Facturación.java:340: error: class, interface, enum, or record expected
+        jLabelDuracion.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        ^
+src\GUI_CHIDO\Facturación.java:341: error: class, interface, enum, or record expected
+        jLabelDuracion.setText("Duración:");
+        ^
+src\GUI_CHIDO\Facturación.java:342: error: class, interface, enum, or record expected
+        jLabelDuracion.setForeground(Color.WHITE);
+        ^
+src\GUI_CHIDO\Facturación.java:343: error: class, interface, enum, or record expected
+        backgroundPanel.add(jLabelDuracion);
+        ^
+100 errors
+only showing the first 100 errors, of 521 total; use -Xmaxerrs if you would like to see more

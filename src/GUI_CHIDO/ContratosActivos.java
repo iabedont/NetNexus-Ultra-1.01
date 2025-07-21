@@ -123,7 +123,7 @@ public class ContratosActivos extends javax.swing.JFrame {
         backgroundPanel.add(jButton2); // Añadir a backgroundPanel
 
         // Table Model Setup
-        String[] columnNames = {"ID Contrato", "ID Cliente", "Fecha Inicio", "Fecha Fin", "Monto Total", "Tipo Servicio"};
+        String[] columnNames = {"ID Contrato", "ID Cliente", "Fecha Inicio", "Fecha Fin", "Monto Total", "Tipo Servicio", "Estado Pago"};
         tableModel = new DefaultTableModel(new Object[][]{}, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -169,24 +169,48 @@ public class ContratosActivos extends javax.swing.JFrame {
             PreparedStatement stmt;
 
             if (currentClienteId != -1) { // If a valid client ID is provided, filter by it
-                sql = "SELECT idContrato, Cliente_idCliente, fecha_inicio, fecha_fin, monto_total, tiposervicio FROM contrato WHERE Cliente_idCliente = ?";
+                sql = "SELECT c.idContrato, c.Cliente_idCliente, c.fecha_inicio, c.fecha_fin, c.monto_total, c.tiposervicio, " +
+                      "COALESCE(f.estado_pago, 'sin_factura') as estado_pago " +
+                      "FROM contrato c " +
+                      "LEFT JOIN factura f ON c.idContrato = f.idFactura " +
+                      "WHERE c.Cliente_idCliente = ?";
                 stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, currentClienteId);
             } else { // For testing or if no client ID is available, show all (or none)
-                sql = "SELECT idContrato, Cliente_idCliente, fecha_inicio, fecha_fin, monto_total, tiposervicio FROM contrato";
+                sql = "SELECT c.idContrato, c.Cliente_idCliente, c.fecha_inicio, c.fecha_fin, c.monto_total, c.tiposervicio, " +
+                      "COALESCE(f.estado_pago, 'sin_factura') as estado_pago " +
+                      "FROM contrato c " +
+                      "LEFT JOIN factura f ON c.idContrato = f.idFactura";
                 stmt = conn.prepareStatement(sql);
             }
             
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Object[] row = new Object[6];
+                Object[] row = new Object[7]; // Aumentado a 7 columnas
                 row[0] = rs.getInt("idContrato");
                 row[1] = rs.getInt("Cliente_idCliente");
                 row[2] = rs.getDate("fecha_inicio");
                 row[3] = rs.getDate("fecha_fin");
                 row[4] = rs.getDouble("monto_total");
                 row[5] = rs.getString("tiposervicio"); // Assuming tiposervicio is a String
+                
+                // Estado de pago con formato amigable
+                String estadoPago = rs.getString("estado_pago");
+                switch (estadoPago) {
+                    case "pagado":
+                        row[6] = "✅ Pagado";
+                        break;
+                    case "pendiente":
+                        row[6] = "⏳ Pendiente";
+                        break;
+                    case "sin_factura":
+                        row[6] = "❌ Sin Factura";
+                        break;
+                    default:
+                        row[6] = "❓ " + estadoPago;
+                        break;
+                }
 
                 tableModel.addRow(row);
             }
