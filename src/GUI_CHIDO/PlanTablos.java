@@ -45,7 +45,7 @@ public class PlanTablos extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-
+        
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLayout(null);
 
@@ -77,7 +77,7 @@ public class PlanTablos extends javax.swing.JFrame {
         jToggleButton2.addActionListener(evt -> jToggleButton2ActionPerformed(evt));
         jToggleButton2.setBounds(165, 309, 251, 67);
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/PlanSmart.png")));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/PlanEsencial.png")));
         jLabel4.setBounds(31, 94, 300, 256); // Assuming default icon size; adjust if needed
 
         jLabel14.setFont(new java.awt.Font("Segoe UI Historic", 1, 36));

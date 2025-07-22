@@ -1,9 +1,8 @@
 package Clases;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.sql.*;
+import javax.swing.*;
 
 public class LoginFrame extends JFrame {
     private JTextField usernameField;
@@ -116,6 +115,15 @@ public class LoginFrame extends JFrame {
                         rs.getString("email"),
                         rs.getString("password")
                     );
+                    
+                    JOptionPane.showMessageDialog(this,
+                        "Inicio de sesión exitoso.\nBienvenido " + cliente.getNombre() + " " + cliente.getApellido(),
+                        "Login Exitoso",
+                        JOptionPane.INFORMATION_MESSAGE);
+                    
+                    // Abrir la interfaz principal original del usuario
+                    new GUI_CHIDO.User_1(cliente).setVisible(true);
+                    dispose();
                 } else if (userType.equals("Técnico")) {
                     JOptionPane.showMessageDialog(this,
                         "Inicio de sesión como Técnico.",

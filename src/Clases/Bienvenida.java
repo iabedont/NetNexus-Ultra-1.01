@@ -4,8 +4,8 @@
  */
 package Clases;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class Bienvenida extends JFrame {
     
@@ -39,7 +39,7 @@ public class Bienvenida extends JFrame {
             loginButton.setContentAreaFilled(false); // Fondo transparente
         }
         loginButton.addActionListener(e -> {
-            new LoginFrame().setVisible(true);
+            new UserTypeSelectionFrame().setVisible(true);
             dispose();
         });
 

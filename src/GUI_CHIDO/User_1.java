@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package GUI_CHIDO;
 
 import Clases.LoginFrame; // Import LoginFrame
 import Clases.Cliente; // Importar la clase Cliente
 import GUI_CHIDO.ContratosActivos; // Importar ContratosActivos
+import GUI_CHIDO.Servicios; // Importar Servicios
 import javax.swing.JOptionPane; // Importar JOptionPane
 import Clases.BackgroundPanel; // Importar BackgroundPanel
 import java.awt.Font; // Importar Font
@@ -29,8 +26,8 @@ public class User_1 extends javax.swing.JFrame {
      */
     public User_1() {
         initComponents();
-        this.setLocationRelativeTo(null); // Center the frame
         this.setSize(700, 700); // Establecer el tamaño inicial a 800x800
+        this.setLocationRelativeTo(null); // Center the frame
         
         // Add ComponentListener for responsiveness
         this.addComponentListener(new ComponentAdapter() {
@@ -93,6 +90,11 @@ public class User_1 extends javax.swing.JFrame {
         jButton3.setContentAreaFilled(false);
         jButton3.setBorderPainted(false);
         jButton3.setFocusPainted(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt); // Añadir ActionListener para Servicios
+            }
+        });
         jPanel1.add(jButton3);
 
         // Botón Usuario
@@ -167,6 +169,17 @@ public class User_1 extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // Abrir la ventana de Servicios
+        if (currentUser != null) {
+            Servicios serviciosFrame = new Servicios(this, currentUser.getIdCliente()); // Pasa el ID del cliente
+            serviciosFrame.setVisible(true);
+            this.dispose(); // Ocultar la ventana actual (User_1)
+        } else {
+            JOptionPane.showMessageDialog(this, "Error: No se ha encontrado información del usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }                                        
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // Crear una instancia de Perfil_User y hacerla visible

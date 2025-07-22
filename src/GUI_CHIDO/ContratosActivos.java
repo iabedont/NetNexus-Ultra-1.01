@@ -1,25 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package GUI_CHIDO;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import javax.swing.table.DefaultTableModel; // Import DefaultTableModel
+import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import Clases.DatabaseConnection; // Import DatabaseConnection
-import Clases.BackgroundPanel; // Import BackgroundPanel
-import Clases.Cliente; // Importar la clase Cliente
+import Clases.DatabaseConnection;
+import Clases.BackgroundPanel;
+import Clases.Cliente;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import javax.swing.JOptionPane; // Import JOptionPane for error messages
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.util.logging.Level;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import javax.swing.AbstractCellEditor;
+import javax.swing.JTable;
+import java.awt.Component;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 /**
  *
@@ -31,6 +40,11 @@ public class ContratosActivos extends javax.swing.JFrame {
     private DefaultTableModel tableModel; // Declare tableModel
     private int currentClienteId; // New field to store the logged-in client ID
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ContratosActivos.class.getName());
+
+    // Declarar el BackgroundPanel. Los otros componentes (jButton2, jScrollPane1, jTable1)
+    // son declarados automáticamente en la sección "variables declaration" por el Form Editor.
+    private BackgroundPanel backgroundPanel;
+
 
     /**
      * Creates new form ContratosActivos
@@ -49,8 +63,8 @@ public class ContratosActivos extends javax.swing.JFrame {
         }
         
         initComponents();
-        this.setLocationRelativeTo(null); // Center the frame
         this.setSize(800, 600); // Set a larger initial size for the frame
+        this.setLocationRelativeTo(null); // Center the frame
         
         // Add ComponentListener for responsiveness
         this.addComponentListener(new ComponentAdapter() {
@@ -74,55 +88,72 @@ public class ContratosActivos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        // Use BackgroundPanel for jPanel1
-        jPanel1 = new BackgroundPanel("/Imagenes/fondo.png");
+        // Inicializar BackgroundPanel como content pane
+        backgroundPanel = new BackgroundPanel("/Imagenes/fondo.png");
+        backgroundPanel.setLayout(null); // Usar null layout para posicionamiento absoluto
+        this.setContentPane(backgroundPanel); // Establecer como content pane
+
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null); // Use null layout
-        getContentPane().setPreferredSize(new java.awt.Dimension(800, 600)); // Set preferred size
-
-        jPanel1.setLayout(null); // Use null layout for jPanel1
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 600)); // Set preferred size for jPanel1
+        setTitle("Contratos Activos"); // Título de la ventana
 
         // Button Regresar
-        jButton2.setBackground(new java.awt.Color(248, 243, 243));
-        jButton2.setFont(new java.awt.Font("ROG Fonts", 0, 16)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Atras.png"))); // NOI18N
+        jButton2.setBackground(new Color(90, 150, 200)); // Azul suave
+        jButton2.setFont(new Font("Segoe UI", Font.BOLD, 18)); // Fuente más moderna
+        jButton2.setForeground(Color.WHITE);
+        
+        // Cargar y escalar el icono si existe
+        try {
+            ImageIcon atrasIcon = new ImageIcon(getClass().getResource("/Imagenes/Atras.png"));
+            if (atrasIcon.getImageLoadStatus() == MediaTracker.COMPLETE) {
+                Image img = atrasIcon.getImage();
+                Image scaledImg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH); // Escalar icono
+                jButton2.setIcon(new ImageIcon(scaledImg));
+            } else {
+                logger.log(Level.WARNING, "Imagen 'Atras.png' no encontrada. Usando solo texto para el botón Regresar.");
+            }
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Error al cargar la imagen 'Atras.png': " + e.getMessage());
+        }
+        
         jButton2.setText("Regresar");
-        jButton2.setContentAreaFilled(false);
-        jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false); // Mantener transparente para ver el fondo
+        jButton2.setBorderPainted(false); // No pintar borde por defecto
         jButton2.setFocusPainted(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2); // Bounds will be set in adjustComponentPositions()
+        backgroundPanel.add(jButton2); // Añadir a backgroundPanel
 
         // Table Model Setup
-        String[] columnNames = {"ID Contrato", "ID Cliente", "Fecha Inicio", "Fecha Fin", "Monto Total", "Tipo Servicio"};
+        String[] columnNames = {"ID Contrato", "ID Cliente", "Fecha Inicio", "Fecha Fin", "Monto Total", "Tipo Servicio", "Estado Pago", "Acción"};
         tableModel = new DefaultTableModel(new Object[][]{}, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Make all cells non-editable
+                return column == 7; // Solo la columna de Acción es editable para el botón
             }
         };
         jTable1.setModel(tableModel);
-        jTable1.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        jTable1.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14)); // Fuente para encabezado
         jTable1.getTableHeader().setBackground(new Color(173, 216, 230)); // Light blue header
+        jTable1.getTableHeader().setForeground(new Color(30, 50, 70)); // Texto oscuro para encabezado
         jTable1.setRowHeight(25);
         jTable1.setFillsViewportHeight(true); // Make table fill the scroll pane
-        jTable1.setBackground(new Color(240, 248, 255)); // Alice Blue background for table
+        jTable1.setBackground(new Color(240, 248, 255)); // Alice Blue background for table (celeste muy claro)
         jTable1.setForeground(new Color(50, 50, 50)); // Dark text color
+        jTable1.setSelectionBackground(new Color(150, 200, 230)); // Azul pastel para selección
+        jTable1.setSelectionForeground(Color.WHITE); // Texto blanco en selección
 
         jScrollPane1.setViewportView(jTable1);
-        jPanel1.add(jScrollPane1); // Bounds will be set in adjustComponentPositions()
-
-        getContentPane().add(jPanel1); // Add jPanel1 to content pane
+        // La línea que causaba el error se moverá o se asegurará que se ejecute después de la inicialización
+        // del componente. Si el error persiste, puede ser un problema de carga del .form.
+        jScrollPane1.setBorder(BorderFactory.createLineBorder(new Color(180, 210, 230), 1)); // Borde pastel para el scroll pane
+        backgroundPanel.add(jScrollPane1); // Añadir a backgroundPanel
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -146,24 +177,64 @@ public class ContratosActivos extends javax.swing.JFrame {
             PreparedStatement stmt;
 
             if (currentClienteId != -1) { // If a valid client ID is provided, filter by it
-                sql = "SELECT idContrato, Cliente_idCliente, fecha_inicio, fecha_fin, monto_total, tiposervicio FROM contrato WHERE Cliente_idCliente = ?";
+                sql = "SELECT c.idContrato, c.Cliente_idCliente, c.fecha_inicio, c.fecha_fin, c.monto_total, c.tiposervicio, " +
+                      "COALESCE(f.estado_pago, 'sin_factura') as estado_pago, c.estado " +
+                      "FROM contrato c " +
+                      "LEFT JOIN factura f ON c.idContrato = f.idFactura " +
+                      "WHERE c.Cliente_idCliente = ? AND c.estado = 'activo'";
                 stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, currentClienteId);
             } else { // For testing or if no client ID is available, show all (or none)
-                sql = "SELECT idContrato, Cliente_idCliente, fecha_inicio, fecha_fin, monto_total, tiposervicio FROM contrato";
+                sql = "SELECT c.idContrato, c.Cliente_idCliente, c.fecha_inicio, c.fecha_fin, c.monto_total, c.tiposervicio, " +
+                      "COALESCE(f.estado_pago, 'sin_factura') as estado_pago, c.estado " +
+                      "FROM contrato c " +
+                      "LEFT JOIN factura f ON c.idContrato = f.idFactura " +
+                      "WHERE c.estado = 'activo'";
                 stmt = conn.prepareStatement(sql);
             }
             
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Object[] row = new Object[6];
+                Object[] row = new Object[8]; // Aumentado a 8 columnas (incluyendo botón)
                 row[0] = rs.getInt("idContrato");
                 row[1] = rs.getInt("Cliente_idCliente");
-                row[2] = rs.getDate("fecha_inicio");
-                row[3] = rs.getDate("fecha_fin");
+                
+                java.sql.Date fechaInicio = rs.getDate("fecha_inicio");
+                java.sql.Date fechaFin = rs.getDate("fecha_fin");
+                row[2] = fechaInicio;
+                row[3] = fechaFin;
                 row[4] = rs.getDouble("monto_total");
-                row[5] = rs.getString("tiposervicio"); // Assuming tiposervicio is a String
+                row[5] = rs.getString("tiposervicio");
+                
+                // Estado de pago con formato amigable
+                String estadoPago = rs.getString("estado_pago");
+                switch (estadoPago) {
+                    case "pagado":
+                        row[6] = "✅ Pagado";
+                        break;
+                    case "pendiente":
+                        row[6] = "⏳ Pendiente";
+                        break;
+                    case "sin_factura":
+                        row[6] = "❌ Sin Factura";
+                        break;
+                    default:
+                        row[6] = "❓ " + estadoPago;
+                        break;
+                }
+
+                // Verificar si puede cancelar el contrato (mínimo 30 días desde inicio)
+                long daysSinceStart = ChronoUnit.DAYS.between(
+                    fechaInicio.toLocalDate(), 
+                    LocalDate.now()
+                );
+                
+                if (daysSinceStart >= 30) {
+                    row[7] = "Cancelar";
+                } else {
+                    row[7] = "Sin tiempo mínimo (" + (30 - daysSinceStart) + " días restantes)";
+                }
 
                 tableModel.addRow(row);
             }
@@ -171,6 +242,10 @@ public class ContratosActivos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error al cargar los datos de contratos: " + e.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
             logger.log(java.util.logging.Level.SEVERE, "Error al cargar contratos", e);
         }
+        
+        // Configurar renderer y editor para la columna de acción
+        jTable1.getColumn("Acción").setCellRenderer(new ButtonRenderer());
+        jTable1.getColumn("Acción").setCellEditor(new ButtonEditor());
     }
 
     /**
@@ -179,9 +254,6 @@ public class ContratosActivos extends javax.swing.JFrame {
     private void adjustComponentPositions() {
         int newWidth = getContentPane().getWidth();
         int newHeight = getContentPane().getHeight();
-
-        // Adjust jPanel1 to fill the content pane
-        jPanel1.setBounds(0, 0, newWidth, newHeight);
 
         // Adjust jButton2 (Regresar)
         int buttonWidth = 200;
@@ -199,8 +271,132 @@ public class ContratosActivos extends javax.swing.JFrame {
         jScrollPane1.setBounds(tableX, tableY, tableWidth, tableHeight);
 
         // Revalidate and repaint the panel
-        jPanel1.revalidate();
-        jPanel1.repaint();
+        backgroundPanel.revalidate();
+        backgroundPanel.repaint();
+    }
+
+    /**
+     * Cancela un contrato específico
+     */
+    private void cancelContract(int contractId) {
+        int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "¿Está seguro de que desea cancelar este contrato?\nEsta acción no se puede deshacer.",
+            "Confirmar Cancelación",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            try (Connection conn = DatabaseConnection.getConnection()) {
+                String sql = "UPDATE contrato SET estado = 'cancelado', fecha_fin = CURDATE() WHERE idContrato = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, contractId);
+                
+                int rowsAffected = stmt.executeUpdate();
+                
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Contrato cancelado exitosamente.",
+                        "Cancelación Exitosa",
+                        JOptionPane.INFORMATION_MESSAGE
+                    );
+                    // Recargar la tabla
+                    loadContractsData();
+                } else {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "No se pudo cancelar el contrato.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Error al cancelar el contrato: " + e.getMessage(),
+                    "Error de Base de Datos",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                logger.log(Level.SEVERE, "Error al cancelar contrato", e);
+            }
+        }
+    }
+
+    // Clase para renderizar botones en la tabla
+    class ButtonRenderer extends JButton implements TableCellRenderer {
+        public ButtonRenderer() {
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                boolean isSelected, boolean hasFocus, int row, int column) {
+            setText((value == null) ? "" : value.toString());
+            
+            if (value != null && value.toString().equals("Cancelar")) {
+                setBackground(new Color(220, 53, 69)); // Rojo para cancelar
+                setForeground(Color.WHITE);
+                setEnabled(true);
+            } else {
+                setBackground(Color.LIGHT_GRAY);
+                setForeground(Color.DARK_GRAY);
+                setEnabled(false);
+            }
+            
+            return this;
+        }
+    }
+
+    // Clase para editar botones en la tabla
+    class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
+        private JButton button;
+        private String label;
+        private boolean isPushed;
+        private int selectedRow;
+
+        public ButtonEditor() {
+            button = new JButton();
+            button.setOpaque(true);
+            button.addActionListener(e -> fireEditingStopped());
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value,
+                boolean isSelected, int row, int column) {
+            label = (value == null) ? "" : value.toString();
+            button.setText(label);
+            isPushed = true;
+            selectedRow = row;
+            
+            if (label.equals("Cancelar")) {
+                button.setBackground(new Color(220, 53, 69));
+                button.setForeground(Color.WHITE);
+            } else {
+                button.setBackground(Color.LIGHT_GRAY);
+                button.setForeground(Color.DARK_GRAY);
+            }
+            
+            return button;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            if (isPushed && label.equals("Cancelar")) {
+                // Obtener el ID del contrato de la fila seleccionada
+                int contractId = (Integer) tableModel.getValueAt(selectedRow, 0);
+                cancelContract(contractId);
+            }
+            isPushed = false;
+            return label;
+        }
+
+        @Override
+        public boolean stopCellEditing() {
+            isPushed = false;
+            return super.stopCellEditing();
+        }
     }
 
     /**
@@ -231,7 +427,6 @@ public class ContratosActivos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
-    private javax.swing.JPanel jPanel1; // Now BackgroundPanel
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Ejecutar NetNexus Ultra",
+			"type": "shell",
+			"command": "java",
+			"args": [
+				"-cp",
+				"build\\classes;libraries\\mysql-connector-j-9.3.0.jar",
+				"Clases.Main"
+			],
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}
