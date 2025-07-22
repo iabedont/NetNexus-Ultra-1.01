@@ -1,0 +1,24 @@
+    
+    // Métodos auxiliares para datos de vehículos
+    private java.util.List<String> getAvailableVehicles() {
+        java.util.List<String> vehicles = new java.util.ArrayList<>();
+        vehicles.add("Camioneta Toyota Hilux - TEC001");
+        vehicles.add("Furgón Ford Transit - TEC002");
+        vehicles.add("Motocicleta Honda XR150 - TEC003");
+        vehicles.add("Camión Chevrolet NPR - TEC004");
+        vehicles.add("Auto Nissan Sentra - TEC005");
+        return vehicles;
+    }
+    
+    private java.util.List<String> getVehicleRequests() {
+        java.util.List<String> requests = new java.util.ArrayList<>();
+        requests.add("Solicitud de Camioneta - Técnico: Juan Pérez - Zona: Norte");
+        requests.add("Solicitud de Motocicleta - Técnico: María García - Zona: Centro");
+        requests.add("Solicitud de Furgón - Técnico: Carlos López - Zona: Sur");
+        return requests;
+    }
+    
+    private void updateVehicleStatus(String vehicleName, String status) {
+        System.out.println("Actualizando vehículo: " + vehicleName + " - Estado: " + status);
+        // Aquí se conectaría con la base de datos para actualizar el estado
+    }

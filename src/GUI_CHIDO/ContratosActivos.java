@@ -178,18 +178,17 @@ public class ContratosActivos extends javax.swing.JFrame {
 
             if (currentClienteId != -1) { // If a valid client ID is provided, filter by it
                 sql = "SELECT c.idContrato, c.Cliente_idCliente, c.fecha_inicio, c.fecha_fin, c.monto_total, c.tiposervicio, " +
-                      "COALESCE(f.estado_pago, 'sin_factura') as estado_pago, c.estado " +
+                      "COALESCE(f.estado_pago, 'sin_factura') as estado_pago " +
                       "FROM contrato c " +
                       "LEFT JOIN factura f ON c.idContrato = f.idFactura " +
-                      "WHERE c.Cliente_idCliente = ? AND c.estado = 'activo'";
+                      "WHERE c.Cliente_idCliente = ?";
                 stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, currentClienteId);
             } else { // For testing or if no client ID is available, show all (or none)
                 sql = "SELECT c.idContrato, c.Cliente_idCliente, c.fecha_inicio, c.fecha_fin, c.monto_total, c.tiposervicio, " +
-                      "COALESCE(f.estado_pago, 'sin_factura') as estado_pago, c.estado " +
+                      "COALESCE(f.estado_pago, 'sin_factura') as estado_pago " +
                       "FROM contrato c " +
-                      "LEFT JOIN factura f ON c.idContrato = f.idFactura " +
-                      "WHERE c.estado = 'activo'";
+                      "LEFT JOIN factura f ON c.idContrato = f.idFactura";
                 stmt = conn.prepareStatement(sql);
             }
             
@@ -197,15 +196,15 @@ public class ContratosActivos extends javax.swing.JFrame {
 
             while (rs.next()) {
                 Object[] row = new Object[8]; // Aumentado a 8 columnas (incluyendo botón)
-                row[0] = rs.getInt("idContrato");
-                row[1] = rs.getInt("Cliente_idCliente");
+                row[0] = rs.getInt("idContrato"); // ID del contrato
+                row[1] = rs.getInt("Cliente_idCliente"); // ID del cliente
                 
                 java.sql.Date fechaInicio = rs.getDate("fecha_inicio");
                 java.sql.Date fechaFin = rs.getDate("fecha_fin");
                 row[2] = fechaInicio;
                 row[3] = fechaFin;
-                row[4] = rs.getDouble("monto_total");
-                row[5] = rs.getString("tiposervicio");
+                row[4] = rs.getDouble("monto_total"); // Monto total del contrato
+                row[5] = rs.getString("tiposervicio"); // Tipo de servicio
                 
                 // Estado de pago con formato amigable
                 String estadoPago = rs.getString("estado_pago");
@@ -289,7 +288,7 @@ public class ContratosActivos extends javax.swing.JFrame {
 
         if (confirm == JOptionPane.YES_OPTION) {
             try (Connection conn = DatabaseConnection.getConnection()) {
-                String sql = "UPDATE contrato SET estado = 'cancelado', fecha_fin = CURDATE() WHERE idContrato = ?";
+                String sql = "UPDATE contrato SET fecha_fin = CURDATE() WHERE idContrato = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, contractId);
                 

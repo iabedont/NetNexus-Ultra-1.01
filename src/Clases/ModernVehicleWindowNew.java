@@ -1,12 +1,14 @@
 package Clases;
 
-import java.awt.*;
-import java.sql.*;
-import java.util.Vector;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
+import java.util.Vector;
 
 public class ModernVehicleWindow extends JFrame {
     private JTable vehicleTable;
@@ -94,15 +96,15 @@ public class ModernVehicleWindow extends JFrame {
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setBorder(new EmptyBorder(10, 0, 20, 0));
 
-        // Panel de estadísticas rápidas con colores púrpura
+        // Panel de estadísticas rápidas
         JPanel statsPanel = new JPanel(new FlowLayout());
         statsPanel.setOpaque(false);
 
         JLabel totalVehiclesLabel = new JLabel("Total: " + tableModel.getRowCount());
         totalVehiclesLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        totalVehiclesLabel.setForeground(new Color(155, 89, 182)); // Púrpura
+        totalVehiclesLabel.setForeground(new Color(46, 204, 113));
         totalVehiclesLabel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(155, 89, 182), 2),
+            BorderFactory.createLineBorder(new Color(46, 204, 113), 2),
             new EmptyBorder(5, 15, 5, 15)
         ));
 
@@ -154,7 +156,7 @@ public class ModernVehicleWindow extends JFrame {
         JComboBox<String> filterCombo = new JComboBox<>(new String[]{"Todos", "Disponible", "En uso", "Mantenimiento", "Fuera de servicio"});
         filterCombo.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 
-        JButton refreshButton = createStyledButton("🔄 Actualizar", new Color(155, 89, 182), 100, 35); // Púrpura
+        JButton refreshButton = createStyledButton("🔄 Actualizar", new Color(52, 152, 219), 100, 35);
         refreshButton.addActionListener(e -> loadVehicles());
 
         searchPanel.add(searchLabel);
@@ -180,7 +182,7 @@ public class ModernVehicleWindow extends JFrame {
         vehicleTable.setGridColor(new Color(200, 200, 200));
         vehicleTable.setShowGrid(true);
         vehicleTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
-        vehicleTable.getTableHeader().setBackground(new Color(155, 89, 182)); // Púrpura
+        vehicleTable.getTableHeader().setBackground(new Color(52, 152, 219));
         vehicleTable.getTableHeader().setForeground(Color.WHITE);
         vehicleTable.getTableHeader().setPreferredSize(new Dimension(0, 35));
 
@@ -252,11 +254,11 @@ public class ModernVehicleWindow extends JFrame {
         buttonPanel.setOpaque(false);
         buttonPanel.setBorder(new EmptyBorder(20, 15, 15, 15));
 
-        // Crear botones con estilos modernos en púrpura
-        addButton = createStyledButton("➕ Agregar", new Color(155, 89, 182), 140, 45); // Púrpura
-        updateButton = createStyledButton("✏️ Actualizar", new Color(142, 68, 173), 140, 45); // Púrpura más oscuro
-        deleteButton = createStyledButton("🗑️ Eliminar", new Color(231, 76, 60), 140, 45); // Rojo (mantener)
-        clearButton = createStyledButton("🧹 Limpiar", new Color(149, 165, 166), 140, 45); // Gris (mantener)
+        // Crear botones con estilos modernos
+        addButton = createStyledButton("➕ Agregar", new Color(46, 204, 113), 140, 45);
+        updateButton = createStyledButton("✏️ Actualizar", new Color(52, 152, 219), 140, 45);
+        deleteButton = createStyledButton("🗑️ Eliminar", new Color(231, 76, 60), 140, 45);
+        clearButton = createStyledButton("🧹 Limpiar", new Color(149, 165, 166), 140, 45);
 
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);

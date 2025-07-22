@@ -87,9 +87,9 @@ public class SpecificLoginFrame extends JFrame {
 
     private void validateLogin() {
         String idCliente = usernameField.getText();
-        String password = new String(passwordField.getPassword());
+        String inputPassword = new String(passwordField.getPassword());
 
-        if (idCliente.isEmpty() || password.isEmpty()) {
+        if (idCliente.isEmpty() || inputPassword.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
                 "Por favor complete todos los campos", 
                 "Error", 
@@ -101,37 +101,59 @@ public class SpecificLoginFrame extends JFrame {
             String sql = "SELECT * FROM cliente WHERE idCliente = ? AND password = ? AND tipo = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, idCliente);
-            stmt.setString(2, password);
+            stmt.setString(2, inputPassword);
             stmt.setString(3, userType);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                JOptionPane.showMessageDialog(this,
-                    "Inicio de sesión exitoso como " + userType + ".\nBienvenido " + rs.getString("nombre") + " " + rs.getString("apellido"),
+                // Extraer datos del ResultSet antes de cerrar la conexión
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                int clienteId = rs.getInt("idCliente");
+                String telefono = rs.getString("telefono");
+                String email = rs.getString("email");
+                String dbPassword = rs.getString("password");
+                
+                // Cerrar este frame primero
+                dispose();
+                
+                // Mostrar mensaje de bienvenida
+                JOptionPane.showMessageDialog(null,
+                    "Inicio de sesión exitoso como " + userType + ".\nBienvenido " + nombre + " " + apellido,
                     "Login Exitoso",
                     JOptionPane.INFORMATION_MESSAGE);
 
                 // Abrir la interfaz correspondiente según el tipo de usuario
-                switch (userType) {
-                    case "Administrador":
-                        new AdminFrame().setVisible(true);
-                        break;
-                    case "Usuario":
-                        Cliente cliente = new Cliente(
-                            rs.getInt("idCliente"),
-                            rs.getString("nombre"),
-                            rs.getString("apellido"),
-                            rs.getString("telefono"),
-                            rs.getString("email"),
-                            rs.getString("password")
-                        );
-                        new GUI_CHIDO.User_1(cliente).setVisible(true);
-                        break;
-                    case "Técnico":
-                        new TechnicianFrame().setVisible(true);
-                        break;
-                }
-                dispose();
+                SwingUtilities.invokeLater(() -> {
+                    switch (userType) {
+                        case "Administrador":
+                            try {
+                                AdminFrame adminFrame = new AdminFrame();
+                                adminFrame.setVisible(true);
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                                JOptionPane.showMessageDialog(null, 
+                                    "Error al abrir el panel de administrador: " + ex.getMessage(), 
+                                    "Error", 
+                                    JOptionPane.ERROR_MESSAGE);
+                            }
+                            break;
+                        case "Usuario":
+                            Cliente cliente = new Cliente(
+                                clienteId,
+                                nombre,
+                                apellido,
+                                telefono,
+                                email,
+                                dbPassword
+                            );
+                            new GUI_CHIDO.User_1(cliente).setVisible(true);
+                            break;
+                        case "Técnico":
+                            new TechnicianFrame().setVisible(true);
+                            break;
+                    }
+                });
             } else {
                 JOptionPane.showMessageDialog(this, 
                     "Credenciales incorrectas para " + userType + ".", 

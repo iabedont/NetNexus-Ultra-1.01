@@ -102,7 +102,7 @@ public class TechnicianFrame extends JFrame {
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    new VehicleWindow().setVisible(true);
+                    new TechnicianVehicleManager("Técnico").setVisible(true);
                 }
             }
         );

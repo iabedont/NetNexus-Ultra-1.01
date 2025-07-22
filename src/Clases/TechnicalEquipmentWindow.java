@@ -8,7 +8,19 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 /**
- * Ventana modernizada para gestión de equipos técnicos
+ * Ventana modernizada para gestión de equ                        EquipmentCard equipmentCard = new EquipmentCard(
+                            rs.getInt("idEquipos"),
+                            rs.getString("nombre"),
+                            rs.getString("tipo"),
+                            "N/A", // modelo no disponible en mydb
+                            "N/A", // numero_serie no disponible en mydb
+                            rs.getString("estado"),
+                            null, // fecha_adquisicion no disponible en mydb
+                            "N/A", // ubicacion no disponible en mydb
+                            "N/A", // responsable no disponible en mydb
+                            "N/A", // tecnico_nombre no disponible en mydb
+                            "N/A" // tecnico_apellido no disponible en mydb
+                        );
  * @author NetNexus Team
  */
 public class TechnicalEquipmentWindow extends JFrame {
@@ -217,11 +229,8 @@ public class TechnicalEquipmentWindow extends JFrame {
         
         try (Connection conn = DatabaseConnection.getConnection()) {
             StringBuilder queryBuilder = new StringBuilder("""
-                SELECT e.id, e.nombre, e.tipo, e.modelo, e.numero_serie, e.estado, 
-                       e.fecha_adquisicion, e.ubicacion, e.responsable,
-                       t.nombre as tecnico_nombre, t.apellido as tecnico_apellido
+                SELECT e.idEquipos, e.nombre, e.tipo, e.estado 
                 FROM equipos e
-                LEFT JOIN tecnicos t ON e.tecnico_asignado = t.id
                 """);
             
             if (!"Todos".equals(statusFilter)) {
@@ -555,7 +564,7 @@ public class TechnicalEquipmentWindow extends JFrame {
         
         if (confirmacion == JOptionPane.YES_OPTION) {
             try (Connection conn = DatabaseConnection.getConnection()) {
-                String deleteQuery = "DELETE FROM equipos WHERE id = ?";
+                String deleteQuery = "DELETE FROM equipos WHERE idEquipos = ?";
                 
                 try (PreparedStatement pstmt = conn.prepareStatement(deleteQuery)) {
                     pstmt.setInt(1, equipmentId);
