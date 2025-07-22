@@ -18,8 +18,11 @@ public class DatabaseConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/mydb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USER = "root";
     
-    // Configuraciones de contraseña - se intentará primero la contraseña específica
-    private static final String[] PASSWORDS = {"6cgR3VFNGGBhDFPEjlTI", "", "root", "admin", "password", "123456"};
+    // Configuración de contraseña principal (actualizada)
+    private static final String PASSWORD = "6cgR3VFNGGBhDFPEjlTI";
+    
+    // Configuraciones de contraseña alternativas como respaldo
+    private static final String[] PASSWORDS_FALLBACK = {"", "root", "admin", "password", "123456"};
     
     private static Connection connection = null;
     
@@ -39,39 +42,54 @@ public class DatabaseConnection {
      * @throws SQLException si no se puede establecer la conexión
      */
     public static Connection getConnection() throws SQLException {
-        // Intentar con diferentes contraseñas comunes
-        for (String password : PASSWORDS) {
+        // Intentar con la contraseña principal primero
+        try {
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            logger.info("Conexión establecida exitosamente");
+            return connection;
+        } catch (SQLException e) {
+            logger.log(Level.FINE, "Falló intento con contraseña principal");
+        }
+        
+        // Si no funciona con la contraseña principal, intentar alternativas
+        for (String fallbackPassword : PASSWORDS_FALLBACK) {
             try {
-                connection = DriverManager.getConnection(URL, USER, password);
-                logger.info("Conexión establecida a: " + URL + " con contraseña: " + 
-                           (password.isEmpty() ? "[sin contraseña]" : "[con contraseña]"));
+                connection = DriverManager.getConnection(URL, USER, fallbackPassword);
+                logger.info("Conexión establecida con contraseña alternativa");
                 return connection;
             } catch (SQLException e) {
-                logger.log(Level.FINE, "Falló intento con contraseña: " + 
-                          (password.isEmpty() ? "[sin contraseña]" : "[con contraseña]"));
+                logger.log(Level.FINE, "Falló intento con contraseña alternativa");
             }
         }
         
         // Si no funciona, intentar crear la base de datos
         try {
             String createDbUrl = "jdbc:mysql://localhost:3306/?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-            for (String password : PASSWORDS) {
-                try {
-                    Connection tempConn = DriverManager.getConnection(createDbUrl, USER, password);
-                    
-                    // Intentar crear la base de datos
-                    var stmt = tempConn.createStatement();
+            
+            // Intentar crear con contraseña principal
+            try (Connection tempConn = DriverManager.getConnection(createDbUrl, USER, PASSWORD)) {
+                try (var stmt = tempConn.createStatement()) {
                     stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS mydb");
-                    stmt.close();
-                    tempConn.close();
-                    
-                    // Ahora conectar a la base de datos creada
-                    connection = DriverManager.getConnection(URL, USER, password);
-                    logger.info("Base de datos creada y conexión establecida con contraseña: " + 
-                               (password.isEmpty() ? "[sin contraseña]" : "[con contraseña]"));
-                    return connection;
-                } catch (SQLException e2) {
-                    // Continuar con la siguiente contraseña
+                }
+                
+                // Conectar a la base de datos creada
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                logger.info("Base de datos creada y conexión establecida");
+                return connection;
+            } catch (SQLException e2) {
+                // Intentar con contraseñas alternativas
+                for (String fallbackPassword : PASSWORDS_FALLBACK) {
+                    try (Connection tempConn = DriverManager.getConnection(createDbUrl, USER, fallbackPassword)) {
+                        try (var stmt = tempConn.createStatement()) {
+                            stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS mydb");
+                        }
+                        
+                        connection = DriverManager.getConnection(URL, USER, fallbackPassword);
+                        logger.info("Base de datos creada y conexión establecida con contraseña alternativa");
+                        return connection;
+                    } catch (SQLException e3) {
+                        // Continuar con la siguiente contraseña
+                    }
                 }
             }
         } catch (Exception e) {
@@ -79,11 +97,13 @@ public class DatabaseConnection {
         }
         
         // Si todo falla, lanzar excepción con mensaje útil
-        throw new SQLException("No se pudo conectar a MySQL. Verifica:\n" +
-                             "1. MySQL está ejecutándose en localhost:3306\n" +
-                             "2. Usuario 'root' existe\n" +
-                             "3. Contraseña correcta (intentamos: tu contraseña específica y alternativas comunes)\n" +
-                             "4. Base de datos 'mydb' existe o se puede crear");
+        throw new SQLException("""
+                No se pudo conectar a MySQL. Verifica:
+                1. MySQL está ejecutándose en localhost:3306
+                2. Usuario 'root' existe
+                3. Contraseña correcta
+                4. Base de datos 'mydb' existe o se puede crear
+                """);
     }
     
     /**

@@ -1,7 +1,3 @@
-/*
- * Click nargs://netbeans/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nargs://netbeans/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Clases;
 
 import java.awt.*;
@@ -9,103 +5,117 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class AdminFrame extends JFrame {
     private final Map<String, String> equipmentStatus = new HashMap<>(); // Para rastrear el estado de cada equipo
     private final Map<String, String> ticketStatus = new HashMap<>(); // Para rastrear el estado de cada ticket
 
     public AdminFrame() {
-        setTitle("Panel de Administrador - Net Nexus Ultra");
+        setTitle("Panel de Administrador - NetNexus Ultra");
         setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximize the window
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Panel principal con fondo "fondo.png"
+        // Panel principal con fondo "fondo.png" y diseño mejorado
         JPanel mainPanel = new BackgroundPanel("/Imagenes/fondo.png");
-        mainPanel.setLayout(new GridLayout(1, 4)); // Cambiado a 4 columnas (quitamos datos de usuario)
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        mainPanel.setLayout(new BorderLayout());
+        
+        // Panel de título
+        JPanel titlePanel = new JPanel();
+        titlePanel.setOpaque(false);
+        titlePanel.setBorder(new EmptyBorder(30, 0, 20, 0));
+        
+        JLabel titleLabel = new JLabel("Panel de Administración", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        titleLabel.setForeground(Color.WHITE);
+        titlePanel.add(titleLabel);
+        
+        // Panel de botones con diseño mejorado
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        buttonPanel.setOpaque(false);
+        buttonPanel.setBorder(new EmptyBorder(20, 50, 50, 50));
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(20, 20, 20, 20);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
 
-        // Button for Equipos de Técnicos
-        JButton equipmentButton = new JButton();
-        equipmentButton.setIcon(new ImageIcon(getClass().getResource("/Imagenes/Equipos de Técnicos.png")));
-        equipmentButton.setBorderPainted(false);
-        equipmentButton.setContentAreaFilled(false);
-        equipmentButton.setFocusPainted(false);
-        equipmentButton.addActionListener(e -> {
-            new EquipmentWindow().setVisible(true);
-        });
-        mainPanel.add(equipmentButton);
+        // Botón para Equipos de Técnicos con diseño mejorado
+        JButton equipmentButton = createStyledButton("/Imagenes/Equipos de Técnicos.png");
+        equipmentButton.addActionListener(e -> new TechnicalEquipmentWindow().setVisible(true));
+        gbc.gridx = 0; gbc.gridy = 0;
+        buttonPanel.add(equipmentButton, gbc);
 
-        // Button for Tickets
-        JButton ticketButton = new JButton();
-        ticketButton.setIcon(new ImageIcon(getClass().getResource("/Imagenes/Tickets.png")));
-        ticketButton.setBorderPainted(false);
-        ticketButton.setContentAreaFilled(false);
-        ticketButton.setFocusPainted(false);
-        ticketButton.addActionListener(e -> {
-            new TicketWindow().setVisible(true);
-        });
-        mainPanel.add(ticketButton);
+        // Botón para Tickets con diseño mejorado
+        JButton ticketButton = createStyledButton("/Imagenes/Tickets.png");
+        ticketButton.addActionListener(e -> new UserTicketsWindow().setVisible(true));
+        gbc.gridx = 1; gbc.gridy = 0;
+        buttonPanel.add(ticketButton, gbc);
 
-        // Button for Vehículos
-        JButton vehicleButton = new JButton();
-        vehicleButton.setIcon(new ImageIcon(getClass().getResource("/Imagenes/Vehiculos.png")));
-        vehicleButton.setBorderPainted(false);
-        vehicleButton.setContentAreaFilled(false);
-        vehicleButton.setFocusPainted(false);
-        vehicleButton.addActionListener(e -> {
-            new VehicleWindow().setVisible(true);
-        });
-        mainPanel.add(vehicleButton);
+        // Botón para Vehículos con diseño mejorado
+        JButton vehicleButton = createStyledButton("/Imagenes/Vehiculos.png");
+        vehicleButton.addActionListener(e -> new ModernVehicleWindow().setVisible(true));
+        gbc.gridx = 0; gbc.gridy = 1;
+        buttonPanel.add(vehicleButton, gbc);
 
-        // Button for Gestión de Roles - NUEVO
-        JButton roleManagementButton = new JButton();
-        // Si no tienes imagen para roles, usaremos texto
-        try {
-            roleManagementButton.setIcon(new ImageIcon(getClass().getResource("/Imagenes/GestionRoles.png")));
-            roleManagementButton.setBorderPainted(false);
-            roleManagementButton.setContentAreaFilled(false);
-        } catch (Exception ex) {
-            // Si no hay imagen, usar texto
-            roleManagementButton.setText("<html><center>Gestión<br>de Roles</center></html>");
-            roleManagementButton.setFont(new Font("Arial", Font.BOLD, 14));
-            roleManagementButton.setForeground(Color.WHITE);
-            roleManagementButton.setBackground(new Color(220, 20, 60));
-            roleManagementButton.setOpaque(true);
-        }
-        roleManagementButton.setFocusPainted(false);
-        roleManagementButton.addActionListener(e -> {
-            new UserRoleManagementFrame().setVisible(true);
-        });
-        mainPanel.add(roleManagementButton);
-
+        // Botón para Contratos Activos con diseño mejorado
+        JButton contractButton = createStyledButton("/Imagenes/Contratos Activos.png");
+        contractButton.addActionListener(e -> new ContractWindow().setVisible(true));
+        gbc.gridx = 1; gbc.gridy = 1;
+        buttonPanel.add(contractButton, gbc);
+        
+        // Agregar componentes al panel principal
+        mainPanel.add(titlePanel, BorderLayout.NORTH);
+        mainPanel.add(buttonPanel, BorderLayout.CENTER);
+        
         add(mainPanel);
-
-        // Botón de cerrar sesión con imagen, tamaño ajustado al ícono
-        JButton logoutButton = new JButton();
-        ImageIcon logoutIcon = new ImageIcon(getClass().getResource("/Imagenes/Cerrar_S-removebg-preview (3) (1).png"));
-        if (logoutIcon.getImage() != null) {
-            Image img = logoutIcon.getImage(); // Use original size of the icon
-            logoutButton.setIcon(new ImageIcon(img));
-            logoutButton.setBorderPainted(false);
-            logoutButton.setContentAreaFilled(false);
-        } else {
-            logoutButton.setText("Cerrar Sesión");
+    }
+    
+    /**
+     * Crea un botón con estilo mejorado para el panel de administración
+     */
+    private JButton createStyledButton(String iconPath) {
+        JButton button = new JButton();
+        
+        try {
+            ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
+            if (icon.getIconWidth() > 0) {
+                // Escalar la imagen para que se vea mejor
+                Image img = icon.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
+                button.setIcon(new ImageIcon(img));
+            }
+        } catch (Exception e) {
+            // Si no se puede cargar la imagen, usar texto
+            button.setText("Opción Admin");
+            button.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            button.setForeground(Color.WHITE);
         }
-        logoutButton.setFocusPainted(false);
-        logoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        
+        // Estilo del botón
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        // Efectos hover
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                logoutButton.setForeground(new Color(70, 170, 255));
+                button.setOpaque(true);
+                button.setBackground(new Color(255, 255, 255, 30));
             }
+            
+            @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                logoutButton.setForeground(Color.WHITE);
+                button.setOpaque(false);
             }
         });
-        logoutButton.addActionListener(e -> {
-            new Bienvenida().setVisible(true);
-            dispose();
-        });
-        add(logoutButton, BorderLayout.SOUTH);
+        
+        button.setPreferredSize(new Dimension(220, 170));
+        
+        return button;
     }
 private class UserDataWindow extends JFrame {
     public UserDataWindow() {

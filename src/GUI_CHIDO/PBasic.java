@@ -2,6 +2,10 @@ package GUI_CHIDO;
 
 import Clases.BackgroundPanel;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.util.logging.Level;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class PBasic extends javax.swing.JFrame {
@@ -33,7 +37,7 @@ public class PBasic extends javax.swing.JFrame {
         this.currentClienteId = 1; // Valor por defecto para testing
 
         initComponents();
-        this.setSize(800, 500);
+        this.setSize(1050, 470); // Tamaño consistente con Plan Ultra
         this.setLocationRelativeTo(null);
     }
 
@@ -43,7 +47,6 @@ public class PBasic extends javax.swing.JFrame {
         this.currentClienteId = clienteId; // Asignar el ID del cliente
     }
 
-    @SuppressWarnings("unchecked")
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -61,38 +64,74 @@ public class PBasic extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Plan Basico 300 mb promo.png")));
-        jLabel1.setBounds(49, 107, 300, 256);
+        // Configurar botón Regresar con estilo mejorado
+        try {
+            ImageIcon icon = new ImageIcon(getClass().getResource("/Imagenes/Atras.png"));
+            if (icon.getIconWidth() > 0) {
+                Image img = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+                jButton2.setIcon(new ImageIcon(img));
+            } else {
+                logger.log(Level.WARNING, "Imagen 'Atras.png' no encontrada. Usando solo texto para el botón Regresar.");
+            }
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Error al cargar la imagen 'Atras.png': " + e.getMessage());
+        }
+        
+        jButton2.setText("Regresar");
+        jButton2.setContentAreaFilled(false);
+        jButton2.addActionListener(evt -> jButton2ActionPerformed(evt));
+        jButton2.setBounds(30, 20, 270, 60);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Historic", 1, 36));
+        // Título principal con estilo mejorado
+        jLabel2.setFont(new java.awt.Font("Segoe UI Historic", 1, 52));
         jLabel2.setText("Plan Básico – 300 Mbps");
-        jLabel2.setBounds(375, 35, 405, 57);
         jLabel2.setForeground(Color.WHITE);
+        jLabel2.setBounds(450, 5, 550, 70);
 
+        // Subtítulo promocional
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18));
-        jLabel3.setText("Promoción “Empieza sin límites”");
-        jLabel3.setBounds(435, 92, 283, 25);
+        jLabel3.setText("Promoción \"Empieza sin límites\"");
         jLabel3.setForeground(Color.WHITE);
+        jLabel3.setBounds(450, 75, 300, 25);
 
-        jLabel5.setText("📅 Primer mes a solo $10");
-        jLabel5.setBounds(375, 169, 145, 16);
-        jLabel5.setForeground(Color.WHITE);
+        // Imagen del plan
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Plan Basico 300 mb promo.png")));
+        jLabel1.setBounds(50, 100, 350, 300);
 
-        jLabel6.setText("📶 Router Wi-Fi GRATIS");
-        jLabel6.setBounds(375, 203, 145, 16);
-        jLabel6.setForeground(Color.WHITE);
+        // Características con posicionamiento mejorado
+        int featureStartX = 450;
+        int featureStartY = 130;
+        int featureLineHeight = 25;
+
+        jLabel10.setText("🏠 Ideal para hogares pequeños, estudiantes y navegación básica");
+        jLabel10.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        jLabel10.setForeground(Color.BLACK);
+        jLabel10.setBounds(featureStartX, featureStartY, 550, 20);
+
+        jLabel5.setText("📅 Primer mes a solo $10 - ¡Aprovecha la oferta!");
+        jLabel5.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        jLabel5.setForeground(Color.BLACK);
+        jLabel5.setBounds(featureStartX, featureStartY + featureLineHeight, 450, 20);
+
+        jLabel6.setText("📶 Router Wi-Fi GRATIS incluido en la instalación");
+        jLabel6.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        jLabel6.setForeground(Color.BLACK);
+        jLabel6.setBounds(featureStartX, featureStartY + (2 * featureLineHeight), 450, 20);
 
         jLabel7.setText("💥 Instalación en menos de 24 horas SIN COSTO");
-        jLabel7.setBounds(375, 237, 266, 16);
-        jLabel7.setForeground(Color.WHITE);
+        jLabel7.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        jLabel7.setForeground(Color.BLACK);
+        jLabel7.setBounds(featureStartX, featureStartY + (3 * featureLineHeight), 450, 20);
 
-        jLabel8.setText("🎁 3 meses de soporte prioritario");
-        jLabel8.setBounds(375, 271, 266, 16);
-        jLabel8.setForeground(Color.WHITE);
+        jLabel8.setText("🎁 3 meses de soporte técnico prioritario incluido");
+        jLabel8.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        jLabel8.setForeground(Color.BLACK);
+        jLabel8.setBounds(featureStartX, featureStartY + (4 * featureLineHeight), 450, 20);
 
-        jLabel9.setText("🟢 Perfecto para estudiantes, hogares pequeños o quienes recién empiezan en el mundo digital.");
-        jLabel9.setBounds(95, 363, 521, 16);
-        jLabel9.setForeground(Color.WHITE);
+        jLabel9.setText("� Perfecto para redes sociales, clases en línea y entretenimiento básico");
+        jLabel9.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        jLabel9.setForeground(Color.BLACK);
+        jLabel9.setBounds(featureStartX, featureStartY + (5 * featureLineHeight), 550, 20);
 
         jToggleButton1.setBackground(new java.awt.Color(255, 255, 255));
         jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Contratar-removebg-preview (1).png")));

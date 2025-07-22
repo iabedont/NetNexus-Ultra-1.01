@@ -31,6 +31,7 @@ public class User_1_Complete extends JFrame {
     private JButton jButtonPerfil;
     private JButton jButtonFacturacion;
     private JButton jButtonSoporte;
+    private JButton jButtonCalificaciones;
     private JButton jButtonLogout;
     
     public User_1_Complete(Cliente cliente) {
@@ -62,6 +63,7 @@ public class User_1_Complete extends JFrame {
         jButtonPerfil = new JButton();
         jButtonFacturacion = new JButton();
         jButtonSoporte = new JButton();
+        jButtonCalificaciones = new JButton();
         jButtonLogout = new JButton();
         
         setupLayout();
@@ -99,12 +101,15 @@ public class User_1_Complete extends JFrame {
         jLabelUserInfo.setBounds(0, 100, 1000, 25);
         
         // Configurar botones principales
-        setupButton(jButtonServicios, "Ver Servicios", 200, 200, 250, 80, new Color(70, 130, 180));
-        setupButton(jButtonContratos, "Contratos Activos", 550, 200, 250, 80, new Color(76, 175, 80));
-        setupButton(jButtonPerfil, "Mi Perfil", 200, 320, 250, 80, new Color(255, 152, 0));
-        setupButton(jButtonFacturacion, "Facturación", 550, 320, 250, 80, new Color(156, 39, 176));
-        setupButton(jButtonSoporte, "Soporte Técnico", 375, 440, 250, 80, new Color(244, 67, 54));
-        setupButton(jButtonLogout, "Cerrar Sesión", 375, 560, 250, 50, new Color(97, 97, 97));
+        setupButton(jButtonServicios, "🌐 Ver Servicios", 150, 180, 220, 70, new Color(70, 130, 180));
+        setupButton(jButtonContratos, "📋 Contratos Activos", 400, 180, 220, 70, new Color(76, 175, 80));
+        setupButton(jButtonCalificaciones, "⭐ Calificaciones", 650, 180, 220, 70, new Color(255, 193, 7));
+        
+        setupButton(jButtonPerfil, "👤 Mi Perfil", 150, 280, 220, 70, new Color(255, 152, 0));
+        setupButton(jButtonFacturacion, "💳 Facturación", 400, 280, 220, 70, new Color(156, 39, 176));
+        setupButton(jButtonSoporte, "🛠️ Soporte Técnico", 650, 280, 220, 70, new Color(244, 67, 54));
+        
+        setupButton(jButtonLogout, "🚪 Cerrar Sesión", 400, 380, 220, 50, new Color(97, 97, 97));
     }
     
     private void setupButton(JButton button, String text, int x, int y, int width, int height, Color color) {
@@ -124,6 +129,7 @@ public class User_1_Complete extends JFrame {
         jButtonContratos.addActionListener(e -> abrirContratos());
         jButtonPerfil.addActionListener(e -> abrirPerfil());
         jButtonFacturacion.addActionListener(e -> abrirFacturacion());
+        jButtonCalificaciones.addActionListener(e -> abrirCalificaciones());
         jButtonSoporte.addActionListener(e -> abrirSoporte());
         jButtonLogout.addActionListener(e -> cerrarSesion());
     }
@@ -159,12 +165,22 @@ public class User_1_Complete extends JFrame {
     
     private void abrirContratos() {
         try {
-            ContratosActivos contratos = new ContratosActivos(currentUser);
+            UserContractsWindow contratos = new UserContractsWindow(currentUser);
             contratos.setVisible(true);
-            this.setVisible(false);
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error abriendo contratos", e);
             JOptionPane.showMessageDialog(this, "Error al abrir contratos: " + e.getMessage());
+        }
+    }
+    
+    private void abrirCalificaciones() {
+        try {
+            VerCalificaciones calificaciones = new VerCalificaciones(this, currentUser.getIdCliente());
+            calificaciones.setVisible(true);
+            this.setVisible(false);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error abriendo calificaciones", e);
+            JOptionPane.showMessageDialog(this, "Error al abrir calificaciones: " + e.getMessage());
         }
     }
     
