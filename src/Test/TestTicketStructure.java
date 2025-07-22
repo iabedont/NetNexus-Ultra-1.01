@@ -1,7 +1,7 @@
 package Test;
 
-import java.sql.*;
 import Clases.DatabaseConnection;
+import java.sql.*;
 
 public class TestTicketStructure {
     public static void main(String[] args) {

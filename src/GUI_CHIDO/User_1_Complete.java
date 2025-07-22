@@ -3,6 +3,7 @@ package GUI_CHIDO;
 import Clases.Cliente;
 import Clases.BackgroundPanel;
 import Clases.DatabaseConnection;
+import Clases.Bienvenida;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -33,6 +34,7 @@ public class User_1_Complete extends JFrame {
     private JButton jButtonSoporte;
     private JButton jButtonCalificaciones;
     private JButton jButtonLogout;
+    private JButton jButtonInicio;
     
     public User_1_Complete(Cliente cliente) {
         this.currentUser = cliente;
@@ -65,6 +67,7 @@ public class User_1_Complete extends JFrame {
         jButtonSoporte = new JButton();
         jButtonCalificaciones = new JButton();
         jButtonLogout = new JButton();
+        jButtonInicio = new JButton();
         
         setupLayout();
         setupEventListeners();
@@ -109,7 +112,8 @@ public class User_1_Complete extends JFrame {
         setupButton(jButtonFacturacion, "💳 Facturación", 400, 280, 220, 70, new Color(156, 39, 176));
         setupButton(jButtonSoporte, "🛠️ Soporte Técnico", 650, 280, 220, 70, new Color(244, 67, 54));
         
-        setupButton(jButtonLogout, "🚪 Cerrar Sesión", 400, 380, 220, 50, new Color(97, 97, 97));
+        setupButton(jButtonLogout, "🚪 Cerrar Sesión", 500, 380, 150, 50, new Color(97, 97, 97));
+        setupButton(jButtonInicio, "🏠 Inicio", 320, 380, 150, 50, new Color(52, 152, 219));
     }
     
     private void setupButton(JButton button, String text, int x, int y, int width, int height, Color color) {
@@ -132,6 +136,7 @@ public class User_1_Complete extends JFrame {
         jButtonCalificaciones.addActionListener(e -> abrirCalificaciones());
         jButtonSoporte.addActionListener(e -> abrirSoporte());
         jButtonLogout.addActionListener(e -> cerrarSesion());
+        jButtonInicio.addActionListener(e -> regresarInicio());
     }
     
     private void loadUserData() {
@@ -253,6 +258,18 @@ public class User_1_Complete extends JFrame {
                 }
             });
         }
+    }
+    
+    private void regresarInicio() {
+        this.dispose();
+        SwingUtilities.invokeLater(() -> {
+            try {
+                new Bienvenida().setVisible(true);
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "Error abriendo ventana de bienvenida", e);
+                System.exit(0);
+            }
+        });
     }
     
     /**

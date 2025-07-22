@@ -178,18 +178,20 @@ public class ContratosActivos extends javax.swing.JFrame {
 
             if (currentClienteId != -1) { // If a valid client ID is provided, filter by it
                 sql = "SELECT c.idContrato, c.Cliente_idCliente, c.fecha_inicio, c.fecha_fin, c.monto_total, c.tiposervicio, " +
-                      "COALESCE(f.estado_pago, 'sin_factura') as estado_pago, c.estado " +
+                      "COALESCE(f.estado_pago, 'sin_factura') as estado_pago, " +
+                      "CASE WHEN c.fecha_fin > CURDATE() THEN 'activo' ELSE 'vencido' END as estado " +
                       "FROM contrato c " +
                       "LEFT JOIN factura f ON c.idContrato = f.idFactura " +
-                      "WHERE c.Cliente_idCliente = ? AND c.estado = 'activo'";
+                      "WHERE c.Cliente_idCliente = ? AND c.fecha_fin > CURDATE()";
                 stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, currentClienteId);
             } else { // For testing or if no client ID is available, show all (or none)
                 sql = "SELECT c.idContrato, c.Cliente_idCliente, c.fecha_inicio, c.fecha_fin, c.monto_total, c.tiposervicio, " +
-                      "COALESCE(f.estado_pago, 'sin_factura') as estado_pago, c.estado " +
+                      "COALESCE(f.estado_pago, 'sin_factura') as estado_pago, " +
+                      "CASE WHEN c.fecha_fin > CURDATE() THEN 'activo' ELSE 'vencido' END as estado " +
                       "FROM contrato c " +
                       "LEFT JOIN factura f ON c.idContrato = f.idFactura " +
-                      "WHERE c.estado = 'activo'";
+                      "WHERE c.fecha_fin > CURDATE()";
                 stmt = conn.prepareStatement(sql);
             }
             

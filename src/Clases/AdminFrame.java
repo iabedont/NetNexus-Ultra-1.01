@@ -72,9 +72,37 @@ public class AdminFrame extends JFrame {
         gbc.gridx = 1; gbc.gridy = 1;
         buttonPanel.add(contractButton, gbc);
         
+        // Panel de botones de navegación
+        JPanel navigationPanel = new JPanel(new FlowLayout());
+        navigationPanel.setOpaque(false);
+        navigationPanel.setBorder(new EmptyBorder(10, 50, 30, 50));
+        
+        // Botón para regresar a Bienvenida
+        JButton backButton = createNavigationButton("🏠 Regresar a Inicio", new Color(52, 152, 219));
+        backButton.addActionListener(e -> {
+            dispose();
+            new Bienvenida().setVisible(true);
+        });
+        navigationPanel.add(backButton);
+        
+        // Botón de cerrar sesión
+        JButton logoutButton = createNavigationButton("🚪 Cerrar Sesión", new Color(231, 76, 60));
+        logoutButton.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro que desea cerrar sesión?",
+                "Confirmar Cierre de Sesión",
+                JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                dispose();
+                System.exit(0);
+            }
+        });
+        navigationPanel.add(logoutButton);
+        
         // Agregar componentes al panel principal
         mainPanel.add(titlePanel, BorderLayout.NORTH);
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
+        mainPanel.add(navigationPanel, BorderLayout.SOUTH);
         
         add(mainPanel);
     }
@@ -123,6 +151,36 @@ public class AdminFrame extends JFrame {
         
         return button;
     }
+    
+    /**
+     * Crea un botón de navegación con estilo moderno
+     */
+    private JButton createNavigationButton(String text, Color baseColor) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setBackground(baseColor);
+        button.setForeground(Color.WHITE);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setPreferredSize(new Dimension(200, 40));
+        
+        // Efectos hover
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(baseColor.brighter());
+            }
+            
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(baseColor);
+            }
+        });
+        
+        return button;
+    }
+
 private class UserDataWindow extends JFrame {
     public UserDataWindow() {
         setTitle("Datos del Usuario");
